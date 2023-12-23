@@ -12,6 +12,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/transactions")
 public class TransactionController {
+	
+	@GetMapping("/transactions")
+    public String transactions() {
+        return "transactions";
+    }
 
     private final TransactionService transactionService;
 

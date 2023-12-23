@@ -19,6 +19,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/maintenance")
 public class MaintenanceController {
+	
+	@GetMapping("/maintenance")
+    public String maintenance() {
+        return "maintenance";
+    }
 
     private final MaintenanceService maintenanceService;
 

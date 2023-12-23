@@ -19,6 +19,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/leases")
 public class LeaseController {
+	
+	@GetMapping("/leases")
+    public String leases() {
+        return "leases";
+    }
 
     private final LeaseService leaseService;
 
