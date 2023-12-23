@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +13,12 @@
     </header>
 
     <nav>
-        <a href="/home.html">Home</a>
-        <a href="/properties.html">Properties</a>
-        <a href="/leases.html">Leases</a>
-        <a href="/maintenance.html">Maintenance Requests</a>
-        <a href="/transactions.html">Financial Transactions</a>
-        <a href="/search.html">Search</a>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/properties}">Properties</a>
+        <a th:href="@{/leases}">Leases</a>
+        <a th:href="@{/maintenance}">Maintenance Requests</a>
+        <a th:href="@{/transactions}">Financial Transactions</a>
+        <a th:href="@{/search}">Search</a>
     </nav>
 
     <main>
@@ -32,5 +32,4 @@
     </footer>
 
 </body>
-
 </html>
