@@ -30,7 +30,7 @@ public class webcontroller {
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("/web/leases")
+    @GetMapping("/leases")
     public String getAllWebLeases(Model model) {
         try {
             List<Lease> leases = leaseService.getAllLeases();
@@ -44,14 +44,14 @@ public class webcontroller {
         }
     }
 
-    @GetMapping("/web/maintenance")
+    @GetMapping("/maintenance")
     public String getAllMaintenance(Model model) {
         List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
         model.addAttribute("maintenanceRequests", maintenanceRequests);
         return "maintenance"; // The name of your HTML page (e.g., maintenance-requests.html)
     }
 
-    @GetMapping("/web/properties")
+    @GetMapping("/properties")
     public String getAllWebProperties(Model model) {
         try {
             List<Property> properties = propertyService.getAllProperties();
@@ -65,7 +65,7 @@ public class webcontroller {
         }
     }
 
-    @GetMapping("/web/transactions")
+    @GetMapping("/transactions")
     public String getAllTransactions(Model model) {
         List<Transaction> transactions = transactionService.getAllTransactions();
         model.addAttribute("transactions", transactions);
