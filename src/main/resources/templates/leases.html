@@ -43,6 +43,19 @@
             </tbody>
         </table>
 
+        <!-- Form for creating new lease agreements (similar to maintenance form) -->
+        <form th:action="@{/leases/create}" method="post" th:object="${lease}" class="lease-form">
+            <label for="propertyName">Property Name:</label>
+            <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" th:field="*{startDate}" required/>
+
+            <!-- Add more form fields as needed -->
+
+            <button type="submit">Submit Lease Agreement</button>
+        </form>
+
         <!-- Add more content as needed -->
     </main>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +48,19 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Form for creating new financial transactions -->
+        <form th:action="@{/transactions/create}" method="post" th:object="${transaction}" class="transaction-form">
+            <label for="propertyName">Property Name:</label>
+            <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
+
+            <label for="transactionDate">Transaction Date:</label>
+            <input type="date" id="transactionDate" name="transactionDate" th:field="*{transactionDate}" required/>
+
+            <!-- Add more form fields as needed -->
+
+            <button type="submit">Submit Financial Transaction</button>
+        </form>
 
         <!-- Add more content as needed -->
     </main>

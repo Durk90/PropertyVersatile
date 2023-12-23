@@ -25,7 +25,24 @@
         <h2>Maintenance Requests</h2>
         <p>This page allows users to submit and view maintenance requests. You can include forms and tables for managing maintenance tasks.</p>
 
-        <!-- Thymeleaf table for maintenance requests -->
+        <!-- Form for creating new maintenance requests -->
+        <form th:action="@{/maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
+            <label for="propertyName">Property Name:</label>
+            <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
+
+            <label for="maintenanceDate">Maintenance Date:</label>
+            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required/>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" th:field="*{description}" required></textarea>
+
+            <label for="cost">Cost:</label>
+            <input type="number" id="cost" name="cost" th:field="*{cost}" required/>
+
+            <button type="submit">Submit Maintenance Request</button>
+        </form>
+
+        <!-- Table for displaying existing maintenance requests -->
         <table>
             <tr>
                 <th>Property Name</th>
