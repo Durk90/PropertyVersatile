@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property-Versatile - Maintenance Requests</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Property-Versatile</h1>
+    </header>
+
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/properties">Properties</a>
+        <a href="/leases">Leases</a>
+        <a href="/maintenance">Maintenance Requests</a>
+        <a href="/transactions">Financial Transactions</a>
+        <a href="/search">Search</a>
+    </nav>
+
+    <main>
+        <h2>Maintenance Requests</h2>
+        <p>This page allows users to submit and view maintenance requests. You can include forms and tables for managing maintenance tasks.</p>
+
+        <!-- Thymeleaf table for maintenance requests -->
+        <table>
+            <tr>
+                <th>Property Name</th>
+                <th>Maintenance Date</th>
+                <th>Description</th>
+                <th>Cost</th>
+                <!-- Add more columns as needed -->
+            </tr>
+            <tr th:each="maintenanceRequest : ${maintenanceRequests}">
+                <td th:text="${maintenanceRequest.property.propertyName}"></td>
+                <td th:text="${maintenanceRequest.maintenanceDate}"></td>
+                <td th:text="${maintenanceRequest.description}"></td>
+                <td th:text="${maintenanceRequest.cost}"></td>
+                <!-- Add more fields as needed -->
+            </tr>
+        </table>
+
+        <!-- Add more content as needed -->
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

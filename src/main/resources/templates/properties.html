@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Property-Versatile</h1>
+    </header>
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/properties">Properties</a>
+        <a href="/leases">Leases</a>
+        <a href="/maintenance">Maintenance Requests</a>
+        <a href="/transactions">Financial Transactions</a>
+        <a href="/search">Search</a>
+    </nav>
+
+    <main>
+        <h2>Properties</h2>
+        <p>This page displays information about different properties.</p>
+
+        <table>
+            <tr>
+                <th>Property ID</th>
+                <th>Property Name</th>
+                <th>Address</th>
+                <th>Construction Date</th>
+                <th>Square Footage</th>
+                <th>Property Type</th>
+            </tr>
+            <tr th:each="property : ${properties}">
+                <td th:text="${property.propertyId}"></td>
+                <td th:text="${property.propertyName}"></td>
+                <td th:text="${property.address}"></td>
+                <td th:text="${property.constructionDate}"></td>
+                <td th:text="${property.squareFootage}"></td>
+                <td th:text="${property.propertyType}"></td>
+            </tr>            
+        </table>
+
+        <!-- Add more content as needed -->
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
