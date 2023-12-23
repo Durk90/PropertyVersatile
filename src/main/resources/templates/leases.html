@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leases</title>
+    <title>Property-Versatile - Leases</title>
     <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
@@ -13,33 +13,34 @@
     </header>
 
     <nav>
-        <a href="/home">Home</a>
-        <a href="/properties">Properties</a>
-        <a href="/leases">Leases</a>
-        <a href="/maintenance">Maintenance Requests</a>
-        <a href="/transactions">Financial Transactions</a>
-        <a href="/search">Search</a>
+        <a href="../templates/home.html">Home</a>
+        <a href="../templates/properties.html">Properties</a>
+        <a href="../templates/leases.html">Leases</a>
+        <a href="../templates/maintenance.html">Maintenance Requests</a>
+        <a href="../templates/transactions.html">Financial Transactions</a>
+        <a href="../templates/search.html">Search</a>
     </nav>
 
     <main>
         <h2>Leases</h2>
-        <p>This page displays information about different leases.</p>
+        <p>This page provides details about lease agreements. You can include information about ongoing leases, upcoming renewals, and other lease-related details.</p>
 
+        <!-- Thymeleaf table for leases -->
         <table>
-            <tr>
-                <th>Lease ID</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Property ID</th>
-                <!-- Add more fields as needed -->
-            </tr>
-            <tr th:each="lease : ${leases}">
-                <td th:text="${lease.leaseId}"></td>
-                <td th:text="${lease.startDate}"></td>
-                <td th:text="${lease.endDate}"></td>
-                <td th:text="${lease.propertyId}"></td>
-                <!-- Add more fields as needed -->
-            </tr>            
+            <thead>
+                <tr>
+                    <th>Property Name</th>
+                    <th>Start Date</th>
+                    <!-- Add more table headers as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="lease : ${leases}">
+                    <td th:text="${lease.property.propertyName}"></td>
+                    <td th:text="${#dates.format(lease.startDate, 'yyyy-MM-dd')}"></td>
+                    <!-- Add more table data cells for other fields -->
+                </tr>
+            </tbody>
         </table>
 
         <!-- Add more content as needed -->
