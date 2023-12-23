@@ -1,11 +1,11 @@
 package com.project.PropertyVersatile.controller;
 
 import com.project.PropertyVersatile.entity.Property;
-import com.project.PropertyVersatile.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.project.PropertyVersatile.service.PropertyService;
 
 import java.util.List;
 
@@ -25,11 +25,12 @@ public class PropertyController {
         try {
             List<Property> properties = propertyService.getAllProperties();
             model.addAttribute("properties", properties);
-            return "properties"; // properties.html
+            return "properties";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving properties");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 
@@ -38,18 +39,19 @@ public class PropertyController {
         try {
             Property property = propertyService.getPropertyById(propertyId);
             model.addAttribute("property", property);
-            return "property-details"; // property-details.html
+            return "property-details";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving property details");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 
     @GetMapping("/create")
     public String showAddPropertyForm(Model model) {
         model.addAttribute("property", new Property());
-        return "add-property"; // add-property.html
+        return "add-property";
     }
 
     @PostMapping("/create")
@@ -58,9 +60,10 @@ public class PropertyController {
             propertyService.createProperty(property);
             return "redirect:/properties";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error adding property");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 
@@ -69,11 +72,12 @@ public class PropertyController {
         try {
             Property property = propertyService.getPropertyById(propertyId);
             model.addAttribute("property", property);
-            return "edit-property"; // edit-property.html
+            return "edit-property";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving property for editing");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 
@@ -84,9 +88,10 @@ public class PropertyController {
             propertyService.updateProperty(propertyId, property);
             return "redirect:/properties";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error editing property");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 
@@ -96,9 +101,10 @@ public class PropertyController {
             propertyService.deleteProperty(propertyId);
             return "redirect:/properties";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error deleting property");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 }

@@ -1,11 +1,11 @@
 package com.project.PropertyVersatile.controller;
 
 import com.project.PropertyVersatile.entity.Transaction;
-import com.project.PropertyVersatile.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.project.PropertyVersatile.service.TransactionService;
 
 import java.util.List;
 
@@ -22,76 +22,43 @@ public class TransactionController {
 
     @GetMapping
     public String getAllTransactions(Model model) {
-        try {
-            List<Transaction> transactions = transactionService.getAllTransactions();
-            model.addAttribute("transactions", transactions);
-            return "financial-transactions"; // financial-transactions.html
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error retrieving transactions");
-            return "error"; // error.html
-        }
+        List<Transaction> transactions = transactionService.getAllTransactions();
+        model.addAttribute("transactions", transactions);
+        return "financial-transactions";
     }
 
     @GetMapping("/{transactionId}")
     public String getTransactionById(@PathVariable int transactionId, Model model) {
-        try {
-            Transaction transaction = transactionService.getTransactionById(transactionId);
-            model.addAttribute("transaction", transaction);
-            return "transaction-details"; // transaction-details.html
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error retrieving transaction details");
-            return "error"; // error.html
-        }
+        Transaction transaction = transactionService.getTransactionById(transactionId);
+        model.addAttribute("transaction", transaction);
+        return "transaction-details";
     }
 
     @PostMapping("/create")
-    public String createTransaction(@ModelAttribute Transaction transaction, Model model) {
-        try {
-            transactionService.createTransaction(transaction);
-            return "redirect:/transactions";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error creating transaction");
-            return "error"; // error.html
-        }
+    public String createTransaction(@ModelAttribute Transaction transaction) {
+        transactionService.createTransaction(transaction);
+        // Add logic to handle the result, e.g., redirect to a success page or show an error message
+        return "redirect:/transactions";
     }
 
     @GetMapping("/update/{transactionId}")
     public String showUpdateForm(@PathVariable int transactionId, Model model) {
-        try {
-            Transaction transaction = transactionService.getTransactionById(transactionId);
-            model.addAttribute("transaction", transaction);
-            return "update-transaction"; // update-transaction.html
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error retrieving transaction for updating");
-            return "error"; // error.html
-        }
+        Transaction transaction = transactionService.getTransactionById(transactionId);
+        model.addAttribute("transaction", transaction);
+        return "update-transaction";
     }
 
     @PostMapping("/update/{transactionId}")
-    public String updateTransaction(@PathVariable int transactionId, @ModelAttribute Transaction updatedTransaction, Model model) {
-        try {
-            transactionService.updateTransaction(transactionId, updatedTransaction);
-            return "redirect:/transactions";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error updating transaction");
-            return "error"; // error.html
-        }
+    public String updateTransaction(@PathVariable int transactionId, @ModelAttribute Transaction updatedTransaction) {
+        transactionService.updateTransaction(transactionId, updatedTransaction);
+        // Add logic to handle the result, e.g., redirect to a success page or show an error message
+        return "redirect:/transactions";
     }
 
     @GetMapping("/delete/{transactionId}")
-    public String deleteTransaction(@PathVariable int transactionId, Model model) {
-        try {
-            transactionService.deleteTransaction(transactionId);
-            return "redirect:/transactions";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error deleting transaction");
-            return "error"; // error.html
-        }
+    public String deleteTransaction(@PathVariable int transactionId) {
+        transactionService.deleteTransaction(transactionId);
+        // Add logic to handle the result, e.g., redirect to a success page or show an error message
+        return "redirect:/transactions";
     }
 }

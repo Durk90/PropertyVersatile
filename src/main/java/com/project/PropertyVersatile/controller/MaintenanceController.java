@@ -1,11 +1,18 @@
 package com.project.PropertyVersatile.controller;
 
-import com.project.PropertyVersatile.entity.Maintenance;
-import com.project.PropertyVersatile.service.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import com.project.PropertyVersatile.entity.Maintenance;
+import com.project.PropertyVersatile.service.MaintenanceService;
 
 import java.util.List;
 
@@ -19,35 +26,30 @@ public class MaintenanceController {
     public MaintenanceController(MaintenanceService maintenanceService) {
         this.maintenanceService = maintenanceService;
     }
-
+    
     @GetMapping("/create")
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
-        return "create-maintenance"; // create-maintenance.html
+        return "create-maintenance";
     }
 
     @PostMapping("/create")
-    public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
-        try {
-            maintenanceService.createMaintenance(maintenance);
-            return "redirect:/maintenance";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error creating maintenance");
-            return "error"; // error.html
-        }
+    public String createMaintenance(@ModelAttribute Maintenance maintenance) {
+        maintenanceService.createMaintenance(maintenance);
+        return "redirect:/maintenance";
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String getAllMaintenanceRequests(Model model) {
         try {
             List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
             model.addAttribute("maintenanceRequests", maintenanceRequests);
-            return "maintenance-requests"; // maintenance-requests.html
+            return "maintenance-requests";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving maintenance requests");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
     }
 
@@ -56,12 +58,14 @@ public class MaintenanceController {
         try {
             Maintenance maintenanceRequest = maintenanceService.getMaintenanceById(maintenanceId);
             model.addAttribute("maintenanceRequest", maintenanceRequest);
-            return "maintenance-request-details"; // maintenance-request-details.html
+            return "maintenance-request-details";
         } catch (Exception e) {
+            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving maintenance request details");
-            return "error"; // error.html
+            return "error"; // Create an error.html template to display error messages
         }
+        
     }
 
     // Additional methods for creating, updating, and deleting maintenance requests if needed
