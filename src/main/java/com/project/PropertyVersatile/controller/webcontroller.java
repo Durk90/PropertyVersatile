@@ -69,6 +69,6 @@ public class webcontroller {
     public String getAllTransactions(Model model) {
         List<Transaction> transactions = transactionService.getAllTransactions();
         model.addAttribute("transactions", transactions);
-        return "financial-transactions"; // The name of your HTML page (e.g., financial-transactions.html)
+        return "transactions"; // The name of your HTML page (e.g., transactions.html)
     }
 }
