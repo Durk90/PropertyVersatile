@@ -2,15 +2,8 @@ package com.project.PropertyVersatile.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.project.PropertyVersatile.entity.Maintenance;
 import com.project.PropertyVersatile.service.MaintenanceService;
 
@@ -19,11 +12,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/maintenance")
 public class MaintenanceController {
-	
-	@GetMapping("/maintenance")
-    public String maintenance() {
-        return "maintenance";
-    }
 
     private final MaintenanceService maintenanceService;
 
@@ -31,7 +19,13 @@ public class MaintenanceController {
     public MaintenanceController(MaintenanceService maintenanceService) {
         this.maintenanceService = maintenanceService;
     }
-    
+
+    @GetMapping
+    public String maintenance(Model model) {
+        // Populate the model with data if needed
+        return "maintenance";
+    }
+
     @GetMapping("/create")
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
@@ -44,7 +38,7 @@ public class MaintenanceController {
         return "redirect:/maintenance";
     }
 
-    @GetMapping
+    @GetMapping("/maintenance-requests")
     public String getAllMaintenanceRequests(Model model) {
         try {
             List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
@@ -70,7 +64,6 @@ public class MaintenanceController {
             model.addAttribute("error", "Error retrieving maintenance request details");
             return "error"; // Create an error.html template to display error messages
         }
-        
     }
 
     // Additional methods for creating, updating, and deleting maintenance requests if needed
