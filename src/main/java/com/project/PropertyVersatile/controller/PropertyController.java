@@ -1,11 +1,13 @@
 package com.project.PropertyVersatile.controller;
 
 import com.project.PropertyVersatile.entity.Property;
+import com.project.PropertyVersatile.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.project.PropertyVersatile.service.PropertyService;
 
 import java.util.List;
 
@@ -82,29 +84,29 @@ public class PropertyController {
     }
 
     @PostMapping("/{propertyId}/edit")
-    public String editProperty(@PathVariable int propertyId, @ModelAttribute Property property, Model model) {
+    @ResponseBody
+    public ResponseEntity<String> editProperty(@PathVariable int propertyId, @ModelAttribute Property property) {
         try {
             property.setPropertyId(propertyId);
             propertyService.updateProperty(propertyId, property);
-            return "redirect:/properties";
+            return ResponseEntity.ok("Property updated successfully");
         } catch (Exception e) {
             // Log the exception or handle it as needed
             e.printStackTrace();
-            model.addAttribute("error", "Error editing property");
-            return "error"; // Create an error.html template to display error messages
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error editing property");
         }
     }
 
     @GetMapping("/{propertyId}/delete")
-    public String deleteProperty(@PathVariable int propertyId, Model model) {
+    @ResponseBody
+    public ResponseEntity<String> deleteProperty(@PathVariable int propertyId) {
         try {
             propertyService.deleteProperty(propertyId);
-            return "redirect:/properties";
+            return ResponseEntity.ok("Property deleted successfully");
         } catch (Exception e) {
             // Log the exception or handle it as needed
             e.printStackTrace();
-            model.addAttribute("error", "Error deleting property");
-            return "error"; // Create an error.html template to display error messages
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting property");
         }
     }
 }

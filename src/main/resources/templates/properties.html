@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property-Versatile - Properties</title>
+    <title>Edit Property</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
 <body>
@@ -22,37 +22,45 @@
     </nav>
 
     <main>
-        <h2>Properties</h2>
-        <p>This page displays information about different properties. You can list properties, their details, and any other relevant information.</p>
+        <h2>Edit Property</h2>
+        
+        <!-- Display property details for editing -->
+        <form id="editForm">
+            <input type="hidden" th:field="*{propertyId}" />
+            
+            <label for="propertyName">Property Name:</label>
+            <input type="text" id="propertyName" th:field="*{propertyName}" />
 
-        <table>
-    <tr>
-        <th>Property ID</th>
-        <th>Property Name</th>
-        <th>Address</th>
-        <th>Construction Date</th>
-        <th>Square Footage</th>
-        <th>Property Type</th>
-        <th>Action</th> <!-- New column for action buttons -->
-    </tr>
-    <tr th:each="property : ${properties}">
-        <td th:text="${property.propertyId}"></td>
-        <td th:text="${property.propertyName}"></td>
-        <td th:text="${property.address}"></td>
-        <td th:text="${property.constructionDate}"></td>
-        <td th:text="${property.squareFootage}"></td>
-        <td th:text="${property.propertyType}"></td>
-        <td>
-            <!-- Edit button -->
-            <a th:href="@{/properties/{propertyId}/edit(propertyId=${property.propertyId})}">Edit</a>
+            <label for="address">Address:</label>
+            <input type="text" id="address" th:field="*{address}" />
 
-            <!-- Delete button -->
-            <a th:href="@{/properties/{propertyId}/delete(propertyId=${property.propertyId})}">Delete</a>
-        </td>
-    </tr>            
-</table>
+            <!-- Add other input fields as needed -->
 
-        <!-- Add more content as needed -->
+            <button type="button" onclick="updateProperty()">Update Property</button>
+            <button type="button" onclick="deleteProperty()">Delete Property</button>
+        </form>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function updateProperty() {
+                // Perform AJAX request to update property
+                var formData = $('#editForm').serialize();
+                $.post('/properties/' + /*[[${property.propertyId}]]*/ + '/edit', formData, function() {
+                    // Handle success or update UI as needed
+                    location.reload(); // For simplicity, reload the page after updating
+                });
+            }
+
+            function deleteProperty() {
+                // Perform AJAX request to delete property
+                $.get('/properties/' + /*[[${property.propertyId}]]*/ + '/delete', function() {
+                    // Handle success or update UI as needed
+                    location.href = '/properties'; // Redirect to the properties page after deletion
+                });
+            }
+            /*]]>*/
+        </script>
+
     </main>
 
     <footer>
