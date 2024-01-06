@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Request Details</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        <h1>Property-Versatile</h1>
+    </header>
+
+    <nav>
+        <a th:href="@{/index}">Home</a>
+        <a th:href="@{/properties}">Properties</a>
+        <a th:href="@{/leases}">Leases</a>
+        <a th:href="@{/maintenance}">Maintenance Requests</a>
+        <a th:href="@{/transactions}">Financial Transactions</a>
+        <a th:href="@{/search}">Search</a>
+    </nav>
+
+    <main>
+        <h2>Maintenance Request Details</h2>
+
+        <!-- Display maintenance details -->
+        <table>
+            <tr>
+                <th>Property Name</th>
+                <th>Maintenance Date</th>
+                <th>Description</th>
+                <th>Cost</th>
+            </tr>
+            <tr>
+                <td th:text="${maintenanceRequest.property.propertyName}"></td>
+                <td th:text="${maintenanceRequest.maintenanceDate}"></td>
+                <td th:text="${maintenanceRequest.description}"></td>
+                <td th:text="${maintenanceRequest.cost}"></td>
+
+            </tr>
+        </table>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
