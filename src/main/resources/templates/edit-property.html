@@ -24,7 +24,7 @@
     <main>
         <h2>Edit Property</h2>
         <!-- Form for editing the property details -->
-        <form th:action="@{'/properties/' + ${property.propertyId}/edit'}" method="post" th:object="${property}">
+        <form th:action="@{/properties/update}" method="post" th:object="${property}">
             <label for="propertyName">Property Name:</label>
             <input type="text" id="propertyName" name="propertyName" th:field="*{propertyName}" required>
 

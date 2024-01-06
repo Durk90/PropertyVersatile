@@ -27,10 +27,9 @@ public class PropertyController {
             model.addAttribute("properties", properties);
             return "properties";
         } catch (Exception e) {
-            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving properties");
-            return "error"; // Create an error.html template to display error messages
+            return "error";
         }
     }
 
@@ -41,10 +40,9 @@ public class PropertyController {
             model.addAttribute("property", property);
             return "property-details";
         } catch (Exception e) {
-            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving property details");
-            return "error"; // Create an error.html template to display error messages
+            return "error";
         }
     }
 
@@ -60,10 +58,9 @@ public class PropertyController {
             propertyService.createProperty(property);
             return "redirect:/properties";
         } catch (Exception e) {
-            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error adding property");
-            return "error"; // Create an error.html template to display error messages
+            return "error";
         }
     }
 
@@ -74,24 +71,21 @@ public class PropertyController {
             model.addAttribute("property", property);
             return "edit-property";
         } catch (Exception e) {
-            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving property for editing");
-            return "error"; // Create an error.html template to display error messages
+            return "error";
         }
     }
 
-    @PostMapping("/{propertyId}/edit")
-    public String editProperty(@PathVariable int propertyId, @ModelAttribute Property property, Model model) {
+    @PostMapping("/update")
+    public String updateProperty(@ModelAttribute Property property, Model model) {
         try {
-            property.setPropertyId(propertyId);
-            propertyService.updateProperty(propertyId, property);
+            propertyService.updateProperty(property.getPropertyId(), property);
             return "redirect:/properties";
         } catch (Exception e) {
-            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error editing property");
-            return "error"; // Create an error.html template to display error messages
+            return "error";
         }
     }
 
@@ -101,10 +95,9 @@ public class PropertyController {
             propertyService.deleteProperty(propertyId);
             return "redirect:/properties";
         } catch (Exception e) {
-            // Log the exception or handle it as needed
             e.printStackTrace();
             model.addAttribute("error", "Error deleting property");
-            return "error"; // Create an error.html template to display error messages
+            return "error";
         }
     }
 }
