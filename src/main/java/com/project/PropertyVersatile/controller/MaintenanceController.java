@@ -75,8 +75,6 @@ public class MaintenanceController {
         return "redirect:/maintenance";
     }
 
-
-
     @GetMapping("/{maintenanceId}")
     public String getMaintenanceRequestById(@PathVariable int maintenanceId, Model model) {
         try {
