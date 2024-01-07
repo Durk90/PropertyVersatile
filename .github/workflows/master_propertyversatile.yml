@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'PropertyVersatile'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E8514E90BA664921A7EE6B774A208BF9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_19A315CC054845A893919A059E417BD1 }}
           package: '*.jar'
