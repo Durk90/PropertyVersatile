@@ -75,19 +75,7 @@ public class MaintenanceController {
         return "redirect:/maintenance";
     }
 
-    @GetMapping("/maintenance-requests")
-    public String getAllMaintenanceRequests(Model model) {
-        try {
-            List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
-            model.addAttribute("maintenanceRequests", maintenanceRequests);
-            return "maintenance-requests";
-        } catch (Exception e) {
-            // Log the exception or handle it as needed
-            e.printStackTrace();
-            model.addAttribute("error", "Error retrieving maintenance requests");
-            return "error"; // Create an error.html template to display error messages
-        }
-    }
+
 
     @GetMapping("/{maintenanceId}")
     public String getMaintenanceRequestById(@PathVariable int maintenanceId, Model model) {
