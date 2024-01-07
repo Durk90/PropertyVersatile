@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property-Versatile - Maintenance Requests</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
+
 <body>
 
     <header>
@@ -23,23 +25,27 @@
 
     <main>
         <h2>Maintenance Requests</h2>
-        <p>This page allows users to submit and view maintenance requests. You can include forms and tables for managing maintenance tasks.</p>
+        <p>This page allows users to submit and view maintenance requests. You can include forms and tables for managing
+            maintenance tasks.</p>
 
         <!-- Form for creating new maintenance requests -->
-        <form th:action="@{/maintenance/{maintenanceId}/edit}" method="post" th:object="${maintenance}" class="maintenance-form">
-            <label for="propertyName">Property Name:</label>
-            <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
+        <form th:action="@{/maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
 
-            <label for="maintenanceDate">Maintenance Date:</label>
-            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required/>
+        </form>
 
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" th:field="*{description}" required></textarea>
+        <label for="propertyName">Property Name:</label>
+        <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required />
 
-            <label for="cost">Cost:</label>
-            <input type="number" id="cost" name="cost" th:field="*{cost}" required/>
+        <label for="maintenanceDate">Maintenance Date:</label>
+        <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
 
-            <button type="submit">Submit Maintenance Request</button>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" th:field="*{description}" required></textarea>
+
+        <label for="cost">Cost:</label>
+        <input type="number" id="cost" name="cost" th:field="*{cost}" required />
+
+        <button type="submit">Submit Maintenance Request</button>
         </form>
 
         <!-- Table for displaying existing maintenance requests -->
@@ -68,4 +74,5 @@
     </footer>
 
 </body>
+
 </html>
