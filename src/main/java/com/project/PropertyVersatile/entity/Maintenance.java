@@ -1,12 +1,7 @@
 package com.project.PropertyVersatile.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.math.BigDecimal; // Import BigDecimal
+import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -20,6 +15,10 @@ public class Maintenance {
     @Column(name = "property_id")
     private int propertyId;
 
+    @ManyToOne(fetch = FetchType.LAZY) // Many maintenance requests can be associated with one property
+    @JoinColumn(name = "property_id", referencedColumnName = "property_id", insertable = false, updatable = false)
+    private Property property; // Add a Property field
+
     @Column(name = "maintenance_date")
     private LocalDate maintenanceDate;
 
@@ -27,7 +26,7 @@ public class Maintenance {
     private String description;
 
     @Column(name = "cost")
-    private BigDecimal cost; // Change the type to BigDecimal
+    private BigDecimal cost;
 
     // Getters and setters
 
@@ -45,6 +44,14 @@ public class Maintenance {
 
     public void setPropertyId(int propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public LocalDate getMaintenanceDate() {
