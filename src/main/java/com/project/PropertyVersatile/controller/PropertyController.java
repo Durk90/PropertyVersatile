@@ -90,26 +90,15 @@ public class PropertyController {
     }
 
     @GetMapping("/{propertyId}/delete")
-    public String showDeletePropertyForm(@PathVariable int propertyId, Model model) {
-        try {
-            Property property = propertyService.getPropertyById(propertyId);
-            model.addAttribute("property", property);
-            return "delete-property"; // Use the delete-property.html template
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error retrieving property for deletion");
-            return "error";
-        }
-    }
-
-    @PostMapping("/{propertyId}/delete")
     public String deleteProperty(@PathVariable int propertyId, Model model) {
         try {
-            propertyService.deleteProperty(propertyId);
-            return "redirect:/properties";
+            propertyService.deleteproperty(propertyId);
+            // Additional logic for deleting property
+            model.addAttribute("action", "delete"); // Set action to 'delete'
+            return "properties";
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("error", "Error deleting property");
+            model.addAttribute("error", "Error deleting property request");
             return "error";
         }
     }
