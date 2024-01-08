@@ -48,17 +48,20 @@
 
 
 
-
         <!-- Table for displaying existing maintenance requests -->
         <table>
             <tr>
+                <th>Maintenance ID</th>
+                <th>Property ID</th>
                 <th>Property Name</th>
                 <th>Maintenance Date</th>
                 <th>Description</th>
                 <th>Cost</th>
                 <!-- Add more columns as needed -->
             </tr>
-            <tr th:each="maintenance : ${maintenance}">
+            <tr th:each="maintenance : ${maintenanceRequests}">
+                <td th:text="${maintenance.maintenanceId}"></td>
+                <td th:text="${maintenance.property.propertyId}"></td>
                 <td th:text="${maintenance.property.propertyName}"></td>
                 <td th:text="${maintenance.maintenanceDate}"></td>
                 <td th:text="${maintenance.description}"></td>
@@ -66,6 +69,8 @@
                 <!-- Add more fields as needed -->
             </tr>
         </table>
+
+
 
         <!-- Add more content as needed -->
     </main>
