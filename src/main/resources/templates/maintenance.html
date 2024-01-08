@@ -62,7 +62,6 @@
         <!-- Delete Maintenance Request -->
         <section th:if="${action == 'delete'}">
             <h2>Delete Maintenance Request</h2>
-            <p>Enter the Maintenance ID you want to delete:</p>
             <form th:action="@{/maintenance/delete}" method="post" class="maintenance-form">
                 <label for="deleteMaintenanceId">Maintenance ID:</label>
                 <input type="text" id="deleteMaintenanceId" name="deleteMaintenanceId" required />
@@ -75,31 +74,29 @@
             <h2>Maintenance Requests</h2>
             <p>This page allows users to submit and view maintenance requests. </p>
 
-            <!-- Add buttons for creating, editing, and deleting -->
+            <!-- Button for creating a maintenance request -->
             <div>
                 <a th:href="@{/maintenance/create}">
                     <button type="button">Create Maintenance Request</button>
                 </a>
             </div>
 
-            <!-- Include the table for displaying existing maintenance requests -->
+            <!-- Table for displaying existing maintenance requests -->
             <table>
                 <tr>
                     <th>Maintenance ID</th>
-                    <h2>Maintenance Requests</h2>
                     <th>Maintenance Date</th>
                     <th>Description</th>
                     <th>Cost</th>
                     <th>Actions</th>
-                    <!-- Add more columns as needed -->
                 </tr>
                 <tr th:each="maintenance : ${maintenanceRequests}">
-                    <h2>Maintenance Requests</h2>
+                    <td th:text="${maintenance.maintenanceId}"></td>
                     <td th:text="${maintenance.maintenanceDate}"></td>
                     <td th:text="${maintenance.description}"></td>
                     <td th:text="${maintenance.cost}"></td>
                     <td>
-                        <!-- Add buttons for editing and deleting with respective links -->
+                        <!-- Buttons for editing and deleting with respective links -->
                         <a th:href="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.maintenanceId})}">
                             <button type="button">Edit</button>
                         </a>
@@ -107,7 +104,6 @@
                             <button type="button">Delete</button>
                         </a>
                     </td>
-                    <!-- Add more fields as needed -->
                 </tr>
             </table>
         </section>

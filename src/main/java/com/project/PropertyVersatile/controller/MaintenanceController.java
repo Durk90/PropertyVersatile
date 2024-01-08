@@ -46,7 +46,7 @@ public class MaintenanceController {
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
         try {
             maintenanceService.createMaintenance(maintenance);
-            return "redirect:/maintenance";
+            return "maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error creating maintenance request. Please check your input.");
