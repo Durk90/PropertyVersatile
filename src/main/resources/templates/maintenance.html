@@ -54,46 +54,6 @@
             <td th:text="${maintenance.description}"></td>
             <td th:text="${maintenance.cost}"></td>
             <td>
-                <a th:href="@{'/maintenance/' + ${maintenance.maintenanceId}/edit}">Edit</a>
-            </td>
-            <td>
-                <a th:href="@{'/maintenance/' + ${maintenance.maintenanceId}/delete}">Delete</a>
-            </td>
-            <!-- Add more fields as needed -->
-        </tr>
-    </table>
-</section>
-
-
-        <!-- Display Existing Maintenance Requests -->
-<section th:unless="${action == 'create' or action == 'edit' or action == 'delete'}">
-    <h2>Maintenance Requests</h2>
-    <p>This page allows users to submit and view maintenance requests. </p>
-
-    <!-- Create Maintenance Request Button -->
-    <a th:href="@{/maintenance/create}" class="create-button">Create Maintenance Request</a>
-
-    <!-- Include the table for displaying existing maintenance requests -->
-    <table>
-        <tr>
-            <th>Maintenance ID</th>
-            <th>Property ID</th>
-            <th>Property Name</th>
-            <th>Maintenance Date</th>
-            <th>Description</th>
-            <th>Cost</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <!-- Add more columns as needed -->
-        </tr>
-        <tr th:each="maintenance : ${maintenanceRequests}">
-            <td th:text="${maintenance.maintenanceId}"></td>
-            <td th:text="${maintenance.property.propertyId}"></td>
-            <td th:text="${maintenance.property.propertyName}"></td>
-            <td th:text="${maintenance.maintenanceDate}"></td>
-            <td th:text="${maintenance.description}"></td>
-            <td th:text="${maintenance.cost}"></td>
-            <td>
                 <a th:href="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.maintenanceId})}">Edit</a>
             </td>
             <td>
