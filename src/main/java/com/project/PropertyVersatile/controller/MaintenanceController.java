@@ -36,7 +36,8 @@ public class MaintenanceController {
     @GetMapping("/create")
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
-        return "create-maintenance"; // Change the view name to "create-maintenance"
+        model.addAttribute("action", "create"); // Set action to 'create'
+        return "maintenance";
     }
 
 
@@ -57,6 +58,7 @@ public class MaintenanceController {
         try {
             Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
             model.addAttribute("maintenance", maintenance);
+            model.addAttribute("action", "edit"); // Set action to 'edit'
             return "edit-maintenance";
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,8 +82,9 @@ public class MaintenanceController {
     @GetMapping("/{maintenanceId}/delete")
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
         try {
-            maintenanceService.deleteMaintenance(maintenanceId);
-            return "redirect:/maintenance";
+            // Additional logic for deleting maintenance
+            model.addAttribute("action", "delete"); // Set action to 'delete'
+            return "maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error deleting maintenance request");
