@@ -21,6 +21,7 @@ public class MaintenanceController {
     }
 
     @GetMapping
+    
     public String getAllMaintenance(Model model) {
         try {
             List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
@@ -39,7 +40,6 @@ public class MaintenanceController {
         model.addAttribute("action", "create"); // Set action to 'create'
         return "maintenance";
     }
-
 
     @PostMapping("/create")
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
