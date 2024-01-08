@@ -59,7 +59,7 @@ public class MaintenanceController {
             Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
             model.addAttribute("maintenance", maintenance);
             model.addAttribute("action", "edit"); // Set action to 'edit'
-            return "maintenance";
+            return "edit-maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving maintenance details for editing");
