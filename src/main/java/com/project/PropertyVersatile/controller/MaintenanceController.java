@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.project.PropertyVersatile.entity.Maintenance;
+import com.project.PropertyVersatile.entity.Property; // Import Property class
 import com.project.PropertyVersatile.service.MaintenanceService;
 
 import java.util.List;
@@ -49,9 +50,9 @@ public class MaintenanceController {
     @GetMapping("/create")
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
+        model.addAttribute("property", new Property()); // Add this line
         return "maintenance"; 
     }
-
 
     @PostMapping("/create")
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
@@ -89,7 +90,6 @@ public class MaintenanceController {
             return "error";
         }
     }
-
 
     @GetMapping("/{maintenanceId}/delete")
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
