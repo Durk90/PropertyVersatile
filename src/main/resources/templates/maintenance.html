@@ -44,17 +44,16 @@
         <!-- Edit Maintenance Request -->
         <section th:if="${action == 'edit'}">
             <h2>Edit Maintenance Request</h2>
-            <form th:action="@{/maintenance/{maintenanceId}/edit}" method="post" th:object="${maintenance}"
-                class="maintenance-form">
+            <form th:action="@{/maintenance/{maintenanceId}/edit}" method="post" th:object="${maintenance}" class="maintenance-form">
                 <input type="hidden" id="maintenanceId" name="maintenanceId" th:field="*{maintenanceId}" />
                 <label for="propertyName">Property Name:</label>
-                <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required />
+                <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
                 <label for="maintenanceDate">Maintenance Date:</label>
-                <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
+                <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required/>
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" th:field="*{description}" required></textarea>
                 <label for="cost">Cost:</label>
-                <input type="number" id="cost" name="cost" th:field="*{cost}" required />
+                <input type="number" id="cost" name="cost" th:field="*{cost}" required/>
                 <button type="submit">Update Maintenance Request</button>
             </form>
         </section>
