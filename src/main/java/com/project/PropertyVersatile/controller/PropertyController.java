@@ -92,7 +92,7 @@ public class PropertyController {
     @GetMapping("/{propertyId}/delete")
     public String deleteProperty(@PathVariable int propertyId, Model model) {
         try {
-            propertyService.deleteproperty(propertyId);
+            propertyService.deleteProperty(propertyId);
             // Additional logic for deleting property
             model.addAttribute("action", "delete"); // Set action to 'delete'
             return "properties";

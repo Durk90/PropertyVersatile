@@ -75,6 +75,7 @@ public class PropertyService {
     public boolean deleteProperty(int propertyId) {
         try {
             propertyRepository.deleteById(propertyId);
+            logger.info("Property deleted successfully. ID: " + propertyId);
             return true;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error deleting property with ID: " + propertyId, e);
