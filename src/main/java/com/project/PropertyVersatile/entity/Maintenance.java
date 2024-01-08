@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.math.BigDecimal; // Import BigDecimal
 import java.time.LocalDate;
 
 @Entity
@@ -26,7 +27,7 @@ public class Maintenance {
     private String description;
 
     @Column(name = "cost")
-    private double cost;
+    private BigDecimal cost; // Change the type to BigDecimal
 
     // Getters and setters
 
@@ -62,11 +63,11 @@ public class Maintenance {
         this.description = description;
     }
 
-    public double getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 }
