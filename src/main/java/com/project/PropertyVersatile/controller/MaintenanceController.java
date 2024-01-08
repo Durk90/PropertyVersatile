@@ -36,8 +36,9 @@ public class MaintenanceController {
     @GetMapping("/create")
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
-        return "maintenance";
+        return "create-maintenance"; // Change the view name to "create-maintenance"
     }
+
 
     @PostMapping("/create")
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
