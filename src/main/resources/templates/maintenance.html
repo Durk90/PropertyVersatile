@@ -29,7 +29,7 @@
             maintenance tasks.</p>
 
         <!-- Form for creating new maintenance requests -->
-        <form th:action="@{/maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
+        <form th:action="@{maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
 
             <label for="propertyName">Property Name:</label>
             <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required />

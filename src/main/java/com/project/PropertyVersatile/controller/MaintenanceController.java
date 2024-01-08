@@ -10,7 +10,7 @@ import com.project.PropertyVersatile.service.MaintenanceService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/maintenance")
+@RequestMapping("maintenance")
 public class MaintenanceController {
 
     private final MaintenanceService maintenanceService;
@@ -20,8 +20,7 @@ public class MaintenanceController {
         this.maintenanceService = maintenanceService;
     }
 
-    @GetMapping
-    @ResponseBody
+    @GetMapping   
     public String getAllMaintenance(Model model) {
         try {
             List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
@@ -34,14 +33,14 @@ public class MaintenanceController {
         }
     }
 
-    @GetMapping("/create")
+    @GetMapping("create")
     @ResponseBody
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
         return "create-maintenance";
     }
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
         try {
             maintenanceService.createMaintenance(maintenance);
@@ -53,7 +52,7 @@ public class MaintenanceController {
         }
     }
 
-    @GetMapping("/{maintenanceId}/edit")
+    @GetMapping("{maintenanceId}/edit")
     @ResponseBody
     public String showEditMaintenanceForm(@PathVariable int maintenanceId, Model model) {
         try {
@@ -67,7 +66,7 @@ public class MaintenanceController {
         }
     }
 
-    @PostMapping("/{maintenanceId}/edit")
+    @PostMapping("{maintenanceId}/edit")
     public String updateMaintenance(@PathVariable int maintenanceId, @ModelAttribute Maintenance updatedMaintenance, Model model) {
         try {
             maintenanceService.updateMaintenance(maintenanceId, updatedMaintenance);
@@ -79,7 +78,7 @@ public class MaintenanceController {
         }
     }
 
-    @GetMapping("/{maintenanceId}/delete")
+    @GetMapping("{maintenanceId}/delete")
     @ResponseBody
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
         try {
