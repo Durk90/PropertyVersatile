@@ -91,12 +91,13 @@ public class PropertyController {
 
     @GetMapping("/{propertyId}/delete")
     public String deleteProperty(@PathVariable int propertyId, Model model) {
-        try {
-            propertyService.deleteProperty(propertyId);
-            return "redirect:/properties";
+    	try {
+            // Additional logic for deleting maintenance
+            model.addAttribute("action", "delete"); // Set action to 'delete'
+            return "properties";
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("error", "Error deleting property");
+            model.addAttribute("error", "Error deleting maintenance request");
             return "error";
         }
     }
