@@ -29,20 +29,22 @@
         <!-- Form for creating new maintenance requests -->
         <form th:action="@{/maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
 
-            <label for="propertyName">Property Name:</label>
-            <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
+            <!-- Make sure to use property.propertyId instead of property.propertyName -->
+            <label for="propertyId">Property ID:</label>
+            <input type="text" id="propertyId" name="propertyId" th:field="*{property.propertyId}" required />
 
             <label for="maintenanceDate">Maintenance Date:</label>
-            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required/>
+            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" th:field="*{description}" required></textarea>
 
             <label for="cost">Cost:</label>
-            <input type="number" id="cost" name="cost" th:field="*{cost}" required/>
+            <input type="number" id="cost" name="cost" th:field="*{cost}" required />
 
             <button type="submit">Submit Maintenance Request</button>
         </form>
+
 
         <!-- Add a cancel or back button if needed -->
 
