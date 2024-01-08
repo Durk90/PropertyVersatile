@@ -25,56 +25,18 @@
 
     <main>
 
-        <!-- Create Maintenance Request -->
-        <section th:if="${action == 'create'}">
-            <h2>Create Maintenance Request</h2>
-            <form th:action="@{/maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
-                <label for="propertyName">Property Name:</label>
-                <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required />
-                <label for="maintenanceDate">Maintenance Date:</label>
-                <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" th:field="*{description}" required></textarea>
-                <label for="cost">Cost:</label>
-                <input type="text" id="cost" name="cost" th:field="*{cost}" required />
-                <button type="submit">Submit Maintenance Request</button>
-            </form>
-        </section>
-
-        <!-- Edit Maintenance Request -->
-        <section th:if="${action == 'edit'}">
-            <h2>Edit Maintenance Request</h2>
-            <form th:action="@{/maintenance/{maintenanceId}/edit}" method="post" th:object="${maintenance}" class="maintenance-form">
-                <input type="hidden" id="maintenanceId" name="maintenanceId" th:field="*{maintenanceId}" />
-                <label for="propertyName">Property Name:</label>
-                <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
-                <label for="maintenanceDate">Maintenance Date:</label>
-                <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required/>
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" th:field="*{description}" required></textarea>
-                <label for="cost">Cost:</label>
-                <input type="number" id="cost" name="cost" th:field="*{cost}" required/>
-                <button type="submit">Update Maintenance Request</button>
-            </form>
-        </section>
-
-        <!-- Delete Maintenance Request -->
-        <section th:if="${action == 'delete'}">
-            <h2>Delete Maintenance Request</h2>
-            <p>Enter the Maintenance ID you want to delete:</p>
-            <form th:action="@{/maintenance/delete}" method="post" class="maintenance-form">
-                <label for="deleteMaintenanceId">Maintenance ID:</label>
-                <input type="text" id="deleteMaintenanceId" name="deleteMaintenanceId" required />
-                <button type="submit">Delete Maintenance Request</button>
-            </form>
-        </section>
-
         <!-- Display Existing Maintenance Requests -->
         <section th:unless="${action == 'create' or action == 'edit' or action == 'delete'}">
             <h2>Maintenance Requests</h2>
             <p>This page allows users to submit and view maintenance requests. </p>
 
-            <!-- Include the table for displaying existing maintenance requests -->
+            <!-- Add buttons for creating, editing, and deleting -->
+            <div>
+                <a th:href="@{/maintenance/create}">
+                    <button type="button">Create Maintenance Request</button>
+                </a>
+            </div>
+
             <table>
                 <tr>
                     <th>Maintenance ID</th>
@@ -83,6 +45,7 @@
                     <th>Maintenance Date</th>
                     <th>Description</th>
                     <th>Cost</th>
+                    <th>Actions</th>
                     <!-- Add more columns as needed -->
                 </tr>
                 <tr th:each="maintenance : ${maintenanceRequests}">
@@ -92,10 +55,20 @@
                     <td th:text="${maintenance.maintenanceDate}"></td>
                     <td th:text="${maintenance.description}"></td>
                     <td th:text="${maintenance.cost}"></td>
+                    <td>
+                        <!-- Add buttons for editing and deleting with respective links -->
+                        <a th:href="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.maintenanceId})}">
+                            <button type="button">Edit</button>
+                        </a>
+                        <a th:href="@{/maintenance/{maintenanceId}/delete(maintenanceId=${maintenance.maintenanceId})}">
+                            <button type="button">Delete</button>
+                        </a>
+                    </td>
                     <!-- Add more fields as needed -->
                 </tr>
             </table>
         </section>
+
 
         <!-- Add more content as needed -->
 
