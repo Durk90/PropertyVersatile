@@ -21,6 +21,7 @@ public class MaintenanceController {
     }
 
     @GetMapping
+    @ResponseBody
     public String getAllMaintenance(Model model) {
         try {
             List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
@@ -34,6 +35,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/create")
+    @ResponseBody
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
         return "create-maintenance";
@@ -52,6 +54,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/{maintenanceId}/edit")
+    @ResponseBody
     public String showEditMaintenanceForm(@PathVariable int maintenanceId, Model model) {
         try {
             Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
@@ -77,6 +80,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/{maintenanceId}/delete")
+    @ResponseBody
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
         try {
             maintenanceService.deleteMaintenance(maintenanceId);
