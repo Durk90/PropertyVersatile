@@ -15,12 +15,12 @@
     </header>
 
     <nav>
-        <a th:href="@{/index}">Home</a>
-        <a th:href="@{/properties}">Properties</a>
-        <a th:href="@{/leases}">Leases</a>
-        <a th:href="@{/maintenance}">Maintenance Requests</a>
-        <a th:href="@{/transactions}">Financial Transactions</a>
-        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{index}">Home</a>
+        <a th:href="@{properties}">Properties</a>
+        <a th:href="@{leases}">Leases</a>
+        <a th:href="@{maintenance}">Maintenance Requests</a>
+        <a th:href="@{transactions}">Financial Transactions</a>
+        <a th:href="@{weather}">Weather</a>
     </nav>
 
     <main>
@@ -29,7 +29,7 @@
             maintenance tasks.</p>
 
         <!-- Form for creating new maintenance requests -->
-        <form th:action="@{/maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
+        <form th:action="@{maintenance/create}" method="post" th:object="${maintenance}" class="maintenance-form">
 
             <label for="propertyName">Property Name:</label>
             <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required />
