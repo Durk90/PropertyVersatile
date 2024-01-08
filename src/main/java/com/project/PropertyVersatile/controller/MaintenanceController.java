@@ -38,8 +38,9 @@ public class MaintenanceController {
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
         model.addAttribute("action", "create"); // Set action to 'create'
-        return "maintenance";
+        return "create-maintenance"; 
     }
+
 
     @PostMapping("/create")
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
@@ -55,7 +56,7 @@ public class MaintenanceController {
 
     @GetMapping("/{maintenanceId}/edit")
     public String showEditMaintenanceForm(@PathVariable int maintenanceId, Model model) {
-        try {
+    	try {
             Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
             model.addAttribute("maintenance", maintenance);
             model.addAttribute("action", "edit"); // Set action to 'edit'
@@ -82,6 +83,7 @@ public class MaintenanceController {
     @GetMapping("/{maintenanceId}/delete")
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
         try {
+            maintenanceService.deleteMaintenance(maintenanceId);
             // Additional logic for deleting maintenance
             model.addAttribute("action", "delete"); // Set action to 'delete'
             return "maintenance";
@@ -91,4 +93,5 @@ public class MaintenanceController {
             return "error";
         }
     }
+
 }
