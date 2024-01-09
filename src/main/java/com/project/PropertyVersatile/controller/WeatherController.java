@@ -1,32 +1,26 @@
 package com.project.PropertyVersatile.controller;
 
+// WeatherController.java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.project.PropertyVersatile.service.WeatherService;
-import com.project.PropertyVersatile.weather.WeatherData;
-
 @Controller
 public class WeatherController {
 
-    private final WeatherService weatherService;
-
     @Autowired
-    public WeatherController(WeatherService weatherService) {
-        this.weatherService = weatherService;
-    }
+    private WeatherService weatherService;
 
     @GetMapping("/weather")
     public String getWeather(Model model) {
-        // Assuming Berlin's coordinates for demonstration purposes
-        double latitude = 52.52;
-        double longitude = 13.41;
+        double latitude = 52.52; // Replace with actual latitude
+        double longitude = 13.41; // Replace with actual longitude
 
-        WeatherData weatherData = weatherService.getWeather(latitude, longitude);
+        WeatherData weatherData = weatherService.getWeatherData(latitude, longitude);
+
         model.addAttribute("weatherData", weatherData);
 
-        return "weather"; // Create a Thymeleaf template for displaying weather information
+        return "weather";
     }
 }

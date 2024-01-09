@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,9 +35,9 @@
                     <th>Wind Speed (10m)</th>
                 </tr>
             </thead>
-            <tbody th:each="i, time : ${weatherData.hourly.time}">
+            <tbody th:each="weather, i : ${weatherData.hourly.time}">
                 <tr>
-                    <td th:text="${time}"></td>
+                    <td th:text="${weather}"></td>
                     <td th:text="${weatherData.hourly.temperature_2m[i]}"></td>
                     <td th:text="${weatherData.hourly.wind_speed_10m[i]}"></td>
                 </tr>
