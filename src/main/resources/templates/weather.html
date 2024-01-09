@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Chart</title>
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
 </head>
 
 <body>
@@ -14,16 +13,28 @@
     <header>
         <h1>Weather Chart</h1>
     </header>
+    <nav>
+        <a th:href="@{/index}">Home</a>
+        <a th:href="@{/properties}">Properties</a>
+        <a th:href="@{/leases}">Leases</a>
+        <a th:href="@{/maintenance}">Maintenance Requests</a>
+        <a th:href="@{/transactions}">Financial Transactions</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/engineers}">Engineers</a>
+    </nav>
 
     <main>
+        <div id="weather-container">
+            <!-- Weather data will be displayed here -->
+        </div>
+
         <canvas id="weather-chart"></canvas>
 
         <script>
-            // Function to fetch weather data from the provided JSON URL
+            // Function to fetch weather data from the API
             async function fetchWeatherData() {
                 try {
-                    const apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/retrievebulkdataset?&key=9SN22472KDT63UN7MLCRYK4B9&taskId=6c9886f7fc7a15c78467b509d4423377&zip=false";
-                    const response = await fetch(apiUrl);
+                    const response = await fetch('Ireland.json');
                     const data = await response.json();
                     return data;
                 } catch (error) {
@@ -33,67 +44,56 @@
             }
 
             // Function to display weather data and create a chart
-            async function displayWeatherChart() {
+            async function displayWeatherData() {
                 // Fetch weather data
                 const weatherData = await fetchWeatherData();
 
                 // If data is available, proceed to display
                 if (weatherData) {
                     // Access the relevant data from the API response
-                    const dates = weatherData.days.map(day => day.datetime);
-                    const temperatures = weatherData.days.map(day => day.tempmax);
+                    // Update the HTML in the weather-container
+                    document.getElementById("weather-container").innerHTML = `
+                        <h2>Current Weather</h2>
+                        <p>Time: ${weatherData.current.time}</p>
+                        <!-- Add other weather details as needed -->
+                    `;
 
-                    // Create a line chart using Chart.js
-                    const ctx = document.getElementById("weather-chart").getContext("2d");
+                    // Create a chart using Chart.js
+                    var ctx = document.getElementById("weather-chart").getContext("2d");
+                    // Create the chart based on your data
+                    // ...
 
-                    const chartData = {
-                        labels: dates,
-                        datasets: [
-                            {
-                                label: "Max Temperature",
-                                data: temperatures,
-                                borderColor: "rgba(255, 99, 132, 1)",
-                                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                            },
-                        ],
-                    };
-
-                    const chartOptions = {
-                        scales: {
-                            x: {
-                                type: 'linear',
-                                position: 'bottom',
-                                title: {
-                                    display: true,
-                                    text: 'Date',
-                                },
-                            },
-                            y: {
-                                type: 'linear',
-                                position: 'left',
-                                title: {
-                                    display: true,
-                                    text: 'Temperature (°C)',
-                                },
-                            },
+                    // Example chart creation (replace with your own chart data)
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['January', 'February', 'March', 'April', 'May'],
+                            datasets: [{
+                                label: 'Temperature (°C)',
+                                data: [12, 15, 18, 22, 25],
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
                         },
-                    };
-
-                    new Chart(ctx, {
-                        type: "line",
-                        data: chartData,
-                        options: chartOptions,
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
                     });
                 }
             }
 
-            // Display the weather chart when the page loads
-            displayWeatherChart();
+            // Display the weather data when the page loads
+            displayWeatherData();
         </script>
     </main>
 
     <footer>
-        <p>&copy; 2024 Weather Chart. All rights reserved.</p>
+        <p>&copy; 2023 Weather Chart. All rights reserved.</p>
     </footer>
 
 </body>
