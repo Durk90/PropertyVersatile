@@ -1,41 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property-Versatile - Weather</title>
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <title>Weather Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
     <header>
-        <h1>Property-Versatile</h1>
+        <h1>Weather Chart</h1>
     </header>
-    <nav>
-        <a th:href="@{/index}">Home</a>
-        <a th:href="@{/properties}">Properties</a>
-        <a th:href="@{/leases}">Leases</a>
-        <a th:href="@{/maintenance}">Maintenance Requests</a>
-        <a th:href="@{/transactions}">Financial Transactions</a>
-        <a th:href="@{/weather}">Weather</a>
-        <a th:href="@{/engineers}">Engineers</a>
-    </nav>
 
     <main>
-        <div id="weather-container">
-            <!-- Weather data will be displayed here -->
-        </div>
-
         <canvas id="weather-chart"></canvas>
 
         <script>
-            // Function to fetch weather data from the Open Meteo API
+            // Function to fetch weather data from the provided JSON URL
             async function fetchWeatherData() {
                 try {
-                    const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,snowfall,snow_depth,wind_speed_10m&timezone=Europe%2FLondon";
+                    const apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/retrievebulkdataset?&key=9SN22472KDT63UN7MLCRYK4B9&taskId=6c9886f7fc7a15c78467b509d4423377&zip=false";
                     const response = await fetch(apiUrl);
                     const data = await response.json();
                     return data;
@@ -46,64 +32,42 @@
             }
 
             // Function to display weather data and create a chart
-            async function displayWeatherData() {
+            async function displayWeatherChart() {
                 // Fetch weather data
                 const weatherData = await fetchWeatherData();
 
                 // If data is available, proceed to display
                 if (weatherData) {
-                    console.log("Weather Data:", weatherData); // Log data to console for debugging
-
                     // Access the relevant data from the API response
-                    var hourlyTimes = weatherData.hourly.time;
-                    var hourlyTemperatures = weatherData.hourly.temperature_2m;
-                    var hourlyWindSpeeds = weatherData.hourly.wind_speed_10m;
-
-                    // Create HTML content with the current weather data
-                    var currentWeatherHtml = `
-                        <h2>Current Weather</h2>
-                        <p>Time: ${weatherData.current.time}</p>
-                        <p>Temperature: ${weatherData.current.temperature_2m} °C</p>
-                        <p>Wind Speed: ${weatherData.current.wind_speed_10m} m/s</p>
-                    `;
-
-                    // Update the HTML in the weather-container
-                    document.getElementById("weather-container").innerHTML = currentWeatherHtml;
+                    const dates = weatherData.days.map(day => day.datetime);
+                    const temperatures = weatherData.days.map(day => day.tempmax);
 
                     // Create a line chart using Chart.js
-                    var ctx = document.getElementById("weather-chart").getContext("2d");
+                    const ctx = document.getElementById("weather-chart").getContext("2d");
 
-                    var chartData = {
-                        labels: hourlyTimes,
+                    const chartData = {
+                        labels: dates,
                         datasets: [
                             {
-                                label: "Temperature (2m)",
-                                data: hourlyTemperatures,
+                                label: "Max Temperature",
+                                data: temperatures,
                                 borderColor: "rgba(255, 99, 132, 1)",
                                 backgroundColor: "rgba(255, 99, 132, 0.2)",
-                                yAxisID: "temperature-y-axis",
-                            },
-                            {
-                                label: "Wind Speed (10m)",
-                                data: hourlyWindSpeeds,
-                                borderColor: "rgba(54, 162, 235, 1)",
-                                backgroundColor: "rgba(54, 162, 235, 0.2)",
-                                yAxisID: "wind-speed-y-axis",
                             },
                         ],
                     };
 
-                    var chartOptions = {
+                    const chartOptions = {
                         scales: {
                             x: {
                                 type: 'linear',
                                 position: 'bottom',
                                 title: {
                                     display: true,
-                                    text: 'Time',
+                                    text: 'Date',
                                 },
                             },
-                            'temperature-y-axis': {
+                            y: {
                                 type: 'linear',
                                 position: 'left',
                                 title: {
@@ -111,34 +75,24 @@
                                     text: 'Temperature (°C)',
                                 },
                             },
-                            'wind-speed-y-axis': {
-                                type: 'linear',
-                                position: 'right',
-                                title: {
-                                    display: true,
-                                    text: 'Wind Speed (m/s)',
-                                },
-                            },
                         },
                     };
 
-                    var weatherChart = new Chart(ctx, {
+                    new Chart(ctx, {
                         type: "line",
                         data: chartData,
                         options: chartOptions,
                     });
-                } else {
-                    console.error("Weather data not available");
                 }
             }
 
-            // Display the weather data when the page loads
-            displayWeatherData();
+            // Display the weather chart when the page loads
+            displayWeatherChart();
         </script>
     </main>
 
     <footer>
-        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+        <p>&copy; 2024 Weather Chart. All rights reserved.</p>
     </footer>
 
 </body>
