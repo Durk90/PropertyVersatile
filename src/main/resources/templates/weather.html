@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property-Versatile - Weather Chart</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
 </head>
 
 <body>
@@ -25,48 +25,13 @@
 
     <h2>Temperature Chart</h2>
 
-    <!-- Create a canvas element for the chart -->
-    <canvas id="temperatureChart" width="600" height="300"></canvas>
-
-    <!-- JavaScript code to process and render the chart -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var weatherData = /*[[${weatherData}]]*/ null;
-
-        // Extract temperature data from the JSON
-        var temperatureData = weatherData.days.map(day => day.temp);
-
-        // Extract date labels from the JSON
-        var dateLabels = weatherData.days.map(day => day.datetime);
-
-        // Create a chart using Chart.js
-        var ctx = document.getElementById('temperatureChart').getContext('2d');
-        var temperatureChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dateLabels,
-                datasets: [{
-                    label: 'Temperature (°C)',
-                    data: temperatureData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });       
-    </script>
+    <h1>Weather Data</h1>
+    
+    <p>Temperature: <span th:text="${weatherData.temperature_2m}"></span> °C</p>
+    <p>Humidity: <span th:text="${weatherData.relative_humidity_2m}"></span>%</p>
+    <p>Precipitation Probability: <span th:text="${weatherData.precipitation_probability}"></span>%</p>
+    <p>Snowfall: <span th:text="${weatherData.snowfall}"></span> mm</p>
+    <p>Snow Depth: <span th:text="${weatherData.snow_depth}"></span> cm</p>
+    <p>Wind Speed: <span th:text="${weatherData.wind_speed_10m}"></span> m/s</p>
 </body>
 </html>

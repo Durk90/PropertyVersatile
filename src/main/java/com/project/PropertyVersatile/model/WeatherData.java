@@ -1,33 +1,16 @@
 package com.project.PropertyVersatile.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherData {
-    private double latitude;
-    private double longitude;
+    private String timestamp;
+    private Double temperature_2m;
+    private Double relative_humidity_2m;
+    private Double precipitation_probability;
+    private Double snowfall;
+    private Double snow_depth;
+    private Double wind_speed_10m;
 
-    @JsonProperty("resolvedAddress")
-    private String resolvedAddress;
-
-    @JsonProperty("address")
-    private String address;
-
-    @JsonProperty("timezone")
-    private String timezone;
-
-    @JsonProperty("tzoffset")
-    private int tzoffset;
-
-    @JsonProperty("description")
-    private String description;
-
-    @JsonProperty("days")
-    private List<Day> days;
-
-    @JsonProperty("currentConditions")
-    private CurrentConditions currentConditions;
-
-    // Other getters and setters
+    // getters and setters
 }
