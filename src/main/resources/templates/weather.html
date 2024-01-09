@@ -28,7 +28,7 @@
     <h2>Temperature Chart</h2>
 
     <!-- Create a canvas element for the chart -->
-    <canvas id="temperatureChart" width="400" height="200"></canvas>
+    <canvas id="temperatureChart" width="800" height="400"></canvas>
 
     <!-- JavaScript code to process and render the chart -->
     <script th:inline="javascript">
@@ -37,8 +37,6 @@
 
         // Ensure that weatherData and weatherData.days are defined before mapping
         var temperatureData = weatherData && weatherData.days ? weatherData.days.map(day => day.temp) : [];
-
-        // Extract date labels from the JSON
         var dateLabels = weatherData && weatherData.days ? weatherData.days.map(day => day.datetime) : [];
 
         // Create a chart using Chart.js

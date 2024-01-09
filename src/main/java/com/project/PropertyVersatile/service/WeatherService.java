@@ -6,8 +6,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class WeatherService {
 
-    private final String apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/retrievebulkdataset" +
-            "?key=9SN22472KDT63UN7MLCRYK4B9&taskId=6c9886f7fc7a15c78467b509d4423377&zip=false";
+    private final String apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Ireland" +
+            "?unitGroup=metric&key=9SN22472KDT63UN7MLCRYK4B9&contentType=json";
 
     private final RestTemplate restTemplate;
 
