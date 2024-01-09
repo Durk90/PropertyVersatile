@@ -52,6 +52,8 @@
 
                 // If data is available, proceed to display
                 if (weatherData) {
+                    console.log("Weather Data:", weatherData); // Log data to console for debugging
+
                     // Access the relevant data from the API response
                     var hourlyTimes = weatherData.hourly.time;
                     var hourlyTemperatures = weatherData.hourly.temperature_2m;
@@ -125,6 +127,8 @@
                         data: chartData,
                         options: chartOptions,
                     });
+                } else {
+                    console.error("Weather data not available");
                 }
             }
 
