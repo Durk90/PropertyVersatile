@@ -38,7 +38,7 @@ public class LeaseController {
         try {
             Lease lease = leaseService.getLeaseById(leaseId);
             model.addAttribute("lease", lease);
-            return "lease-details";
+            return "leases";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error retrieving lease details");
