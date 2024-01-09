@@ -20,10 +20,10 @@ public class Lease {
     private Property property; // Add a Property field
 
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private LocalDate start_date;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private LocalDate end_date;
 
     @Column(name = "monthly_rent")
     private BigDecimal monthlyRent;
@@ -38,10 +38,10 @@ public class Lease {
     }
 
     // Parameterized constructor
-    public Lease(int propertyId, LocalDate startDate, LocalDate endDate, BigDecimal monthlyRent, String tenantName) {
+    public Lease(int propertyId, LocalDate start_date, LocalDate end_date, BigDecimal monthlyRent, String tenantName) {
         this.propertyId = propertyId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.start_date = start_date;
+        this.end_date = end_date;
         this.monthlyRent = monthlyRent;
         this.tenantName = tenantName;
     }
@@ -72,20 +72,20 @@ public class Lease {
         this.property = property;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getstart_date() {
+        return start_date;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setstart_date(LocalDate start_date) {
+        this.start_date = start_date;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getend_date() {
+        return end_date;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setend_date(LocalDate end_date) {
+        this.end_date = end_date;
     }
 
     public BigDecimal getMonthlyRent() {
