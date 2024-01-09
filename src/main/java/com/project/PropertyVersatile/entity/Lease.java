@@ -1,11 +1,7 @@
 package com.project.PropertyVersatile.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +15,10 @@ public class Lease {
     @Column(name = "property_id")
     private int propertyId;
 
+    @ManyToOne(fetch = FetchType.LAZY) // Many leases can be associated with one property
+    @JoinColumn(name = "property_id", referencedColumnName = "property_id", insertable = false, updatable = false)
+    private Property property; // Add a Property field
+
     @Column(name = "start_date")
     private LocalDate startDate;
 
@@ -26,7 +26,7 @@ public class Lease {
     private LocalDate endDate;
 
     @Column(name = "monthly_rent")
-    private double monthlyRent;
+    private BigDecimal monthlyRent;
 
     @Column(name = "tenant_name")
     private String tenantName;
@@ -38,7 +38,7 @@ public class Lease {
     }
 
     // Parameterized constructor
-    public Lease(int propertyId, LocalDate startDate, LocalDate endDate, double monthlyRent, String tenantName) {
+    public Lease(int propertyId, LocalDate startDate, LocalDate endDate, BigDecimal monthlyRent, String tenantName) {
         this.propertyId = propertyId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -64,6 +64,14 @@ public class Lease {
         this.propertyId = propertyId;
     }
 
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -80,11 +88,11 @@ public class Lease {
         this.endDate = endDate;
     }
 
-    public double getMonthlyRent() {
+    public BigDecimal getMonthlyRent() {
         return monthlyRent;
     }
 
-    public void setMonthlyRent(double monthlyRent) {
+    public void setMonthlyRent(BigDecimal monthlyRent) {
         this.monthlyRent = monthlyRent;
     }
 
