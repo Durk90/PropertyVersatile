@@ -29,8 +29,7 @@ public class LeaseService {
         try {
             return leaseRepository.findAll();
         } catch (Exception e) {
-            // Log the exception
-            logger.log(Level.SEVERE, "Error retrieving all leases", e);
+            logException("Error retrieving all leases", e);
             return Collections.emptyList();
         }
     }
@@ -40,8 +39,7 @@ public class LeaseService {
             Optional<Lease> leaseOptional = leaseRepository.findById(leaseId);
             return leaseOptional.orElse(null);
         } catch (Exception e) {
-            // Log the exception
-            logger.log(Level.SEVERE, "Error retrieving lease by ID: " + leaseId, e);
+            logException("Error retrieving lease by ID: " + leaseId, e);
             return null;
         }
     }
@@ -51,8 +49,7 @@ public class LeaseService {
             // Additional validation logic if needed
             return leaseRepository.save(lease);
         } catch (Exception e) {
-            // Log the exception
-            logger.log(Level.SEVERE, "Error creating lease", e);
+            logException("Error creating lease", e);
             return null;
         }
     }
@@ -61,18 +58,11 @@ public class LeaseService {
         try {
             Optional<Lease> existingLeaseOptional = leaseRepository.findById(leaseId);
             return existingLeaseOptional.map(existingLease -> {
-                // Update fields based on your requirements
-                existingLease.setStartDate(updatedLease.getStartDate());
-                existingLease.setEndDate(updatedLease.getEndDate());
-                existingLease.setMonthlyRent(updatedLease.getMonthlyRent());
-                existingLease.setTenantName(updatedLease.getTenantName());
-
-                // Save the updated lease
+                updateLeaseFields(existingLease, updatedLease);
                 return leaseRepository.save(existingLease);
-            }).orElse(null); // Return null if the lease with the given ID is not found
+            }).orElse(null);
         } catch (Exception e) {
-            // Log the exception
-            logger.log(Level.SEVERE, "Error updating lease with ID: " + leaseId, e);
+            logException("Error updating lease with ID: " + leaseId, e);
             return null;
         }
     }
@@ -82,9 +72,20 @@ public class LeaseService {
             leaseRepository.deleteById(leaseId);
             return true;
         } catch (Exception e) {
-            // Log the exception
-            logger.log(Level.SEVERE, "Error deleting lease with ID: " + leaseId, e);
+            logException("Error deleting lease with ID: " + leaseId, e);
             return false;
         }
+    }
+
+    private void logException(String message, Exception e) {
+        logger.log(Level.SEVERE, message, e);
+    }
+
+    private void updateLeaseFields(Lease existingLease, Lease updatedLease) {
+        // Update fields based on your requirements
+        existingLease.setend_date(updatedLease.getend_date());
+        existingLease.setend_date(updatedLease.getend_date());
+        existingLease.setMonthlyRent(updatedLease.getMonthlyRent());
+        existingLease.setTenantName(updatedLease.getTenantName());
     }
 }
