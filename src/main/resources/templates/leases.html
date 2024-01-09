@@ -25,38 +25,54 @@
     <main>
         <h2>Leases</h2>
         <p>This page provides details about lease agreements. You can include information about ongoing leases, upcoming renewals, and other lease-related details.</p>
-
+    
         <!-- Thymeleaf table for leases -->
         <table>
             <thead>
                 <tr>
+                    <th>Lease ID</th>
                     <th>Property Name</th>
                     <th>Start Date</th>
-                    <!-- Add more table headers as needed -->
+                    <th>End Date</th>
+                    <th>Monthly Rent</th>
+                    <th>Tenant Name</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="lease : ${leases}">
+                    <td th:text="${lease.leaseId}"></td>
                     <td th:text="${lease.property.propertyName}"></td>
-                    <td th:text="${#dates.format(lease.startDate, 'yyyy-MM-dd')}"></td>
-                    <!-- Add more table data cells for other fields -->
+                    <td th:text="${#dates.format(lease.start_date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(lease.end_date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${lease.monthly_rent}"></td>
+                    <td th:text="${lease.tenant_name}"></td>
+                    <td>
+                        <!-- Buttons for editing and deleting with respective links -->
+                        <a th:href="@{/leases/{leaseId}/edit(leaseId=${lease.leaseId})}">
+                            <button type="button">Edit</button>
+                        </a>
+                        <a th:href="@{/leases/{leaseId}/delete(leaseId=${lease.leaseId})}">
+                            <button type="button">Delete</button>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
+    
         <!-- Form for creating new lease agreements (similar to maintenance form) -->
         <form th:action="@{/leases/create}" method="post" th:object="${lease}" class="lease-form">
             <label for="propertyName">Property Name:</label>
             <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
-
+    
             <label for="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" th:field="*{startDate}" required/>
-
-            <!-- Add more form fields as needed -->
-
+            <input type="date" id="startDate" name="startDate" th:field="*{start_date}" required/>
+    
+            <!-- Add more form fields for other lease properties -->
+    
             <button type="submit">Submit Lease Agreement</button>
         </form>
-
+    
         <!-- Add more content as needed -->
     </main>
 
