@@ -55,16 +55,6 @@
                 var currentTemperature = data.current.temperature_2m;
                 var currentWindSpeed = data.current.wind_speed_10m;
 
-                // Create HTML content with the current weather data
-                var currentWeatherHtml = `
-                    <h2>Current Weather</h2>
-                    <p>Time: ${currentWeatherTime}</p>
-                    <p>Temperature: ${currentTemperature} °C</p>
-                    <p>Wind Speed: ${currentWindSpeed} m/s</p>
-                `;
-
-                // Update the HTML in the weather-container
-                $("#weather-container").html(currentWeatherHtml);
             }
         </script>
     </main>
