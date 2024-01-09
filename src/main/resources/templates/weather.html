@@ -66,14 +66,14 @@
 
         // Create the chart
         var myChart = new Chart(ctx, {
-            type: 'line', // Change the chart type to 'line'
+            type: 'line', 
             data: {
                 labels: ['Temperature', 'Humidity', 'Precipitation Probability', 'Snowfall', 'Snow Depth', 'Wind Speed'],
                 datasets: [{
                     label: 'Weather Data',
                     data: [temperature, humidity, precipitationProbability, snowfall, snowDepth, windSpeed],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjust the color as needed
-                    borderColor: 'rgba(75, 192, 192, 1)', // Adjust the color as needed
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                    borderColor: 'rgba(75, 192, 192, 1)', 
                     borderWidth: 1,
                     fill: false // Ensure no fill under the line
                 }]
