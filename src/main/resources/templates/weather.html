@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    
+
     <header>
         <h1>Property-Versatile</h1>
     </header>
@@ -24,7 +26,7 @@
     </nav>
 
     <h2>Temperature Chart</h2>
-    
+
     <!-- Create a canvas element for the chart -->
     <canvas id="temperatureChart" width="400" height="200"></canvas>
 
@@ -33,11 +35,11 @@
         /*<![CDATA[*/
         var weatherData = /*[[${weatherData}]]*/ null;
 
-        // Extract temperature data from the JSON
-        var temperatureData = weatherData.days.map(day => day.temp);
+        // Ensure that weatherData and weatherData.days are defined before mapping
+        var temperatureData = weatherData && weatherData.days ? weatherData.days.map(day => day.temp) : [];
 
         // Extract date labels from the JSON
-        var dateLabels = weatherData.days.map(day => day.datetime);
+        var dateLabels = weatherData && weatherData.days ? weatherData.days.map(day => day.datetime) : [];
 
         // Create a chart using Chart.js
         var ctx = document.getElementById('temperatureChart').getContext('2d');
@@ -69,5 +71,7 @@
         });
         /*]]>*/
     </script>
+
 </body>
+
 </html>
