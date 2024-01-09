@@ -4,6 +4,8 @@ package com.project.PropertyVersatile.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.PropertyVersatile.model.WeatherData;
+
 @Service
 public class WeatherService {
 
