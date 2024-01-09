@@ -27,17 +27,19 @@
 
     <h2>Temperature Chart</h2>
 
-    <!-- Create a canvas element for the chart -->
-    <canvas id="temperatureChart" width="800" height="400"></canvas>
+    <<!-- Create a canvas element for the chart -->
+    <canvas id="temperatureChart" width="600" height="300"></canvas>
 
     <!-- JavaScript code to process and render the chart -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         var weatherData = /*[[${weatherData}]]*/ null;
 
-        // Ensure that weatherData and weatherData.days are defined before mapping
-        var temperatureData = weatherData && weatherData.days ? weatherData.days.map(day => day.temp) : [];
-        var dateLabels = weatherData && weatherData.days ? weatherData.days.map(day => day.datetime) : [];
+        // Extract temperature data from the JSON
+        var temperatureData = weatherData.days.map(day => day.temp);
+
+        // Extract date labels from the JSON
+        var dateLabels = weatherData.days.map(day => day.datetime);
 
         // Create a chart using Chart.js
         var ctx = document.getElementById('temperatureChart').getContext('2d');
@@ -69,7 +71,5 @@
         });
         /*]]>*/
     </script>
-
 </body>
-
 </html>
