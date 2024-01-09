@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property-Versatile - Weather</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
+
 <body>
 
     <header>
@@ -25,7 +27,7 @@
         <p th:text="${weatherData.current.time}"></p>
         <p th:text="${weatherData.current.temperature_2m}"></p>
         <p th:text="${weatherData.current.wind_speed_10m}"></p>
-    
+
         <h2>Hourly Weather</h2>
         <table>
             <thead>
@@ -37,7 +39,7 @@
             </thead>
             <tbody th:each="weather, i : ${weatherData.hourly.time}">
                 <tr>
-                    <td th:text="${weather}"></td>
+                    <td th:text="${weatherData.hourly.time[i]}"></td>
                     <td th:text="${weatherData.hourly.temperature_2m[i]}"></td>
                     <td th:text="${weatherData.hourly.wind_speed_10m[i]}"></td>
                 </tr>
@@ -50,4 +52,5 @@
     </footer>
 
 </body>
+
 </html>
