@@ -39,8 +39,8 @@
             </thead>
             <tbody th:each="weather, i : ${weatherData.hourly.time}">
                 <tr>
-                    <td th:text="${weatherData.hourly.time[i]}"></td>
-                    <td th:text="${weatherData.hourly.temperature_2m[i]}"></td>
+                    <td th:text="${weather}"></td>
+                    <td th:text="${weatherData.hourly.temperature_2m[__${i.index}__]}"></td>
                     <td th:text="${weatherData.hourly.wind_speed_10m[i]}"></td>
                 </tr>
             </tbody>
