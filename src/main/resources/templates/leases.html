@@ -42,8 +42,8 @@
                 <tr th:each="lease : ${leases}">
                     <td th:text="${lease.leaseId}"></td>
                     <td th:text="${lease.property.propertyName}"></td>
-                    <td th:text="${#dates.format(lease.start_date, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${#dates.format(lease.end_date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(lease.startDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(lease.endDate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${lease.monthly_rent}"></td>
                     <td th:text="${lease.tenant_name}"></td>
                     <td>

@@ -83,7 +83,7 @@ public class LeaseService {
 
     private void updateLeaseFields(Lease existingLease, Lease updatedLease) {
         // Update fields based on your requirements
-        existingLease.setend_date(updatedLease.getend_date());
+        existingLease.setstart_date(updatedLease.getstart_date());
         existingLease.setend_date(updatedLease.getend_date());
         existingLease.setMonthlyRent(updatedLease.getMonthlyRent());
         existingLease.setTenantName(updatedLease.getTenantName());
