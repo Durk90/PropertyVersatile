@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <header>
         <h1>Property-Versatile</h1>
@@ -27,13 +28,69 @@
 
     <h1>Weather Data</h1>
 
+    <canvas id="weatherChart"></canvas>
+
     <p>Temperature: <span th:text="${weatherData.temperature_2m}"></span> °C</p>
     <p>Humidity: <span th:text="${weatherData.relative_humidity_2m}"></span>%</p>
     <p>Precipitation Probability: <span th:text="${weatherData.precipitation_probability}"></span>%</p>
     <p>Snowfall: <span th:text="${weatherData.snowfall}"></span> mm</p>
     <p>Snow Depth: <span th:text="${weatherData.snow_depth}"></span> cm</p>
     <p>Wind Speed: <span th:text="${weatherData.wind_speed_10m}"></span> m/s</p>
-    
+
+    <!-- JavaScript block -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get weather data from Thymeleaf model
+        var weatherData = /*[[${weatherData}]]*/ null;
+
+        // Check if weatherData is not null
+        if (weatherData) {
+            // Access individual properties
+            var temperature = weatherData.temperature_2m;
+            var humidity = weatherData.relative_humidity_2m;
+            var precipitationProbability = weatherData.precipitation_probability;
+            var snowfall = weatherData.snowfall;
+            var snowDepth = weatherData.snow_depth;
+            var windSpeed = weatherData.wind_speed_10m;
+
+            // Create a line chart
+            createChart(temperature, humidity, precipitationProbability, snowfall, snowDepth, windSpeed);
+        }
+    });
+
+    // Function to create and render the line chart
+    function createChart(temperature, humidity, precipitationProbability, snowfall, snowDepth, windSpeed) {
+        // Get the canvas element
+        var ctx = document.getElementById('weatherChart').getContext('2d');
+
+        // Create the chart
+        var myChart = new Chart(ctx, {
+            type: 'line', // Change the chart type to 'line'
+            data: {
+                labels: ['Temperature', 'Humidity', 'Precipitation Probability', 'Snowfall', 'Snow Depth', 'Wind Speed'],
+                datasets: [{
+                    label: 'Weather Data',
+                    data: [temperature, humidity, precipitationProbability, snowfall, snowDepth, windSpeed],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjust the color as needed
+                    borderColor: 'rgba(75, 192, 192, 1)', // Adjust the color as needed
+                    borderWidth: 1,
+                    fill: false // Ensure no fill under the line
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    /*]]>*/
+</script>
+
+
 </body>
 
 </html>
