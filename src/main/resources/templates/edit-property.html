@@ -25,9 +25,10 @@
     <main>
         <h2>Edit Property</h2>
         <!-- Form for editing the property details -->
-        <form th:action="@{/properties/{propertyId}/edit(propertyId=${property.propertyId})}" method="post"
-            th:object="${property}">
+        <form th:action="@{/properties/update}" method="post" th:object="${property}" class="property-form">
 
+            <!-- Add a hidden input for propertyId -->
+            <input type="hidden" id="propertyId" name="propertyId" th:field="*{propertyId}" />
 
             <label for="propertyName">Property Name:</label>
             <input type="text" id="propertyName" name="propertyName" th:field="*{propertyName}" required>
