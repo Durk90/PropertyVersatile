@@ -16,7 +16,7 @@ public class WeatherController {
     @Autowired
     private WeatherService weatherService;
 
-    @GetMapping("/weather")
+    @GetMapping
     public String getWeather(Model model) {
         double latitude = 52.52; // Replace with actual latitude
         double longitude = 13.41; // Replace with actual longitude
