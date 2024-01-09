@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property-Versatile - Weather Chart</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
-   
+
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 
     <nav>
         <a th:href="@{/index}">Home</a>
-        <a th:href="@{/properties}">Properties</a>        
+        <a th:href="@{/properties}">Properties</a>
         <a th:href="@{/maintenance}">Maintenance Requests</a>
         <a th:href="@{/weather}">Weather</a>
         <a th:href="@{/engineers}">Engineers</a>
@@ -26,7 +26,7 @@
     <h2>Temperature Chart</h2>
 
     <h1>Weather Data</h1>
-    
+
     <p>Temperature: <span th:text="${weatherData.temperature_2m}"></span> °C</p>
     <p>Humidity: <span th:text="${weatherData.relative_humidity_2m}"></span>%</p>
     <p>Precipitation Probability: <span th:text="${weatherData.precipitation_probability}"></span>%</p>
@@ -34,4 +34,5 @@
     <p>Snow Depth: <span th:text="${weatherData.snow_depth}"></span> cm</p>
     <p>Wind Speed: <span th:text="${weatherData.wind_speed_10m}"></span> m/s</p>
 </body>
+
 </html>
