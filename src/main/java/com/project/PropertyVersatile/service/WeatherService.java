@@ -1,24 +1,21 @@
 package com.project.PropertyVersatile.service;
 
-// WeatherService.java
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import com.project.PropertyVersatile.model.WeatherData;
 
 @Service
 public class WeatherService {
 
-    private static final String OPEN_METEO_API_URL = "https://api.open-meteo.com/v1/forecast";
+    private final String apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/retrievebulkdataset" +
+            "?key=9SN22472KDT63UN7MLCRYK4B9&taskId=6c9886f7fc7a15c78467b509d4423377&zip=false";
 
-    public WeatherData getWeatherData(double latitude, double longitude) {
-        String apiUrl = OPEN_METEO_API_URL +
-                "?latitude=" + latitude +
-                "&longitude=" + longitude +
-                "&current=temperature_2m,wind_speed_10m" +
-                "&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m";
+    private final RestTemplate restTemplate;
 
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(apiUrl, WeatherData.class);
+    public WeatherService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public String getWeatherData() {
+        return restTemplate.getForObject(apiUrl, String.class);
     }
 }
