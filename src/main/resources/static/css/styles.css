@@ -1,4 +1,8 @@
 body {
+    background-image: url('/images/jason-dent-w3eFhqXjkZE-unsplash.jpg'); /* https://unsplash.com/photos/white-and-blue-glass-walled-high-rise-building-w3eFhqXjkZE?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
