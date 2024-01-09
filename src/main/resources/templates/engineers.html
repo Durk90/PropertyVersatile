@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>LMC Map of Ireland</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <style>
+    body,
+    html {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #map {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .selected {
+      background-color: lightgreen;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <button id="Electricians"
+    style="position: absolute; top: 20px; right: 20px; padding: 10px; z-index: 400;">Electricians</button>
+
+  <button id="GeneralOperatives"
+    style="position: absolute; top: 70px; right: 20px; padding: 10px; z-index: 400;">General Ops</button>
+
+  <button id="Plumbers"
+    style="position: absolute; top: 120px; right: 20px; padding: 10px; z-index: 400;">Plumbers</button>
+
+  <button id="RGIPlumbers"
+    style="position: absolute; top: 170px; right: 20px; padding: 10px; z-index: 400;">RGI-Plumbers</button>
+
+  <button id="acs" style="position: absolute; top: 220px; right: 20px; padding: 10px; z-index: 400;">AC-HVAC</button>
+
+  <button id="anposts" style="position: absolute; top: 300px; right: 20px; padding: 10px; z-index: 400;">AnPost</button>
+
+  <button id="opws" style="position: absolute; top: 350px; right: 20px; padding: 10px; z-index: 400;">OPW</button>
+
+  <button id="ipss" style="position: absolute; top: 400px; right: 20px; padding: 10px; z-index: 400;">IPS</button>
+
+  <button id="hses" style="position: absolute; top: 450px; right: 20px; padding: 10px; z-index: 400;">HSE</button>
+
+  <button id="others" style="position: absolute; top: 500px; right: 20px; padding: 10px; z-index: 400;">Others</button>
+
+  <button id="ToggleElectriciansCircle"
+    style="position: absolute; top: 20px; right: 150px; padding: 10px; z-index: 400;">Toggle Radius</button>
+
+  <button id="ToggleGeneralOperativesCircle"
+    style="position: absolute; top: 70px; right: 150px; padding: 10px; z-index: 400;">Toggle Radius</button>
+
+  <button id="TogglePlumbersCircle"
+    style="position: absolute; top: 120px; right: 150px; padding: 10px; z-index: 400;">Toggle Radius</button>
+
+  <button id="ToggleRGIPlumbersCircle"
+    style="position: absolute; top: 170px; right: 150px; padding: 10px; z-index: 400;">Toggle Radius</button>
+
+  <button id="ToggleACCircle" style="position: absolute; top: 220px; right: 150px; padding: 10px; z-index: 400;">Toggle
+    Radius</button>
+
+  <button id="resetButton"
+    style="position: absolute; top: 580px; right: 20px; padding: 10px; z-index: 400; background-color: lightcoral;">RESET
+    ALL</button>
+
+
+  <script>
+    var map = L.map('map').setView([53.349805, -6.26031], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    //Sites and houses data***************************************************************************************************************************************************
+    var electricianMarker;
+    var electricianCircle;
+    var generaloperativeMarker;
+    var generaloperativeCircle;
+    var plumberMarker;
+    var plumberCircle;
+    var acMarker;
+    var acCircle;
+
+    var cities = [
+
+      //Site coordinates
+
+      //OPW***************************************************************************************************************************************************
+      { name: "	B318 Ballyshannon Marine Office	", coords: [54.501067122416, -8.18886602710038], color: "	red	", id: "	opw	" },
+      { name: "	B382 Belmullet GS	", coords: [54.22187859719011, -9.985568373888203], color: "	red	", id: "	opw	" },
+      { name: "	B389 Birr Garda Station	", coords: [53.096232859071506, -7.911466858147079], color: "	red	", id: "	opw	" },
+      { name: "	B4113 Leeson St Lower, 93-99	", coords: [53.33563076946578, -6.256025673476486], color: "	red	", id: "	opw	" },
+      { name: "	B559 Cahir GS	", coords: [52.376121715134595, -7.920278344689209], color: "	red	", id: "	opw	" },
+      { name: "	OPW B1896 Gorey GS	", coords: [52.67526428748429, -6.297004687003528], color: "	red	", id: "	opw	" },
+      { name: "	OPW B1957 OPW GURTEEN GARDA STATION BOYLE - TUBBERCURRY ROAD, GURTEEN,	", coords: [53.99315018427041, -8.515858488784728], color: "	red	", id: "	opw	" },
+      { name: "	OPW B3380 Sligo Government - Cranmore	", coords: [54.268056743148904, -8.463665992746172], color: "	red	", id: "	opw	" },
+      { name: "	OPW Ballycastle B8373	", coords: [55.20698907372414, -6.252949347546789], color: "	red	", id: "	opw	" },
+      { name: "	OPW BALLYMAHON GARDA STATION	", coords: [53.56141359523403, -7.760758871617459], color: "	red	", id: "	opw	" },
+      { name: "	OPW Ballymoate GS	", coords: [54.08766938286144, -8.515136286932277], color: "	red	", id: "	opw	" },
+      { name: "	OPW Buncrana GS	", coords: [55.13177211343562, -7.450523988726407], color: "	red	", id: "	opw	" },
+      { name: "	OPW Castletownbere GS	", coords: [51.64966010901205, -9.914687344237535], color: "	red	", id: "	opw	" },
+      { name: "	OPW CLONARK GARDA STATION GARAGE	", coords: [53.368512198468835, -8.034610473474835], color: "	red	", id: "	opw	" },
+      { name: "	OPW ELPHIN GARDA STATION	", coords: [53.845282214408805, -8.20211514461535], color: "	red	", id: "	opw	" },
+      { name: "	OPW Furbo Arts, Heritage & The Gaeltacht	", coords: [53.250158481227174, -9.201613059986954], color: "	red	", id: "	opw	" },
+      { name: "	OPW Glenbeigh GS	", coords: [52.057250212837516, -9.937110417717328], color: "	red	", id: "	opw	" },
+      { name: "	OPW Innishannon GS	", coords: [51.76491611125846, -8.656472815884158], color: "	red	", id: "	opw	" },
+      { name: "	OPW Killarney Park (Social Protection)	", coords: [52.05791442943561, -9.509997157956942], color: "	red	", id: "	opw	" },
+      { name: "	OPW Letterkenny Garda Station	", coords: [55.1054801409933, -7.757721238925195], color: "	red	", id: "	opw	" },
+      { name: "	OPW Mill Street Garda Station	", coords: [53.271592787520255, -9.057397373479732], color: "	red	", id: "	opw	" },
+      { name: "	OPW Monaghan DSP	", coords: [53.27158637143353, -9.057386644644353], color: "	red	", id: "	opw	" },
+      { name: "	OPW Mullingar West Drainage HQ	", coords: [53.53504302205152, -7.34889348591183], color: "	red	", id: "	opw	" },
+      { name: "	OPW Oranmore GS	", coords: [53.27216519636687, -8.931719940949032], color: "	red	", id: "	opw	" },
+      { name: "	OPW Pearse St. GC	", coords: [53.345778341642855, -6.256225688817496], color: "	red	", id: "	opw	" },
+      { name: "	OPW Revenue Rosslare Port Terminal	", coords: [52.25356717582644, -6.3363111753783405], color: "	red	", id: "	opw	" },
+      { name: "	OPW Swords CSO	", coords: [53.46932019998144, -6.217191159975891], color: "	red	", id: "	opw	" },
+      { name: "	OPW Tuam	", coords: [53.515793757100084, -8.855710461821179], color: "	red	", id: "	opw	" },
+      { name: "	OPW Valentia Marine Rescue Sub Stn.	", coords: [51.930457186835305, -10.349142071699072], color: "	red	", id: "	opw	" },
+      { name: "	B607 Carraroe GS	", coords: [53.2644131813683, -9.600409646492341], color: "	red	", id: "	opw	" },
+      { name: "	B998 Dun Laoghaire Probation & Welfare Service	", coords: [53.40106413829135, -6.300172602985178], color: "	red	", id: "	opw	" },
+      { name: "	B5117 Dun Laoghaire GS & Courthouse	", coords: [53.290232785010915, -6.13334227347882], color: "	red	", id: "	opw	" },
+      { name: "	B3937 Dun Laoghaire SWO + FÁS	", coords: [53.29568178262987, -6.143759205971672], color: "	red	", id: "	opw	" },
+      { name: "	OPW Glencree Centre for Peace and Reconciliation	", coords: [53.19931557271323, -6.292301000471114], color: "	red	", id: "	opw	" },
+      { name: "	OPW Glendalough Visitor Centre	", coords: [53.010576641883034, -6.324078544657483], color: "	red	", id: "	opw	" },
+      { name: "	 B1262 Enniskerry GS + RAX	", coords: [53.191442050236354, -6.16936608697762], color: "	red	", id: "	opw	" },
+      { name: "	B8296 Block D Bray Civic Centre (Courts)	", coords: [53.20156953820102, -6.108520244647882], color: "	red	", id: "	opw	" },
+      { name: "	B8296 Block D Bray Civic Centre (SWO)	", coords: [53.20156953820102, -6.108520244647882], color: "	red	", id: "	opw	" },
+      { name: "	B2343 Leeson St Lower 93-99 Office Block	", coords: [53.33569483413192, -6.256057859982621], color: "	red	", id: "	opw	" },
+      { name: "	B4112 Leeson St Lower 93-99 Nurses Home	", coords: [53.33569483413192, -6.256057859982621], color: "	red	", id: "	opw	" },
+      { name: "	B2566 Merrion Square 44-45	", coords: [53.33916878532062, -6.24994028697019], color: "	red	", id: "	opw	" },
+      { name: "	B2570 Merrion Square 73	", coords: [53.33916878532062, -6.24994028697019], color: "	red	", id: "	opw	" },
+      { name: "	B826 Clontarf GS	", coords: [53.363527313498516, -6.220328390664223], color: "	red	", id: "	opw	" },
+      { name: "	B5092 Beggars Bush Museum Store	", coords: [53.34860828109448, -6.248087004158879], color: "	red	", id: "	opw	" },
+      { name: "	B445 Bridewell Garda Station	", coords: [53.34722628607686, -6.274388473475928], color: "	red	", id: "	opw	" },
+      { name: "	B3401 Smithfield Childrens Court	", coords: [53.34798076480711, -6.2779072888173815], color: "	red	", id: "	opw	" },
+      { name: "	B544 Navan Road SWO	", coords: [53.36197192721153, -6.301295898878983], color: "	red	", id: "	opw	" },
+      { name: "	B1926 Green Street Courthouse	", coords: [53.349412747248195, -6.270466975323443], color: "	red	", id: "	opw	" },
+      { name: "	B236 Merchants House	", coords: [53.34561429710238, -6.275638306659655], color: "	red	", id: "	opw	" },
+      { name: "	OPW Irish National War Memorial Gardens	", coords: [53.345559272081914, -6.317249302311388], color: "	red	", id: "	opw	" },
+      { name: "	B3199 Rathfarnham GS	", coords: [53.297516028583026, -6.288213375326081], color: "	red	", id: "	opw	" },
+      { name: "	B770 Rathfarnham Castle	", coords: [53.29823135094627, -6.284070284944667], color: "	red	", id: "	opw	" },
+      { name: "	B1190 Dundrum Central Mental Hospital	", coords: [53.312168908405006, -6.2478438547085515], color: "	red	", id: "	opw	" },
+      { name: "	OPW Department of Agriculrture, Food and the Marine	", coords: [53.358247076526794, -6.195777120559456], color: "	red	", id: "	opw	" },
+      { name: "	B6206 Clondalkin SWO Ninth Lock Road	", coords: [53.32320131679697, -6.394359083444132], color: "	red	", id: "	opw	" },
+      { name: "	OPW Intreo Centre Tallaght	", coords: [53.286703662666156, -6.369578346491257], color: "	red	", id: "	opw	" },
+      { name: "	B8858 Geological Survey Ireland Labs	", coords: [53.29721695404799, -6.415967859984553], color: "	red	", id: "	opw	" },
+      { name: "	B8762 Swiss Cottage	", coords: [53.396098704646114, -6.244816844638052], color: "	red	", id: "	opw	" },
+      { name: "	B779 Clogheen GS	", coords: [52.27723905218978, -7.995055731200309], color: "	red	", id: "	opw	" },
+      { name: "	B4330 Cashel GS Bldg Comp RAX	", coords: [52.51650353585393, -7.890600188859074], color: "	red	", id: "	opw	" },
+      { name: "	B613 Carrick On Suir GS	", coords: [52.494710030874046, -8.159341978394515], color: "	red	", id: "	opw	" },
+      { name: "	B8351 Davis St Gov Offices Tipp Town	", coords: [52.47510563215906, -8.164891461873461], color: "	red	", id: "	opw	" },
+      { name: "	OPW Thurles Garda Station	", coords: [52.67583858043378, -7.811942417686511], color: "	red	", id: "	opw	" },
+      { name: "	B3747 Templetuohy GS & MQ	", coords: [52.790429921858035, -7.720103731174662], color: "	red	", id: "	opw	" },
+      { name: "	OPW Templemore Garda College	", coords: [52.79684676030928, -7.835065888845088], color: "	red	", id: "	opw	" },
+      { name: "	B8371 Thurles Garda Fines Offices	", coords: [52.6807833872907, -7.815013109879485], color: "	red	", id: "	opw	" },
+      { name: "	B421 Borrisokane GS	", coords: [52.99652133290939, -8.127764946505845], color: "	red	", id: "	opw	" },
+      { name: "	OPW B8425 Nenagh Justice Office	", coords: [52.862650208446134, -8.199189632025663], color: "	red	", id: "	opw	" },
+      { name: "	B2713 Nenagh GS	", coords: [52.86442814411996, -8.199570973500178], color: "	red	", id: "	opw	" },
+      { name: "	B463 Nenagh Courthouse	", coords: [52.86518008014852, -8.200496017677041], color: "	red	", id: "	opw	" },
+      { name: "	B527 Roscrea Castle,	", coords: [52.95511298663485, -7.7980934600017555], color: "	red	", id: "	opw	" },
+      { name: "	B8620 The Black Mill	", coords: [52.95573778657354, -7.796199173495623], color: "	red	", id: "	opw	" },
+      { name: "	B8014 Roscrea SWO	", coords: [52.95358502590561, -7.797540569803431], color: "	red	", id: "	opw	" },
+      { name: "	B819 Clonmel GS	", coords: [52.354332289445466, -7.700080331673529], color: "	red	", id: "	opw	" },
+      { name: "	B818 Clonmel Gov Off & Model School	", coords: [52.35488952785867, -7.714960795025009], color: "	red	", id: "	opw	" },
+      { name: "	B8767 The Main Guard	", coords: [52.353075234351586, -7.70148974658074], color: "	red	", id: "	opw	" },
+      { name: "	B3708 Swinford GS	", coords: [53.94430737374704, -8.950306444275466], color: "	red	", id: "	opw	" },
+      { name: "	OPW Claremorris GS	", coords: [53.722417940673125, -9.000398148367502], color: "	red	", id: "	opw	" },
+      { name: "	B0288 Castlebar Courthouse	", coords: [53.853977250796284, -9.29707667719716], color: "	red	", id: "	opw	" },
+      { name: "	B381 Belmullet SWO	", coords: [54.22552673854892, -9.987385859932177], color: "	red	", id: "	opw	" },
+      { name: "	B965 Crossmolina GS	", coords: [54.09989498615885, -9.322732401124464], color: "	red	", id: "	opw	" },
+      { name: "	B1848 Glenamoy GS & MQ	", coords: [54.24091956672808, -9.678888859982981], color: "	red	", id: "	opw	" },
+      { name: "	B2632 Ballina Moy Drainage HQ	", coords: [54.09569013578465, -9.1652557214079], color: "	red	", id: "	opw	" },
+      { name: "	OPW CEIDE FIELDS VISITOR CENTRE	", coords: [54.30719248454656, -9.457623244635998], color: "	red	", id: "	opw	" },
+      { name: "	B417 Bonniconlon GS & MQ	", coords: [54.10966757559458, -9.028746629301683], color: "	red	", id: "	opw	" },
+      { name: "	B8320 Unit 2 Ballina RSA HQ	", coords: [54.1074031223719, -9.165617313461942], color: "	red	", id: "	opw	" },
+      { name: "	B8414 Unit 3 Ballina RSA HQ	", coords: [54.1074031223719, -9.165617313461942], color: "	red	", id: "	opw	" },
+      { name: "	B8415 Unit 4 Ballina RSA HQ	", coords: [54.1074031223719, -9.165617313461942], color: "	red	", id: "	opw	" },
+      { name: "	B8440 Unit 5 Ballina RSA HQ	", coords: [54.1074031223719, -9.165617313461942], color: "	red	", id: "	opw	" },
+      { name: "	B8348 Ballycroy NP Visitor Centre	", coords: [54.02475965270029, -9.823156006118866], color: "	red	", id: "	opw	" },
+      { name: "	B3892 Westport GS	", coords: [53.81924891314314, -9.517033807333455], color: "	red	", id: "	opw	" },
+      { name: "	B8347 Ballycroy National Park HQ	", coords: [54.02454838161056, -9.823302075606561], color: "	red	", id: "	opw	" },
+      { name: "	B194 Ballinrobe GS	", coords: [53.624852461230375, -9.226448304192408], color: "	red	", id: "	opw	" },
+      { name: "	B278 Ballyhaunis GS & MQ	", coords: [53.76411599515882, -8.767386473498048], color: "	red	", id: "	opw	" },
+      { name: "	B3261 Roscommon GS	", coords: [53.62948166849085, -8.192521490700038], color: "	red	", id: "	opw	" },
+      { name: "	B8370 Roscommon Gov Offices	", coords: [53.6238057513548, -8.186738806427481], color: "	red	", id: "	opw	" },
+      { name: "	B823 Roscommon Courthouse	", coords: [53.629796376639284, -8.192784973504496], color: "	red	", id: "	opw	" },
+      { name: "	OPW Castlerea Garda Station & MQ	", coords: [53.76667606195697, -8.484079915826062], color: "	red	", id: "	opw	" },
+      { name: "	OPW B8714 Parks Castle	", coords: [54.265135352613065, -8.334128159901452], color: "	red	", id: "	opw	" },
+      { name: "	OPW Sligo Courthouse	", coords: [54.26997831310937, -8.471913096754628], color: "	red	", id: "	opw	" },
+      { name: "	B8105 The Building Block Sligo	", coords: [54.27208709057717, -8.471992735676382], color: "	red	", id: "	opw	" },
+      { name: "	B2583 Milford GS	", coords: [55.15451635837139, -7.68169473148066], color: "	red	", id: "	opw	" },
+      { name: "	B2356 Letterkenny Gov Office	", coords: [54.955102651069076, -7.734729143490172], color: "	red	", id: "	opw	" },
+      { name: "	B2360 Letterkenny Driving Test Centre (RSA)	", coords: [54.94748644342368, -7.7359307745300505], color: "	red	", id: "	opw	" },
+      { name: "	B8448 Bunbeg GS Pagoda Building	", coords: [55.140717551159376, -7.451899298308805], color: "	red	", id: "	opw	" },
+      { name: "	OPW B208218 Letterkenny Probation & Welfare Service	", coords: [54.9482923650427, -7.738456566776396], color: "	red	", id: "	opw	" },
+      { name: "	B949 Creeslough GS & MQ	", coords: [55.12547050225771, -7.912454859940028], color: "	red	", id: "	opw	" },
+      { name: "	B0540 Glenveagh National Park	", coords: [55.05773515186994, -7.9376761734354515], color: "	red	", id: "	opw	" },
+      { name: "	B4640 Castlefin GS & RAX	", coords: [54.80293604105283, -7.595172344611907], color: "	red	", id: "	opw	" },
+      { name: "	OPW Buncrana DSP office	", coords: [55.13460565080759, -7.4536740433497775], color: "	red	", id: "	opw	" },
+      { name: "	B0112 Buncrana Courthouse	", coords: [55.13408443725405, -7.4534430752834435], color: "	red	", id: "	opw	" },
+      { name: "	B4672 Moville GS + SWO	", coords: [55.069127070675044, -7.268627489962762], color: "	red	", id: "	opw	" },
+      { name: "	B8138 Muff Temp GS	", coords: [55.06902877936044, -7.26879915133806], color: "	red	", id: "	opw	" },
+      { name: "	B976 Culdaff Fmr GS & MQ	", coords: [55.286501749823756, -7.164617505136052], color: "	red	", id: "	opw	" },
+      { name: "	B8699 Butt Hall	", coords: [54.800784050851725, -7.779234082235565], color: "	red	", id: "	opw	" },
+      { name: "	B8653 Killybegs CGS	", coords: [54.65288756779876, -8.449885469886878], color: "	red	", id: "	opw	" },
+      { name: "	B1873 Glenties GS	", coords: [54.79566672390222, -8.281106777151624], color: "	red	", id: "	opw	" },
+      { name: "	B1096 Donegal Town GS	", coords: [54.65246757782997, -8.111061317634991], color: "	red	", id: "	opw	" },
+      { name: "	B4678 Pettigo GS + 2no. MQ	", coords: [54.54860213565879, -7.834880636400493], color: "	red	", id: "	opw	" },
+      { name: "	B472 Bundoran GS & MQ	", coords: [54.47673335362008, -8.27938631764348], color: "	red	", id: "	opw	" },
+      { name: "	OPW Monaghan GS	", coords: [54.26813695294684, -6.976581538623347], color: "	red	", id: "	opw	" },
+      { name: "	B8316 Loughrea Transport & RSA	", coords: [53.199664998420616, -8.56615791415894], color: "	red	", id: "	opw	" },
+      { name: "	B1779 Galway Defence Finance Branch	", coords: [53.27397487399066, -9.030721452726981], color: "	red	", id: "	opw	" },
+      { name: "	B8086 Galway Education Office	", coords: [53.28297306290987, -9.025436150908739], color: "	red	", id: "	opw	" },
+      { name: "	B138 Balbriggan GS	", coords: [53.61488535039217, -6.1914502737866774], color: "	red	", id: "	opw	" },
+      { name: "	B6323 Athlone Garda Station	", coords: [53.42350667068241, -7.944477017694125], color: "	red	", id: "	opw	" },
+      { name: "	B5099 Carrick-On-Shannon GS	", coords: [53.944514083162744, -8.090115615817487], color: "	red	", id: "	opw	" },
+      { name: "	B620 Carrick on Shannon SWO (Leitrim Rd)	", coords: [53.94852104292668, -8.092304544272162], color: "	red	", id: "	opw	" },
+      { name: "	OPW B1145 Drumshambo GS & MQ	", coords: [54.04662945640321, -8.039920858140652], color: "	red	", id: "	opw	" },
+      { name: "	B8322 Carrick on Shannon Dcnt SWO	", coords: [53.94438222265962, -8.09015776755628], color: "	red	", id: "	opw	" },
+      { name: "	OPW DOWRA GARDA STATION SHANNON BRIDGE	", coords: [54.190628187434875, -8.01528145998538], color: "	red	", id: "	opw	" },
+      { name: "	B5098 Carrick on Shannon Gov Office	", coords: [53.94489688271682, -8.090735252212097], color: "	red	", id: "	opw	" },
+      { name: "	B960 Crosshaven MES (Boathouse)	", coords: [53.94484636591654, -8.090863998243572], color: "	red	", id: "	opw	" },
+      { name: "	B0253 Dinish Island CGS	", coords: [51.64994387479652, -9.899515130670721], color: "	red	", id: "	opw	" },
+      { name: "	B8001 Emo Court	", coords: [53.107367771656484, -7.19685750236536], color: "	red	", id: "	opw	" },
+      { name: "	B1224 Durrow GS	", coords: [52.8444171124636, -7.395957987034012], color: "	red	", id: "	opw	" },
+      { name: "	B8352 Tullamore SWO Castle Buildings	", coords: [53.27298917410143, -7.496154346537243], color: "	red	", id: "	opw	" },
+      { name: "	B8568 Edenderry ESO National Contact Centre	", coords: [53.35017043529939, -7.053637675419199], color: "	red	", id: "	opw	" },
+      { name: "	B8279 Carlow Education Office	", coords: [52.83991351267278, -6.928493607025732], color: "	red	", id: "	opw	" },
+      { name: "	B1112 Altamont House	", coords: [52.73589620769325, -6.720808344711025], color: "	red	", id: "	opw	" },
+      { name: "	B884 Cork C&E Centerpoint	", coords: [51.89893795412691, -8.449945853766145], color: "	red	", id: "	opw	" },
+      { name: "	B917 Blackrock GS Cork	", coords: [51.89450237346869, -8.404343071734798], color: "	red	", id: "	opw	" },
+      { name: "	B8153 Cork Education Office	", coords: [51.89600580609101, -8.48972936988299], color: "	red	", id: "	opw	" },
+      { name: "	B896 Hibernian House	", coords: [51.897804321859, -8.469444553766774], color: "	red	", id: "	opw	" },
+      { name: "	B8436 Cork HIQA Decentral Offices	", coords: [51.886607668961, -8.404825844750894], color: "	red	", id: "	opw	" },
+      { name: "	B552 Caherciveen Government Offices	", coords: [51.95040517025044, -10.223509777008442], color: "	red	", id: "	opw	" },
+      { name: "	B549 Caherciveen Garda Station	", coords: [51.94703606665815, -10.220288946599764], color: "	red	", id: "	opw	" },
+      { name: "	OPW Castleisland GS HQ	", coords: [52.231323625782814, -9.467519061930291], color: "	red	", id: "	opw	" },
+      { name: "	OPW Killarney House	", coords: [52.0571750555364, -9.508587638303679], color: "	red	", id: "	opw	" },
+      { name: "	OPW Killarney Justice Accounts	", coords: [52.06614570192841, -9.495087545703672], color: "	red	", id: "	opw	" },
+      { name: "	B2748 Newport GS	", coords: [53.95979995323427, -9.5816897974344], color: "	red	", id: "	opw	" },
+      { name: "	B2743 Newmarket On Fergus GS & MQ	", coords: [52.76331569889104, -8.899082115873789], color: "	red	", id: "	opw	" },
+      { name: "	B8494 Leixlip GS	", coords: [53.367627907460715, -6.498295087009149], color: "	red	", id: "	opw	" },
+      { name: "	OPW Waterford Garda Station	", coords: [52.26041380836213, -7.115253088913168], color: "	red	", id: "	opw	" },
+      { name: "	B3868 Waterford OPW Office	", coords: [52.25809748216943, -7.1071780921215115], color: "	red	", id: "	opw	" },
+
+
+      //AnPost***************************************************************************************************************************************************
+      { name: "	Andrews Street Branch Office	", coords: [53.343957287379006, -6.261370558174309], color: "	green	", id: "	anpost	" },
+      { name: "	Arklow Branch Office	", coords: [52.79893834662102, -6.155888629807446], color: "	green	", id: "	anpost	" },
+      { name: "	Arklow DSU	", coords: [52.79047986546375, -6.16218800706332], color: "	green	", id: "	anpost	" },
+      { name: "	Athenry DSU	", coords: [53.29889078822972, -8.7449572311922], color: "	green	", id: "	anpost	" },
+      { name: "	Athlone Branch Office	", coords: [53.42401186909755, -7.944117052612104], color: "	green	", id: "	anpost	" },
+      { name: "	Athy Branch Office	", coords: [52.99189739011575, -6.986495000519151], color: "	green	", id: "	anpost	" },
+      { name: "	Athy DSU	", coords: [52.99268686939767, -7.0011467915658905], color: "	green	", id: "	anpost	" },
+      { name: "	Balbriggan DSU	", coords: [53.60604041402323, -6.18831573712888], color: "	green	", id: "	anpost	" },
+      { name: "	Balbriggan Old	", coords: [53.29366513562866, -6.439264914087151], color: "	green	", id: "	anpost	" },
+      { name: "	Baldoyle DSU	", coords: [53.39783484113234, -6.149458321944508], color: "	green	", id: "	anpost	" },
+      { name: "	Ballina DSU	", coords: [54.11298545947699, -9.156116836738276], color: "	green	", id: "	anpost	" },
+      { name: "	Ballinasloe Branch Office	", coords: [53.33005829224526, -8.221199921996442], color: "	green	", id: "	anpost	" },
+      { name: "	Ballinasloe DSU	", coords: [53.31842380161488, -8.220288222005141], color: "	green	", id: "	anpost	" },
+      { name: "	Ballincollig DSU	", coords: [51.890043923170445, -8.61139372308506], color: "	green	", id: "	anpost	" },
+      { name: "	Ballinrobe DSU	", coords: [53.62310977737312, -9.222705021771953], color: "	green	", id: "	anpost	" },
+      { name: "	Ballyfermot DSU	", coords: [53.32279606547935, -6.36682143734574], color: "	green	", id: "	anpost	" },
+      { name: "	Ballyfermot Holly Road	", coords: [53.32282169906806, -6.366864352689564], color: "	green	", id: "	anpost	" },
+      { name: "	Ballyhaunis Branch Office	", coords: [53.765300676226815, -8.762522396024902], color: "	green	", id: "	anpost	" },
+      { name: "	Ballyhaunis New DSU	", coords: [53.7618183450936, -8.769189433021783], color: "	green	", id: "	anpost	" },
+      { name: "	Ballymote DSU	", coords: [54.0891898244072, -8.516334944163585], color: "	green	", id: "	anpost	" },
+      { name: "	Bandon DSU	", coords: [51.74756263596124, -8.735233077159988], color: "	green	", id: "	anpost	" },
+      { name: "	Bannow Rd (Phisborough New) DSU	", coords: [53.37135524134192, -6.293070867996424], color: "	green	", id: "	anpost	" },
+      { name: "	Bantry DSU	", coords: [51.67927481506314, -9.451623453929868], color: "	green	", id: "	anpost	" },
+      { name: "	Belturbet DSU	", coords: [54.10108737972117, -7.444452206059982], color: "	green	", id: "	anpost	" },
+      { name: "	Birr DSU	", coords: [53.096641315533375, -7.910206237518164], color: "	green	", id: "	anpost	" },
+      { name: "	Blackpool Post Office	", coords: [51.91442998396442, -8.472302623066772], color: "	green	", id: "	anpost	" },
+      { name: "	Blackrock DSU	", coords: [53.096641315533375, -7.910549560268762], color: "	green	", id: "	anpost	" },
+      { name: "	Blanchardstown Branch Office	", coords: [53.39340846739715, -6.390051691260174], color: "	green	", id: "	anpost	" },
+      { name: "	Blanchardstown D15 DSU	", coords: [53.38476141079781, -6.39787010661056], color: "	green	", id: "	anpost	" },
+      { name: "	Boyle Branch Office	", coords: [53.971966572106055, -8.29993270417573], color: "	green	", id: "	anpost	" },
+      { name: "	Boyle DSU	", coords: [53.97655780318812, -8.292753136843915], color: "	green	", id: "	anpost	" },
+      { name: "	Bray Branch Office	", coords: [53.2051469754552, -6.106890460716342], color: "	green	", id: "	anpost	" },
+      { name: "	Bray DSU	", coords: [53.20571116634608, -6.107978383466716], color: "	green	", id: "	anpost	" },
+      { name: "	Bray LFO DSU	", coords: [53.18722360833252, -6.103807414168335], color: "	green	", id: "	anpost	" },
+      { name: "	Broomhill Estate  Branch Office	", coords: [53.29833227960145, -6.358860860645217], color: "	green	", id: "	anpost	" },
+      { name: "	Caherciveen DSU	", coords: [51.94818654172849, -10.223694915104426], color: "	green	", id: "	anpost	" },
+      { name: "	Cahir DSU	", coords: [52.37645132905221, -7.92490553806371], color: "	green	", id: "	anpost	" },
+      { name: "	Cahir TPU	", coords: [52.38537524855954, -7.931078331235388], color: "	green	", id: "	anpost	" },
+      { name: "	Carlow Branch Office	", coords: [52.83615525517535, -6.93186433030926], color: "	green	", id: "	anpost	" },
+      { name: "	Carlow DSU	", coords: [52.84382922450886, -6.934992899085676], color: "	green	", id: "	anpost	" },
+      { name: "	Carrick On Suir Brnach Office	", coords: [52.34578860174984, -7.412418788909186], color: "	green	", id: "	anpost	" },
+      { name: "	Carrickmacross DSU	", coords: [53.97640238674723, -6.709886929437203], color: "	green	", id: "	anpost	" },
+      { name: "	Carrick-on-Shannon DSU	", coords: [53.94597236578949, -8.096093190835983], color: "	green	", id: "	anpost	" },
+      { name: "	Carrick-on-Shannon TPU	", coords: [53.94931859096477, -8.067540252208454], color: "	green	", id: "	anpost	" },
+      { name: "	Carrick-on-Suir DSU	", coords: [52.35131751982703, -7.419549768770255], color: "	green	", id: "	anpost	" },
+      { name: "	Carrigaline  - Kilnagleary DSU	", coords: [51.810911076757314, -8.382785031081081], color: "	green	", id: "	anpost	" },
+      { name: "	Carrigaline TPU	", coords: [51.809352166498904, -8.38664797906759], color: "	green	", id: "	anpost	" },
+      { name: "	Cashel DSU	", coords: [52.516495832762395, -7.890520122614278], color: "	green	", id: "	anpost	" },
+      { name: "	Cashel TPU	", coords: [52.51479938645211, -7.890665521810895], color: "	green	", id: "	anpost	" },
+      { name: "	Castlebar Branch Office	", coords: [53.855581250518746, -9.30241115228096], color: "	green	", id: "	anpost	" },
+      { name: "	Castlebar New DSU	", coords: [53.85628319013154, -9.272818252280246], color: "	green	", id: "	anpost	" },
+      { name: "	Castleblaney DSU	", coords: [54.12102985148788, -6.736868228795166], color: "	green	", id: "	anpost	" },
+      { name: "	Castlerea DSU	", coords: [53.991179375081444, -7.360779152176131], color: "	green	", id: "	anpost	" },
+      { name: "	Cavan DSU	", coords: [53.9916082888334, -7.360650406144656], color: "	green	", id: "	anpost	" },
+      { name: "	Charleville DSU	", coords: [52.354203016503725, -8.68264719151872], color: "	green	", id: "	anpost	" },
+      { name: "	Churchtown D14 DSU	", coords: [53.297145090275926, -6.260436937365297], color: "	green	", id: "	anpost	" },
+      { name: "	CHURCHTOWN LFO/Annex	", coords: [53.29308705090891, -6.258545845305599], color: "	green	", id: "	anpost	" },
+      { name: "	Claremorrisn DSU	", coords: [53.72108077205218, -8.996952629103301], color: "	green	", id: "	anpost	" },
+      { name: "	Clifden DSU	", coords: [53.48881514943228, -10.01384467584332], color: "	green	", id: "	anpost	" },
+      { name: "	Clonakility DSU	", coords: [51.62307223006233, -8.891556092066196], color: "	green	", id: "	anpost	" },
+      { name: "	Clonakilty Back Office	", coords: [51.62307223006233, -8.891556092066196], color: "	green	", id: "	anpost	" },
+      { name: "	Clondalkin Retail Office	", coords: [53.32344102334039, -6.3955384913136895], color: "	green	", id: "	anpost	" },
+      { name: "	Clonmel DSU	", coords: [52.35539978110703, -7.699690207391876], color: "	green	", id: "	anpost	" },
+      { name: "	Clonshaugh D17 DSU	", coords: [53.406826922487014, -6.221140867969226], color: "	green	", id: "	anpost	" },
+      { name: "	Cobh DSU	", coords: [51.86218906402216, -8.297019838449673], color: "	green	", id: "	anpost	" },
+      { name: "	Cootehill DSU	", coords: [54.07546754831634, -7.079386182798846], color: "	green	", id: "	anpost	" },
+      { name: "	Cork Branch Office (G P O)	", coords: [51.89843552290713, -8.470737930485527], color: "	green	", id: "	anpost	" },
+      { name: "	Cork Mail Centre	", coords: [51.9080851854235, -8.348889838415214], color: "	green	", id: "	anpost	" },
+      { name: "	Cork Northside(Churchfield) DSU	", coords: [51.91208840324191, -8.492159531005406], color: "	green	", id: "	anpost	" },
+      { name: "	Cork Southside DSU	", coords: [51.87378736470458, -8.477575307223042], color: "	green	", id: "	anpost	" },
+      { name: "	Crumlin D12 DSU	", coords: [53.32092261904484, -6.315812852690951], color: "	green	", id: "	anpost	" },
+      { name: "	Donegal DSU	", coords: [54.65630615543547, -8.109724674941454], color: "	green	", id: "	anpost	" },
+      { name: "	Douglas Post Office	", coords: [51.87897420752495, -8.431776115156199], color: "	green	", id: "	anpost	" },
+      { name: "	Drogheda Branch Office	", coords: [53.71546595114862, -6.354235398420111], color: "	green	", id: "	anpost	" },
+      { name: "	Drogheda DSU	", coords: [53.71107610710727, -6.371551475672945], color: "	green	", id: "	anpost	" },
+      { name: "	Dun Laoghaire Branch Office	", coords: [53.29221701264068, -6.133979037369189], color: "	green	", id: "	anpost	" },
+      { name: "	Dun Laoghaire DSU	", coords: [53.2778430361056, -6.133013715849393], color: "	green	", id: "	anpost	" },
+      { name: "	Dundalk Branch Office	", coords: [54.00533601015811, -6.402717067509105], color: "	green	", id: "	anpost	" },
+      { name: "	Dundalk DSU	", coords: [54.003714717989766, -6.406796006135135], color: "	green	", id: "	anpost	" },
+      { name: "	Dungarvan DSU	", coords: [52.09093668513494, -7.62038813827828], color: "	green	", id: "	anpost	" },
+      { name: "	Dungarvan TPU	", coords: [52.09093668513494, -7.62038813827828], color: "	green	", id: "	anpost	" },
+      { name: "	Dunshaughlin DSU	", coords: [53.5062462786435, -6.539367483236777], color: "	green	", id: "	anpost	" },
+      { name: "	Edmonstown D16 DSU	", coords: [53.27672150009539, -6.296404722037026], color: "	green	", id: "	anpost	" },
+      { name: "	Enfield DSU	", coords: [53.41772771392352, -6.8331902219292795], color: "	green	", id: "	anpost	" },
+      { name: "	Ennis Branch Office	", coords: [52.84558437385111, -8.984956414428284], color: "	green	", id: "	anpost	" },
+      { name: "	Ennis DSU	", coords: [52.861170890150355, -8.98469596097819], color: "	green	", id: "	anpost	" },
+      { name: "	Enniscorthy Branch Office	", coords: [52.5012122214376, -6.566724037969618], color: "	green	", id: "	anpost	" },
+      { name: "	Enniscorthy DSU	", coords: [52.50781205938011, -6.578369814683621], color: "	green	", id: "	anpost	" },
+      { name: "	EXO Building	", coords: [53.348242526081876, -6.227828413811806], color: "	green	", id: "	anpost	" },
+      { name: "	Fairview D3 DSU	", coords: [53.36700368584163, -6.241600152655711], color: "	green	", id: "	anpost	" },
+      { name: "	Fermoy New DSU	", coords: [52.146029561685104, -8.28361929220562], color: "	green	", id: "	anpost	" },
+      { name: "	Finglas D11 DSU	", coords: [53.398244113575785, -6.298674321944229], color: "	green	", id: "	anpost	" },
+      { name: "	Fonthill DSU	", coords: [53.35103894157853, -6.408702221980257], color: "	green	", id: "	anpost	" },
+      { name: "	Fortfield D6W DSU	", coords: [53.31147224550471, -6.302513368041958], color: "	green	", id: "	anpost	" },
+      { name: "	Foxrock D18 DSU	", coords: [53.25638823920642, -6.188993344803464], color: "	green	", id: "	anpost	" },
+      { name: "	Galway Area Mails Office	", coords: [53.274576234803476, -9.052397383413977], color: "	green	", id: "	anpost	" },
+      { name: "	Galway Branch Office	", coords: [53.28257516640613, -9.040544814095457], color: "	green	", id: "	anpost	" },
+      { name: "	Galway DSU	", coords: [53.298769221752075, -9.00672846064493], color: "	green	", id: "	anpost	" },
+      { name: "	Glenageary DSU	", coords: [53.278933726721434, -6.136411783410531], color: "	green	", id: "	anpost	" },
+      { name: "	Gorey Branch Office	", coords: [52.675172690557325, -6.295188968525912], color: "	green	", id: "	anpost	" },
+      { name: "	Gorey DSU	", coords: [52.67641509123902, -6.281112991805767], color: "	green	", id: "	anpost	" },
+      { name: "	GPO Branch Office	", coords: [53.34979287194783, -6.260530091293572], color: "	green	", id: "	anpost	" },
+      { name: "	Greystones DSU	", coords: [53.1466045126667, -6.061894314729731], color: "	green	", id: "	anpost	" },
+      { name: "	Harmonstown D5 DSU	", coords: [53.382446007259624, -6.198169429893424], color: "	green	", id: "	anpost	" },
+      { name: "	Kells DSU	", coords: [53.74121172051158, -6.896221267712727], color: "	green	", id: "	anpost	" },
+      { name: "	Kilcoole DSU	", coords: [53.10115369025918, -6.061164283546343], color: "	green	", id: "	anpost	" },
+      { name: "	Kilcoole TPU	", coords: [53.10112792370235, -6.060992622171045], color: "	green	", id: "	anpost	" },
+      { name: "	Kilkenny Branch Office	", coords: [52.65304172115927, -7.25325012251109], color: "	green	", id: "	anpost	" },
+      { name: "	Kilkenny DSU	", coords: [52.65286558064994, -7.231392429918105], color: "	green	", id: "	anpost	" },
+      { name: "	Killarney Branch Office	", coords: [52.05900404007285, -9.512046753645967], color: "	green	", id: "	anpost	" },
+      { name: "	Killarney DSU	", coords: [52.06360377961043, -9.474600307611203], color: "	green	", id: "	anpost	" },
+      { name: "	Kilmallock DSU	", coords: [52.40679402426793, -8.585991376665529], color: "	green	", id: "	anpost	" },
+      { name: "	Kilrush DSU	", coords: [52.6374869879717, -9.48680743786684], color: "	green	", id: "	anpost	" },
+      { name: "	Kinsale BO	", coords: [51.70871432736825, -8.518743092532809], color: "	green	", id: "	anpost	" },
+      { name: "	KINSALE DELIVERY SERVICE UNIT	", coords: [51.70871432736825, -8.518743092532809], color: "	green	", id: "	anpost	" },
+      { name: "	Letterkenny Branch Office	", coords: [54.9518022845345, -7.73590153608618], color: "	green	", id: "	anpost	" },
+      { name: "	Letterkenny DSU	", coords: [54.96376127932851, -7.7181859514204945], color: "	green	", id: "	anpost	" },
+      { name: "	Lifford Mail Centre	", coords: [54.834381585015194, -7.489799866865476], color: "	green	", id: "	anpost	" },
+      { name: "	Limerick Branch Office	", coords: [52.66244211276696, -8.629869737847757], color: "	green	", id: "	anpost	" },
+      { name: "	Limerick DSU	", coords: [52.65840414563712, -8.63902262991398], color: "	green	", id: "	anpost	" },
+      { name: "	Limerick Parcels Unit	", coords: [52.65835119087343, -8.63992385362665], color: "	green	", id: "	anpost	" },
+      { name: "	Listowel DSU	", coords: [52.44989454258088, -9.465687676633237], color: "	green	", id: "	anpost	" },
+      { name: "	Longford DSU	", coords: [53.72770817591771, -7.80103865978594], color: "	green	", id: "	anpost	" },
+      { name: "	Loughrea (New DSU)	", coords: [53.20547841127776, -8.588989176060077], color: "	green	", id: "	anpost	" },
+      { name: "	Loughrea Branch Office	", coords: [53.19884175564118, -8.568811446540833], color: "	green	", id: "	anpost	" },
+      { name: "	Macroom DSU	", coords: [51.90541866850183, -8.95720190772963], color: "	green	", id: "	anpost	" },
+      { name: "	Macroom TPU	", coords: [51.90541866850183, -8.95720190772963], color: "	green	", id: "	anpost	" },
+      { name: "	Mallow Branch Office	", coords: [52.13788674199853, -8.644988361524033], color: "	green	", id: "	anpost	" },
+      { name: "	Mallow DSU	", coords: [52.14687378511833, -8.657146076861173], color: "	green	", id: "	anpost	" },
+      { name: "	Maynooth DSU	", coords: [53.3658090390904, -6.586312960593765], color: "	green	", id: "	anpost	" },
+      { name: "	Maynooth TPU	", coords: [53.3658090390904, -6.586312960593765], color: "	green	", id: "	anpost	" },
+      { name: "	Merrywell DSU	", coords: [53.31780732838784, -6.357340298724845], color: "	green	", id: "	anpost	" },
+      { name: "	Midleton DSU	", coords: [51.89244733918444, -8.164942892395613], color: "	green	", id: "	anpost	" },
+      { name: "	Monaghan Branch Office	", coords: [54.24878367009937, -6.971434267320928], color: "	green	", id: "	anpost	" },
+      { name: "	Monaghan DSU	", coords: [54.25715387346489, -6.979590421282977], color: "	green	", id: "	anpost	" },
+      { name: "	Mullingar Branch Office	", coords: [53.525401957165705, -7.345631329253628], color: "	green	", id: "	anpost	" },
+      { name: "	Mullingar DSU	", coords: [53.525248886526356, -7.3455884139098035], color: "	green	", id: "	anpost	" },
+      { name: "	Naas Area Office	", coords: [53.218315828784405, -6.66418975276935], color: "	green	", id: "	anpost	" },
+      { name: "	Naas Branch Office	", coords: [53.218315828784405, -6.66418975276935], color: "	green	", id: "	anpost	" },
+      { name: "	Naas DSU	", coords: [53.21585031507274, -6.65129430620944], color: "	green	", id: "	anpost	" },
+      { name: "	Navan Branch Office	", coords: [53.65464793999095, -6.689823683123043], color: "	green	", id: "	anpost	" },
+      { name: "	Navan DSU	", coords: [53.644692837290386, -6.707234906411445], color: "	green	", id: "	anpost	" },
+      { name: "	Nenagh DSU	", coords: [52.86447649434291, -8.203203622350866], color: "	green	", id: "	anpost	" },
+      { name: "	New Ross DSU	", coords: [52.38724532620542, -6.931104399430972], color: "	green	", id: "	anpost	" },
+      { name: "	Newbridge Branch Office	", coords: [53.17448058401404, -6.799272929521891], color: "	green	", id: "	anpost	" },
+      { name: "	Newbridge DSU	", coords: [53.17448058401404, -6.799272929521891], color: "	green	", id: "	anpost	" },
+      { name: "	Newcastlewest DSU	", coords: [52.46107161216485, -9.052193168687772], color: "	green	", id: "	anpost	" },
+      { name: "	Newross Branch Office	", coords: [52.387323902608514, -6.931104399430972], color: "	green	", id: "	anpost	" },
+      { name: "	Phibsborough D7 Branch Office	", coords: [53.36101992876977, -6.274064145253478], color: "	green	", id: "	anpost	" },
+      { name: "	Portlaoise Area Office	", coords: [53.03524333607306, -7.302499406877507], color: "	green	", id: "	anpost	" },
+      { name: "	Portlaoise Branch Office	", coords: [53.026812547904974, -7.3086662915400336], color: "	green	", id: "	anpost	" },
+      { name: "	Portlaoise DSU	", coords: [53.0338838235015, -7.2993576529097774], color: "	green	", id: "	anpost	" },
+      { name: "	Rathmines Branch Office	", coords: [53.322016594115404, -6.2654962066587245], color: "	green	", id: "	anpost	" },
+      { name: "	Rathmines DSU	", coords: [53.32186592384288, -6.265483129409337], color: "	green	", id: "	anpost	" },
+      { name: "	Ravensdale DSU	", coords: [53.35480751772707, -6.232580987321207], color: "	green	", id: "	anpost	" },
+      { name: "	Roscommon Branch office	", coords: [53.63176717619529, -8.191401298484259], color: "	green	", id: "	anpost	" },
+      { name: "	Roscommon DSU	", coords: [53.628858248552575, -8.182357267798954], color: "	green	", id: "	anpost	" },
+      { name: "	Roscrea Branch Office	", coords: [52.95532300320253, -7.798301019568106], color: "	green	", id: "	anpost	" },
+      { name: "	Roscrea DSU	", coords: [52.96054117607644, -7.777460822278039], color: "	green	", id: "	anpost	" },
+      { name: "	Rutland Place	", coords: [53.35482339089753, -6.26214425266512], color: "	green	", id: "	anpost	" },
+      { name: "	Shannon Branch Office	", coords: [52.71905760869658, -8.870833414524094], color: "	green	", id: "	anpost	" },
+      { name: "	Shannon DSU	", coords: [52.7186386725567, -8.873259361086351], color: "	green	", id: "	anpost	" },
+      { name: "	Skibbereen - Schull DSU	", coords: [51.52734634048674, -9.546893130762138], color: "	green	", id: "	anpost	" },
+      { name: "	Skibbereen Branch Office	", coords: [51.54955928982722, -9.26550990005804], color: "	green	", id: "	anpost	" },
+      { name: "	Skibbereen DSU	", coords: [51.546145113369725, -9.264643754029155], color: "	green	", id: "	anpost	" },
+      { name: "	Sligo Branch Office	", coords: [54.27275721417849, -8.475777013333774], color: "	green	", id: "	anpost	" },
+      { name: "	Sligo DSU	", coords: [54.27829469850086, -8.501291621266654], color: "	green	", id: "	anpost	" },
+      { name: "	Swords New DSU	", coords: [53.456724258323966, -6.207896271899371], color: "	green	", id: "	anpost	" },
+      { name: "	Swords Post Office Branch Office	", coords: [53.45481031352997, -6.218946283917476], color: "	green	", id: "	anpost	" },
+      { name: "	Tallaght Branch Office	", coords: [53.287217258762915, -6.371595345309951], color: "	green	", id: "	anpost	" },
+      { name: "	Tallaght DSU	", coords: [53.290101224142404, -6.3705980913392155], color: "	green	", id: "	anpost	" },
+      { name: "	Thurles Banch Office (OLD)	", coords: [52.67534775331354, -7.811318053181882], color: "	green	", id: "	anpost	" },
+      { name: "	Thurles Branch Office (New)	", coords: [52.67534775331354, -7.811318053181882], color: "	green	", id: "	anpost	" },
+      { name: "	Thurles DSU	", coords: [52.665872787325156, -7.806883807157597], color: "	green	", id: "	anpost	" },
+      { name: "	Tipperary Branch Office	", coords: [52.47559877012027, -8.163408499364369], color: "	green	", id: "	anpost	" },
+      { name: "	Tipperary DSU	", coords: [52.47559877012027, -8.163408499364369], color: "	green	", id: "	anpost	" },
+      { name: "	Tralee Branch Office	", coords: [52.27013508687042, -9.702680168831424], color: "	green	", id: "	anpost	" },
+      { name: "	Tuam Branch Office	", coords: [52.27013508687042, -9.702680168831424], color: "	green	", id: "	anpost	" },
+      { name: "	Tuam DSU	", coords: [53.50966032771322, -8.87549628323424], color: "	green	", id: "	anpost	" },
+      { name: "	Tuam TPU	", coords: [53.50966032771322, -8.87549628323424], color: "	green	", id: "	anpost	" },
+      { name: "	Tullamore Branch Office	", coords: [53.274982955614874, -7.493015302726073], color: "	green	", id: "	anpost	" },
+      { name: "	Tullamore New DSU	", coords: [53.28539987422313, -7.513759675998972], color: "	green	", id: "	anpost	" },
+      { name: "	Waterford Branch Office	", coords: [52.261766219136135, -7.1089190995253535], color: "	green	", id: "	anpost	" },
+      { name: "	Waterford DSU	", coords: [52.260060027785464, -7.145760246088481], color: "	green	", id: "	anpost	" },
+      { name: "	Westport Branch Office	", coords: [53.8110905471983, -9.535970406283697], color: "	green	", id: "	anpost	" },
+      { name: "	Westport New DSU	", coords: [53.81050085068915, -9.53896932005333], color: "	green	", id: "	anpost	" },
+      { name: "	Wexford Branch Office	", coords: [52.33910061966725, -6.46062654602894], color: "	green	", id: "	anpost	" },
+      { name: "	Wexford DSU	", coords: [52.32958961247555, -6.484336530692324], color: "	green	", id: "	anpost	" },
+      { name: "	Whitehall DSU	", coords: [53.37699643040382, -6.251637591272804], color: "	green	", id: "	anpost	" },
+      { name: "	Whiteheather DSU	", coords: [53.3324851995151, -6.289773368026019], color: "	green	", id: "	anpost	" },
+      { name: "	Wicklow Branch Offcie	", coords: [52.98024338771662, -6.039930160043293], color: "	green	", id: "	anpost	" },
+      { name: "	Wicklow DSU	", coords: [52.98689426268343, -6.044735083633286], color: "	green	", id: "	anpost	" },
+      { name: "	Youghal DSU	", coords: [51.95539326504112, -7.849601799755139], color: "	green	", id: "	anpost	" },
+      { name: "	Youghal TPU	", coords: [51.95378756739932, -7.86746520769363], color: "	green	", id: "	anpost	" },
+      { name: "	Air Transit Unit Mail Centre	", coords: [53.422467837919086, -6.235223467957067], color: "	green	", id: "	anpost	" },
+      { name: "	AN POST  Mail Centres	", coords: [53.34957966440208, -6.260392517697669], color: "	green	", id: "	anpost	" },
+      { name: "	Athlone Mail Center	", coords: [53.41352966771099, -7.899854191244985], color: "	green	", id: "	anpost	" },
+      { name: "	Baldonnel Mail centre	", coords: [53.293588182281546, -6.439221998743327], color: "	green	", id: "	anpost	" },
+      { name: "	DMC Knockmittan	", coords: [53.326971038598884, -6.368782121998796], color: "	green	", id: "	anpost	" },
+      { name: "	Dublin parcel hub  Mail Centre	", coords: [53.32487130664381, -6.36834953734413], color: "	green	", id: "	anpost	" },
+      { name: "	Greenogue Mail Centre	", coords: [53.3009929874116, -6.4707764140815485], color: "	green	", id: "	anpost	" },
+      { name: "	ParkWest Mail Centre	", coords: [53.32936690397611, -6.368767199762101], color: "	green	", id: "	anpost	" },
+      { name: "	Portlaoise Mail Centre	", coords: [53.025912890197745, -7.306282052915905], color: "	green	", id: "	anpost	" },
+
+
+      //IPS***************************************************************************************************************************************************
+      { name: "	Arbourhill	", coords: [53.35054275004443, -6.287752106636913], color: "	blue	", id: "	ips	" },
+      { name: "	Brian Stack House	", coords: [53.03823153601055, -7.283684244696701], color: "	blue	", id: "	ips	" },
+      { name: "	Building Services Division	", coords: [53.40586331180096, -6.2380390104121135], color: "	blue	", id: "	ips	" },
+      { name: "	Castlerea	", coords: [53.75591689972976, -8.486965652357666], color: "	blue	", id: "	ips	" },
+      { name: "	Cloverhill	", coords: [53.342163149150146, -6.383838437330737], color: "	blue	", id: "	ips	" },
+      { name: "	Cork2	", coords: [51.90984796853651, -8.460151599789317], color: "	blue	", id: "	ips	" },
+      { name: "	Dochas Centre	", coords: [53.36148364886415, -6.268372287316205], color: "	blue	", id: "	ips	" },
+      { name: "	IPSC Wheatfield Training College	", coords: [53.34273236748307, -6.384260773518195], color: "	blue	", id: "	ips	" },
+      { name: "	Limerick	", coords: [52.659540538987535, -8.61631221587867], color: "	blue	", id: "	ips	" },
+      { name: "	Longford	", coords: [52.67282647862199, -8.55636953307356], color: "	blue	", id: "	ips	" },
+      { name: "	Loughan House	", coords: [54.2883753636834, -7.9183773440094365], color: "	blue	", id: "	ips	" },
+      { name: "	Midlands	", coords: [53.038069740127774, -7.285078691531338], color: "	blue	", id: "	ips	" },
+      { name: "	Mountjoy	", coords: [53.361446542405595, -6.267495556628658], color: "	blue	", id: "	ips	" },
+      { name: "	Portlaoise	", coords: [53.03748674675453, -7.287567468250909], color: "	blue	", id: "	ips	" },
+      { name: "	Shelton Abbey	", coords: [52.815909810641465, -6.190492515871307], color: "	blue	", id: "	ips	" },
+      { name: "	St Patricks Institution	", coords: [53.36301142901488, -6.269250941283467], color: "	blue	", id: "	ips	" },
+      { name: "	Thornton Hall	", coords: [53.40564631166703, -6.238097231187116], color: "	blue	", id: "	ips	" },
+      { name: "	Training Unit	", coords: [53.362647513451144, -6.265272029337464], color: "	blue	", id: "	ips	" },
+      { name: "	Wheatfield	", coords: [53.34127067388114, -6.382055937331693], color: "	blue	", id: "	ips	" },
+
+
+      //HSE***************************************************************************************************************************************************
+      { name: "	105 Butterfield Avenue	", coords: [53.29724998907951, -6.294965522021392], color: "	orange	", id: "	hse	" },
+      { name: "	113 Morehampton Road	", coords: [53.32421904679846, -6.239792883376187], color: "	orange	", id: "	hse	" },
+      { name: "	119 Lakelands Naas	", coords: [53.211984260621676, -6.658917952774113], color: "	orange	", id: "	hse	" },
+      { name: "	133 Upper Rathmines Rd	", coords: [53.31710086264538, -6.265547868037695], color: "	orange	", id: "	hse	" },
+      { name: "	14a Walkinstown Green	", coords: [53.32155721577327, -6.335744314065829], color: "	orange	", id: "	hse	" },
+      { name: "	16 Main St. Tallaght	", coords: [53.28941159836318, -6.353426068058945], color: "	orange	", id: "	hse	" },
+      { name: "	18 Boden Park Hostel	", coords: [53.28234501671226, -6.303281468064387], color: "	orange	", id: "	hse	" },
+      { name: "	2 Ellensborough Grange	", coords: [53.2666833594534, -6.372998502357801], color: "	orange	", id: "	hse	" },
+      { name: "	2 McElwaine Terrace	", coords: [53.18143204052077, -6.79957327607844], color: "	orange	", id: "	hse	" },
+      { name: "	2 Moyle Crescent	", coords: [53.31905075170774, -6.394343487011455], color: "	orange	", id: "	hse	" },
+      { name: "	246 Belgard Heights, Tallaght	", coords: [53.299556071510686, -6.3833189066757186], color: "	orange	", id: "	hse	" },
+      { name: "	28 St.Finians	", coords: [53.34949803623099, -6.442792960606325], color: "	orange	", id: "	hse	" },
+      { name: "	29 Aubrey Park	", coords: [53.23076747135841, -6.123695022072284], color: "	orange	", id: "	hse	" },
+      { name: "	3 Moyville	", coords: [53.28014432229065, -6.295578752722181], color: "	orange	", id: "	hse	" },
+      { name: "	30 St.Finians	", coords: [53.34937944814685, -6.443226383356906], color: "	orange	", id: "	hse	" },
+      { name: "	34A Dargle Wood, Templeogue, D 16	", coords: [53.283045108845045, -6.313784029439027], color: "	orange	", id: "	hse	" },
+      { name: "	40 Kerlogue House	", coords: [53.33937900845458, -6.220310591301556], color: "	orange	", id: "	hse	" },
+      { name: "	44 & 45 St.Vincents Street West	", coords: [53.33676596483034, -6.318782991303596], color: "	orange	", id: "	hse	" },
+      { name: "	44 Broomhill Close	", coords: [53.295572807976164, -6.3646599527103005], color: "	orange	", id: "	hse	" },
+      { name: "	5 Sylvan Ave	", coords: [53.30950520120326, -6.363643644683847], color: "	orange	", id: "	hse	" },
+      { name: "	53 Allenview Heights	", coords: [53.179548600340986, -6.8185663914235874], color: "	orange	", id: "	hse	" },
+      { name: "	63 Mulgrave St	", coords: [53.291869457903516, -6.136453360119982], color: "	orange	", id: "	hse	" },
+      { name: "	63/64 Adelaide Road Employee Services	", coords: [53.33324981808379, -6.257522744744395], color: "	orange	", id: "	hse	" },
+      { name: "	70 Grosvenor Road	", coords: [53.320632077995235, -6.269984452691238], color: "	orange	", id: "	hse	" },
+      { name: "	71 Monalea Wood	", coords: [53.28457200426867, -6.334035729437902], color: "	orange	", id: "	hse	" },
+      { name: "	72 Allenton Drive	", coords: [53.27203885534322, -6.354475876009216], color: "	orange	", id: "	hse	" },
+      { name: "	740 South Circular Road	", coords: [53.34131898631617, -6.307330421987718], color: "	orange	", id: "	hse	" },
+      { name: "	8 Weavers Close,	", coords: [53.340056271352516, -6.278788460083152], color: "	orange	", id: "	hse	" },
+      { name: "	89 Barton Road	", coords: [53.28783645132993, -6.256546445309476], color: "	orange	", id: "	hse	" },
+      { name: "	91A Bride Street	", coords: [53.34014456435793, -6.270136675957272], color: "	orange	", id: "	hse	" },
+      { name: "	96 Monastery Road,	", coords: [53.32058256392181, -6.383760575972171], color: "	orange	", id: "	hse	" },
+      { name: "	99 Deepdales	", coords: [53.18299151257246, -6.1238781141716165], color: "	orange	", id: "	hse	" },
+      { name: "	Abbey View	", coords: [52.91154126230765, -6.83753974470272], color: "	orange	", id: "	hse	" },
+      { name: "	ACTS	", coords: [53.357093572878654, -6.404341137319577], color: "	orange	", id: "	hse	" },
+      { name: "	Aislinn Hostel	", coords: [53.27793090237003, -6.156970095480843], color: "	orange	", id: "	hse	" },
+      { name: "	Aislinn House 1 - 5	", coords: [53.37595426119117, -6.597533567992901], color: "	orange	", id: "	hse	" },
+      { name: "	Ambulance Base Naas	", coords: [53.23523048261463, -6.6421619527564095], color: "	orange	", id: "	hse	" },
+      { name: "	Ambulance Depot	", coords: [53.2949059199315, -6.365221752710946], color: "	orange	", id: "	hse	" },
+      { name: "	Ambulance Depot, Davitt Road	", coords: [53.33445997223586, -6.324029445273913], color: "	orange	", id: "	hse	" },
+      { name: "	An Curam	", coords: [53.192885702335204, -6.169335537444918], color: "	orange	", id: "	hse	" },
+      { name: "	ARKLOW Ambulance Base	", coords: [52.79754340858645, -6.154552422401804], color: "	orange	", id: "	hse	" },
+      { name: "	ARKLOW H/C inc PCCC	", coords: [52.79754340858645, -6.154552422401804], color: "	orange	", id: "	hse	" },
+      { name: "	Ashdale House	", coords: [53.31508878979667, -6.284766168039314], color: "	orange	", id: "	hse	" },
+      { name: "	Athy HC	", coords: [52.99504113808449, -6.991710398970775], color: "	orange	", id: "	hse	" },
+      { name: "	Athy Hospital	", coords: [52.99504113808449, -6.991710398970775], color: "	orange	", id: "	hse	" },
+      { name: "	Aughrim Health Centre	", coords: [52.85659170050557, -6.3228120070130664], color: "	orange	", id: "	hse	" },
+      { name: "	Avoca Health Centre	", coords: [52.85883122510948, -6.213187883730485], color: "	orange	", id: "	hse	" },
+      { name: "	Avonmore Newcastle Hospital	", coords: [53.08221501416345, -6.098153029592308], color: "	orange	", id: "	hse	" },
+      { name: "	Balally Health Centre	", coords: [53.286449039509435, -6.2362679913419115], color: "	orange	", id: "	hse	" },
+      { name: "	Ballally Primary Care	", coords: [53.28669584480469, -6.236220158177064], color: "	orange	", id: "	hse	" },
+      { name: "	Ballinteer Health Centre	", coords: [53.27640217682275, -6.2520592373811406], color: "	orange	", id: "	hse	" },
+      { name: "	Ballydowd House	", coords: [53.35949882729926, -6.431666087009542], color: "	orange	", id: "	hse	" },
+      { name: "	Ballydowd SCU	", coords: [53.35705106011583, -6.405886014038717], color: "	orange	", id: "	hse	" },
+      { name: "	Ballyfermot Primary Health Care Unit	", coords: [53.34380709310644, -6.371702602673549], color: "	orange	", id: "	hse	" },
+      { name: "	Baltinglass Health Centre	", coords: [52.94114972891795, -6.711287937636557], color: "	orange	", id: "	hse	" },
+      { name: "	Baltinglass Hospital	", coords: [52.93198157712283, -6.679175852987273], color: "	orange	", id: "	hse	" },
+      { name: "	Beaufort House	", coords: [53.289499013082384, -6.353491522027484], color: "	orange	", id: "	hse	" },
+      { name: "	Beech House	", coords: [53.23300123501656, -6.640172737414324], color: "	orange	", id: "	hse	" },
+      { name: "	Belgard Road, Glenabbey	", coords: [53.296232151031695, -6.370541937365956], color: "	orange	", id: "	hse	" },
+      { name: "	Belvilla CNU 129 SCR	", coords: [53.3320096776762, -6.2772487140578415], color: "	orange	", id: "	hse	" },
+      { name: "	Blackrock Health Centre	", coords: [53.301706038255524, -6.178848868049463], color: "	orange	", id: "	hse	" },
+      { name: "	Blindcraft	", coords: [53.33435746575614, -6.324329852680686], color: "	orange	", id: "	hse	" },
+      { name: "	Bramble Lodge	", coords: [53.18791110009039, -6.812675722104862], color: "	orange	", id: "	hse	" },
+      { name: "	Brandon House Bray	", coords: [53.19479997823559, -6.119270606755805], color: "	orange	", id: "	hse	" },
+      { name: "	Bray Civic Centre Wicklow	", coords: [53.20159706610587, -6.109045068125839], color: "	orange	", id: "	hse	" },
+      { name: "	Bride Street HC	", coords: [53.339888331851654, -6.270222506644922], color: "	orange	", id: "	hse	" },
+      { name: "	Brookfield H/C	", coords: [53.288888338702634, -6.4046966447783875], color: "	orange	", id: "	hse	" },
+      { name: "	Bru Chaoimhin	", coords: [53.3376426534301, -6.284733806646639], color: "	orange	", id: "	hse	" },
+      { name: "	Cabinteely Health Centre	", coords: [53.270927664250344, -6.15542805272905], color: "	orange	", id: "	hse	" },
+      { name: "	Cardious Club House	", coords: [53.211474966118374, -6.111429406743019], color: "	orange	", id: "	hse	" },
+      { name: "	Cashel Road H/C	", coords: [53.31985236691992, -6.303872283379444], color: "	orange	", id: "	hse	" },
+      { name: "	Castledermot HC	", coords: [52.9150215876687, -6.836652606968701], color: "	orange	", id: "	hse	" },
+      { name: "	Celbridge HC	", coords: [53.3452458346855, -6.544873783360147], color: "	orange	", id: "	hse	" },
+      { name: "	Centenary House Dun Laoghaire	", coords: [53.290220322712635, -6.144517929433551], color: "	orange	", id: "	hse	" },
+      { name: "	Central Mental Hospital	", coords: [53.30098504647907, -6.2419041873623655], color: "	orange	", id: "	hse	" },
+      { name: "	Central Supplies, Unit 38, Ballyfermot	", coords: [53.3462941993167, -6.375075814046882], color: "	orange	", id: "	hse	" },
+      { name: "	Chambers House	", coords: [53.2888309480291, -6.37343734530875], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard  - Willow Unit	", coords: [53.34399459811822, -6.378422083361006], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard - Bridge House	", coords: [53.34396897725026, -6.378336252673356], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard - Laundry	", coords: [53.34396897725026, -6.378336252673356], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard - Maintenance Yard	", coords: [53.34412270222722, -6.378379168017184], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard - Rainbow	", coords: [53.34412270222722, -6.378379168017184], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Avenue Medical & Health Centre	", coords: [53.33740243126812, -6.372944729397518], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Community Health and Public Labs	", coords: [53.34396897725026, -6.378422083361006], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Gate Lodge	", coords: [53.34396897725026, -6.378422083361006], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Hospital	", coords: [53.34419956450783, -6.378379168017181], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Hospital - CAMHS Lin Dara	", coords: [53.34419956450783, -6.378379168017181], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Hospital - Cuan Dara	", coords: [53.34419956450783, -6.378379168017181], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Linn Dara InPatient	", coords: [53.34391773546814, -6.378164591298061], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard Maple Unit	", coords: [53.34391773546814, -6.378164591298061], color: "	orange	", id: "	hse	" },
+      { name: "	Cherry Orchard -Sycamore Unit	", coords: [53.34404587256002, -6.378078740762969], color: "	orange	", id: "	hse	" },
+      { name: "	Childrens Hospital Group	", coords: [53.34139417207458, -6.303739737331382], color: "	orange	", id: "	hse	" },
+      { name: "	Clondalkin/ Lucan Centre, St Lomans	", coords: [53.35402892153726, -6.405360537321862], color: "	orange	", id: "	hse	" },
+      { name: "	Clonree Lodge	", coords: [53.157504747652176, -6.815345952815708], color: "	orange	", id: "	hse	" },
+      { name: "	Clonskeagh Hospital & CNU	", coords: [53.31612459960632, -6.238539775975538], color: "	orange	", id: "	hse	" },
+      { name: "	Cois Ceim Plant Room,	", coords: [53.28862704627281, -6.139895337371844], color: "	orange	", id: "	hse	" },
+      { name: "	College Road East	", coords: [53.298818458007354, -6.686388906676521], color: "	orange	", id: "	hse	" },
+      { name: "	COMMUNITY SERVICES H.Q Carnegie Clinic	", coords: [53.34424438193663, -6.268720929392235], color: "	orange	", id: "	hse	" },
+      { name: "	Cornmarket H/C	", coords: [53.34395011989717, -6.275821437329587], color: "	orange	", id: "	hse	" },
+      { name: "	Crooksling A&B	", coords: [53.255094920688634, -6.444972076022064], color: "	orange	", id: "	hse	" },
+      { name: "	Cunamh Arklow	", coords: [52.794464255109816, -6.176215668435522], color: "	orange	", id: "	hse	" },
+      { name: "	Curlew Road H/C	", coords: [53.32982744711812, -6.320498983371817], color: "	orange	", id: "	hse	" },
+      { name: "	Dalkey HC	", coords: [53.277270494494765, -6.10646445272426], color: "	orange	", id: "	hse	" },
+      { name: "	Dartmount House	", coords: [53.33692829171717, -6.345204275370158], color: "	orange	", id: "	hse	" },
+      { name: "	Deansrath Health Centre	", coords: [53.32422738232291, -6.424429737344546], color: "	orange	", id: "	hse	" },
+      { name: "	Derrinturn HC	", coords: [53.340532138351385, -6.940275998707519], color: "	orange	", id: "	hse	" },
+      { name: "	DN0277 Travellers Unit	", coords: [53.343874592173904, -6.269734052673489], color: "	orange	", id: "	hse	" },
+      { name: "	Dr Steevens Hospital	", coords: [53.34563386691427, -6.292357514047341], color: "	orange	", id: "	hse	" },
+      { name: "	Drogheda memorial Hospital / St brigids Hospice	", coords: [53.15837699979013, -6.8167709067836775], color: "	orange	", id: "	hse	" },
+      { name: "	ECDS Goldenbridge	", coords: [53.336756988375264, -6.319913929397969], color: "	orange	", id: "	hse	" },
+      { name: "	Ellerselie House	", coords: [53.20049459921744, -6.102026945376142], color: "	orange	", id: "	hse	" },
+      { name: "	Enniskerry HC	", coords: [53.1957518155704, -6.174712714161747], color: "	orange	", id: "	hse	" },
+      { name: "	Environmental Health Service	", coords: [53.27875850182574, -6.211426476004142], color: "	orange	", id: "	hse	" },
+      { name: "	EVE Larine House	", coords: [53.346312952946484, -6.28164581733725], color: "	orange	", id: "	hse	" },
+      { name: "	Eve Thomas Court	", coords: [53.34228000317396, -6.280853660611663], color: "	orange	", id: "	hse	" },
+      { name: "	Family Aid	", coords: [53.328736103405205, -6.265101583372815], color: "	orange	", id: "	hse	" },
+      { name: "	Farmleigh Park	", coords: [53.28336226729586, -6.192410668063393], color: "	orange	", id: "	hse	" },
+      { name: "	Gheel Community Services	", coords: [53.315736830846866, -6.247811222007349], color: "	orange	", id: "	hse	" },
+      { name: "	Glen House	", coords: [53.18655279775767, -6.559597398825063], color: "	orange	", id: "	hse	" },
+      { name: "	Glenmalure Day Centre	", coords: [53.31405823001233, -6.246024775977023], color: "	orange	", id: "	hse	" },
+      { name: "	Greystones HC	", coords: [53.1503684996697, -6.069404914196509], color: "	orange	", id: "	hse	" },
+      { name: "	Grove House Celbridge	", coords: [53.336384471444966, -6.538206506647759], color: "	orange	", id: "	hse	" },
+      { name: "	Hawthorn House	", coords: [53.23311326946887, -6.674603437414111], color: "	orange	", id: "	hse	" },
+      { name: "	Hawthorns Stillorgan Drive Houses 1-5	", coords: [53.29214246864958, -6.1940032834007654], color: "	orange	", id: "	hse	" },
+      { name: "	Hazel Cottage Celbridge	", coords: [53.33683988836341, -6.536268752678834], color: "	orange	", id: "	hse	" },
+      { name: "	Health Services Print & Design	", coords: [53.34027820893564, -6.343178448283568], color: "	orange	", id: "	hse	" },
+      { name: "	Hortlands	", coords: [53.27452532400771, -6.2289804601332], color: "	orange	", id: "	hse	" },
+      { name: "	Hostel - 97 Cromwellford Road	", coords: [53.317587857089634, -6.324388922005852], color: "	orange	", id: "	hse	" },
+      { name: "	HSE - MAINTENANCE SUPPORT DIVISION	", coords: [53.52348768136863, -6.410490260473029], color: "	orange	", id: "	hse	" },
+      { name: "	HSE Mountainview Community Residences	", coords: [53.34345738371471, -6.371777773518185], color: "	orange	", id: "	hse	" },
+      { name: "	HSE National Drug Treatment Centre	", coords: [53.34542492864842, -6.252959906640695], color: "	orange	", id: "	hse	" },
+      { name: "	Inchicore Health Centre	", coords: [53.340239445484514, -6.317574729395355], color: "	orange	", id: "	hse	" },
+      { name: "	Inchicore PCC	", coords: [53.339388478140684, -6.316434898708415], color: "	orange	", id: "	hse	" },
+      { name: "	Irishtown H/C	", coords: [53.341135669865835, -6.225350791300147], color: "	orange	", id: "	hse	" },
+      { name: "	Jervis House	", coords: [53.34811052664594, -6.265896760734232], color: "	orange	", id: "	hse	" },
+      { name: "	Kilcoole HC	", coords: [53.10903324525255, -6.064985937508808], color: "	orange	", id: "	hse	" },
+      { name: "	Killinarden	", coords: [53.276948227901464, -6.379398791349342], color: "	orange	", id: "	hse	" },
+      { name: "	Kilshane	", coords: [53.26878243108189, -6.37841509135544], color: "	orange	", id: "	hse	" },
+      { name: "	Lawrences Avenue	", coords: [53.37466201673826, -6.587035337306124], color: "	orange	", id: "	hse	" },
+      { name: "	Leopardstown Childrens Disability	", coords: [53.259729566906714, -6.197491237393861], color: "	orange	", id: "	hse	" },
+      { name: "	Leopardstown Primary care	", coords: [53.259729566906714, -6.197491237393861], color: "	orange	", id: "	hse	" },
+      { name: "	Liffeyvale	", coords: [53.349836954877304, -6.417380944681927], color: "	orange	", id: "	hse	" },
+      { name: "	Limekiln Lane H/C	", coords: [53.33159884006335, -6.29017853733892], color: "	orange	", id: "	hse	" },
+      { name: "	Lincara Bray Wicklow	", coords: [53.18912169224262, -6.12225723744784], color: "	orange	", id: "	hse	" },
+      { name: "	Loughlinstown Ambulance Base	", coords: [53.2405242363441, -6.127872083440235], color: "	orange	", id: "	hse	" },
+      { name: "	Loughlinstown HC	", coords: [53.247763516553555, -6.128734983434425], color: "	orange	", id: "	hse	" },
+      { name: "	Lucan Health Centre, Sarsfield Park	", coords: [53.3571981523382, -6.448391698694623], color: "	orange	", id: "	hse	" },
+      { name: "	Lucia House	", coords: [53.3452276831809, -6.248486044682121], color: "	orange	", id: "	hse	" },
+      { name: "	Marks Lane	", coords: [53.345447979785106, -6.249656833359889], color: "	orange	", id: "	hse	" },
+      { name: "	Mary Mercer Hospital	", coords: [53.27907361599194, -6.400235937379045], color: "	orange	", id: "	hse	" },
+      { name: "	Maynooth Ambulance Base	", coords: [53.365907039740456, -6.581897152656526], color: "	orange	", id: "	hse	" },
+      { name: "	Maynooth Community Unit	", coords: [53.37932365237641, -6.591366460583402], color: "	orange	", id: "	hse	" },
+      { name: "	Maynooth Day Care Centre	", coords: [53.385468317371355, -6.587784891266396], color: "	orange	", id: "	hse	" },
+      { name: "	Maynooth Medical Health Centre	", coords: [53.379870443479454, -6.591420591270746], color: "	orange	", id: "	hse	" },
+      { name: "	Meath Hospital & CNU	", coords: [53.33333386236452, -6.268467275962236], color: "	orange	", id: "	hse	" },
+      { name: "	Milbrook Lawn	", coords: [53.285172670337225, -6.355067337374419], color: "	orange	", id: "	hse	" },
+      { name: "	Monawee House	", coords: [52.9910686209007, -6.97823202225485], color: "	orange	", id: "	hse	" },
+      { name: "	Mount Carmel Hospital	", coords: [53.301137832450074, -6.263646452706149], color: "	orange	", id: "	hse	" },
+      { name: "	NEW DAWN CENTRE	", coords: [53.21152636692894, -6.111686898805967], color: "	orange	", id: "	hse	" },
+      { name: "	Newbridge HC	", coords: [53.180628937390395, -6.8010366221104155], color: "	orange	", id: "	hse	" },
+      { name: "	Oak House Naas	", coords: [53.23726572295132, -6.670035683442483], color: "	orange	", id: "	hse	" },
+      { name: "	Oakview,	", coords: [53.35425924389975, -6.4095356759464845], color: "	orange	", id: "	hse	" },
+      { name: "	Old County Road H/C	", coords: [53.329163544916284, -6.301718037340717], color: "	orange	", id: "	hse	" },
+      { name: "	Open Door Centre Greystones Road	", coords: [53.19562123210371, -6.106874748392611], color: "	orange	", id: "	hse	" },
+      { name: "	Orchard Welfare Home	", coords: [53.20063481929825, -6.11243373743904], color: "	orange	", id: "	hse	" },
+      { name: "	Our Ladys Clinic	", coords: [53.291737401949916, -6.137083937369421], color: "	orange	", id: "	hse	" },
+      { name: "	Owendoher House	", coords: [53.28890103855013, -6.290555152715428], color: "	orange	", id: "	hse	" },
+      { name: "	Parnell Rd. H C	", coords: [53.33154758341632, -6.290307283370393], color: "	orange	", id: "	hse	" },
+      { name: "	Patricks St HC 99	", coords: [53.292285511571556, -6.137029068056784], color: "	orange	", id: "	hse	" },
+      { name: "	Patrick's Street HC 102	", coords: [53.292336815382846, -6.136642829962363], color: "	orange	", id: "	hse	" },
+      { name: "	Pearse Street Primary Care	", coords: [53.34553539639423, -6.249432906419443], color: "	orange	", id: "	hse	" },
+      { name: "	Platinum Clubhouse	", coords: [53.17627646773446, -6.795640168145192], color: "	orange	", id: "	hse	" },
+      { name: "	Portview Arklow	", coords: [52.79085510986918, -6.161095322406868], color: "	orange	", id: "	hse	" },
+      { name: "	Quilca	", coords: [53.309102377615815, -6.279487229419055], color: "	orange	", id: "	hse	" },
+      { name: "	Rail Park House	", coords: [53.37867716241945, -6.574189967990768], color: "	orange	", id: "	hse	" },
+      { name: "	Rathclaren House Old Bray Road	", coords: [53.209581090257316, -6.1154068681198], color: "	orange	", id: "	hse	" },
+      { name: "	Rathcoole Health Centre	", coords: [53.2816672785432, -6.464008088864935], color: "	orange	", id: "	hse	" },
+      { name: "	Rathdrum H/C	", coords: [52.93247019300902, -6.23668254504993], color: "	orange	", id: "	hse	" },
+      { name: "	Rathfarnham H/C	", coords: [53.29351447732556, -6.2809048220241905], color: "	orange	", id: "	hse	" },
+      { name: "	Rosebrook, 14 Cleevaun	", coords: [53.21093927718971, -6.656905206743536], color: "	orange	", id: "	hse	" },
+      { name: "	Roundwood HC	", coords: [53.062429223444084, -6.225971622200522], color: "	orange	", id: "	hse	" },
+      { name: "	Rowlagh Health Centre	", coords: [53.34477736753894, -6.3968332373289165], color: "	orange	", id: "	hse	" },
+      { name: "	Sallynoggin Health Centre	", coords: [53.2812539069735, -6.137881106689864], color: "	orange	", id: "	hse	" },
+      { name: "	Sarney Hostel	", coords: [52.98642331915959, -6.978422391570696], color: "	orange	", id: "	hse	" },
+      { name: "	Sarto Health Centre	", coords: [53.21757940919296, -6.667415122082136], color: "	orange	", id: "	hse	" },
+      { name: "	Sheaf House	", coords: [53.29078934465227, -6.374561391338878], color: "	orange	", id: "	hse	" },
+      { name: "	Sir P Duns CNU	", coords: [53.33956535398701, -6.241442506645272], color: "	orange	", id: "	hse	" },
+      { name: "	Sonas Arklow	", coords: [52.79816315878495, -6.164499799120362], color: "	orange	", id: "	hse	" },
+      { name: "	Sorrento House	", coords: [53.38338375113766, -6.620733021955594], color: "	orange	", id: "	hse	" },
+      { name: "	South Earl Street H/C	", coords: [53.341897579713375, -6.280101498706395], color: "	orange	", id: "	hse	" },
+      { name: "	St Colemans Hospital	", coords: [52.934489933020345, -6.239782637641699], color: "	orange	", id: "	hse	" },
+      { name: "	St Colmcilles/Loughlinstown Hospital	", coords: [53.242419381729704, -6.1321789581791695], color: "	orange	", id: "	hse	" },
+      { name: "	St Marys CS HQ	", coords: [53.328002461436476, -6.266866948717089], color: "	orange	", id: "	hse	" },
+      { name: "	St Vincents Day Nursery & ECDS	", coords: [53.34366073095323, -6.370893275954469], color: "	orange	", id: "	hse	" },
+      { name: "	St Vincents Hospital Athy	", coords: [52.998704122045595, -6.994818437592806], color: "	orange	", id: "	hse	" },
+      { name: "	St. Columba's,	", coords: [53.320756070944974, -6.309093414066382], color: "	orange	", id: "	hse	" },
+      { name: "	St. Damiens	", coords: [53.314657884594425, -6.321465175976717], color: "	orange	", id: "	hse	" },
+      { name: "	St. Martha's, 730  - 734 SCR	", coords: [53.34057354482297, -6.307137206644466], color: "	orange	", id: "	hse	" },
+      { name: "	St.Lomans Hospital	", coords: [53.35744472234334, -6.40726667594373], color: "	orange	", id: "	hse	" },
+      { name: "	St.Mary's CNU	", coords: [53.32789993943843, -6.266824033373265], color: "	orange	", id: "	hse	" },
+      { name: "	St.Marys Naas	", coords: [53.21188526081708, -6.661583937430319], color: "	orange	", id: "	hse	" },
+      { name: "	Stillorgan Health Centre	", coords: [53.28442289403303, -6.1951830220310695], color: "	orange	", id: "	hse	" },
+      { name: "	Teach Ban	", coords: [53.30261651813361, -6.4995731013925875], color: "	orange	", id: "	hse	" },
+      { name: "	Terenure HC	", coords: [53.3127030728711, -6.283344829416337], color: "	orange	", id: "	hse	" },
+      { name: "	The Crossings	", coords: [53.220981859175886, -6.658831614142364], color: "	orange	", id: "	hse	" },
+      { name: "	The Manse	", coords: [53.356723741864414, -6.449254846533246], color: "	orange	", id: "	hse	" },
+      { name: "	Tinahealy Health Centre	", coords: [52.798372514788475, -6.465467860495425], color: "	orange	", id: "	hse	" },
+      { name: "	Tivoli Road HC Dunlaoghaire	", coords: [53.28857573800632, -6.139895337371844], color: "	orange	", id: "	hse	" },
+      { name: "	Tus Nua	", coords: [53.154635101595595, -6.902763422130032], color: "	orange	", id: "	hse	" },
+      { name: "	Tymon North Community Nursing Unit	", coords: [53.29880092830955, -6.34622418339542], color: "	orange	", id: "	hse	" },
+      { name: "	Unit C1 Tougher Industrial Estate	", coords: [53.20541010583401, -6.7404899527790025], color: "	orange	", id: "	hse	" },
+      { name: "	Ushers Island	", coords: [53.346653462700004, -6.282126498702901], color: "	orange	", id: "	hse	" },
+      { name: "	Weir Home Hostel	", coords: [53.33848991755167, -6.284471537333744], color: "	orange	", id: "	hse	" },
+      { name: "	West Lodge	", coords: [53.359552904634604, -6.473715760598446], color: "	orange	", id: "	hse	" },
+      { name: "	Whitestown House	", coords: [53.405759220943324, -6.676297745219416], color: "	orange	", id: "	hse	" },
+      { name: "	Wicklow District Hospital	", coords: [52.97824637466456, -6.035412806920856], color: "	orange	", id: "	hse	" },
+      { name: "	WicklowCommunityServices	", coords: [52.97824637466456, -6.035412806920856], color: "	orange	", id: "	hse	" },
+      { name: "	Woodlands	", coords: [53.33565788191885, -6.3249895759606645], color: "	orange	", id: "	hse	" },
+
+      //Others
+      { name: "	7827 Rosslare Europort FM Lot 4&6	", coords: [52.25456233917637, -6.3348973021154515], color: "	grey	", id: "	other	" },
+      { name: "	Affidea Dublin City Ctr, Meath Primary Care	", coords: [53.335843065908136, -6.2693091176983], color: "	grey	", id: "	other	" },
+      { name: "	Affidea Dundrum	", coords: [53.28615503655857, -6.23628788886473], color: "	grey	", id: "	other	" },
+      { name: "	Affidea Kilkenny	", coords: [52.67474705807459, -7.2612787878821035], color: "	grey	", id: "	other	" },
+      { name: "	Affidea Naas Vista Primary Care	", coords: [53.21126755064253, -6.664133473524462], color: "	grey	", id: "	other	" },
+      { name: "	Affidea Northwood Santry	", coords: [53.40378518959642, -6.257888973515288], color: "	grey	", id: "	other	" },
+      { name: "	Affidea Tallaght	", coords: [53.28839790300002, -6.374614375372495], color: "	grey	", id: "	other	" },
+      { name: "	Arrowhead Property Ltd C/O Lisney	", coords: [51.89744748353112, -8.468378946602055], color: "	grey	", id: "	other	" },            
+      { name: "	Binta Benny Ltd	", coords: [53.404814700165716, -6.258955872436338], color: "	grey	", id: "	other	" },
+      { name: "	BREMORE EDUCATE TOGETHER SECONDARY SCHOOL	", coords: [53.605357112798764, -6.2034983757539575], color: "	grey	", id: "	other	" },
+      { name: "	Brickfield Lane	", coords: [53.33741255702467, -6.282519606647017], color: "	grey	", id: "	other	" },
+      { name: "	Carnegie House	", coords: [53.2941421245249, -6.141210291336109], color: "	grey	", id: "	other	" },
+      { name: "	CHI at Temple Street	", coords: [53.357403815842325, -6.261959006631619], color: "	grey	", id: "	other	" },
+      { name: "	Crannog Nua	", coords: [53.49284446816959, -6.115237450288188], color: "	grey	", id: "	other	" },
+      { name: "	Harvest Financial Services Ltd C/O Lisney	", coords: [53.33558290205375, -6.257011460026411], color: "	grey	", id: "	other	" },
+      { name: "	Hibernian House	", coords: [51.89804265563264, -8.469487469110598], color: "	grey	", id: "	other	" },
+      { name: "	Highfield House	", coords: [53.357090096239446, -6.277727306631899], color: "	grey	", id: "	other	" },
+      { name: "	Marino Institute	", coords: [53.37339243074702, -6.23432786799472], color: "	grey	", id: "	other	" },
+      { name: "	Northern MRI	", coords: [54.572954313145246, -5.947324273459065], color: "	grey	", id: "	other	" },
+      { name: "	Oxendales, Lisney	", coords: [53.40920993913641, -6.237291198655004], color: "	grey	", id: "	other	" },
+      { name: "	Roscommon County Council	", coords: [53.630261091450066, -8.19467678314155], color: "	grey	", id: "	other	" },
+      { name: "	Scoil Naomh Eoin	", coords: [53.66927408261493, -6.695223045449444], color: "	grey	", id: "	other	" },
+      { name: "	Scoil San Carlo 	", coords: [53.37052660457081, -6.48821654653261], color: "	grey	", id: "	other	" },
+      { name: "	Speed Queen Dublin	", coords: [53.32005002832463, -6.381082765261607], color: "	grey	", id: "	other	" },
+      { name: "	Speed Queen Lidl	", coords: [53.28684955285086, -9.09888936988686], color: "	grey	", id: "	other	" },
+      { name: "	St James Hospital	", coords: [53.33934123624181, -6.296521146638446], color: "	grey	", id: "	other	" },
+      { name: "	St Luke’s Radiation Oncology Centre at Beaumont Hospital	", coords: [53.39226012972558, -6.225175304203484], color: "	grey	", id: "	other	" },
+      { name: "	Westwood Student Ireland	", coords: [53.341457918115246, -6.258447060026147], color: "	grey	", id: "	other	" },
+      { name: "	Westwood Studios Galway	", coords: [53.290052746419924, -9.074874983402324], color: "	grey	", id: "	other	" },
+
+
+
+    ];
+
+    cities.forEach(city => {
+      var markerOptions = {
+        icon: L.icon({
+          iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${city.color || 'red'}.png`,
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        })
+      };
+
+      city.marker = L.marker(city.coords, markerOptions).addTo(map).bindPopup(city.name);
+    });
+
+    var houses = [
+      //Engineers coordinates***************************************************************************************************************************************************
+
+      { name: "Alan Ashe", coords: [53.595770626337256, -6.7279258047858965], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "blue", id: "plumber" },
+      { name: "Benny Raggett", coords: [52.35138794449713, -7.332403855430152], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Brendan Doyle", coords: [52.980337860461, -6.0474707878394325], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Brian Condron", coords: [53.58703429041637, -7.150980383419357], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Colin O loughlin", coords: [53.31971737635233, -6.300638346535033], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Danny Doyle", coords: [53.78885200063957, -6.885952052226714], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "aqua", id: "rgiplumber" },
+      { name: "Dean Fitzgerald", coords: [52.34705893220324, -7.416448703445855], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Derek Farrelly", coords: [53.39448865594821, -6.182938591897311], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Essam Mohamed", coords: [54.000117672349745, -6.369332159994597], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Graham Kearney", coords: [53.34571845668476, -6.258846288861894], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "aqua", id: "rgiplumber" },
+      { name: "Mahammad Yamin", coords: [53.33520928189302, -6.293505287010704], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Mark Brennan", coords: [52.80545628396496, -7.210798102695499], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Martin Fahy", coords: [52.84753450611217, -8.989151846080299], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "aqua", id: "rgiplumber" },
+      { name: "Martin Greaney", coords: [53.39967160784859, -8.994592907659843], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Michael Murphy", coords: [54.05852582691052, -8.921876458492532], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "blue", id: "plumber" },
+      { name: "Nathan Collins", coords: [53.19459617180482, -6.116920507783985], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "grey", id: "ac" },
+      { name: "Neil Hipwell", coords: [53.661129988631515, -9.115587138677299], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "aqua", id: "rgiplumber" },
+      { name: "Padraig kelly", coords: [54.1009962978716, -6.199949270047535], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "blue", id: "plumber" },
+      { name: "Richard Rogers", coords: [53.613280172274706, -6.188871315833415], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "blue", id: "plumber" },
+      { name: "Sanwar Akand", coords: [53.37267849802628, -6.290443915844879], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "grey", id: "ac" },
+      { name: "Seamus McGovern", coords: [54.19637046057441, -7.571272500767458], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Seamus Thompson", coords: [53.49337687236042, -6.805236167007079], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Seamus Walsh", coords: [52.44659715163007, -9.485623030073855], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Terry Wearen", coords: [53.1619920519904, -7.189314100028763], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
+      { name: "Vincent Kelly", coords: [52.912599132584056, -6.837695883689851], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "yellow", id: "electrician" },
+      { name: "Unnamed Technician", coords: [54.280429325070855, -9.82214213660884], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "grey", id: "ac" },
+
+    ];
+
+    houses.forEach(house => {
+      var houseMarkerOptions = {
+        icon: house.iconUrl ? L.icon({
+          iconUrl: house.iconUrl,
+          iconSize: [25, 25],
+          iconAnchor: [12, 12],
+          popupAnchor: [0, -12],
+        }) : undefined
+      };
+
+      house.marker = L.marker(house.coords, houseMarkerOptions).addTo(map).bindPopup(house.name);
+      house.circle = L.circle(house.coords, {
+        color: house.color || 'blue',
+        fillColor: house.color || 'blue',
+        fillOpacity: 0.2,
+        radius: 100000 // 100km in meters
+      });
+
+      // Add a click event listener to the marker's icon
+      if (house.iconUrl) {
+        let isRingVisible = true; // Variable to track the ring's visibility
+
+        house.marker.on('click', function () {
+          if (isRingVisible) {
+            if (house.circle) {
+              map.removeLayer(house.circle);
+            }
+          } else {
+            if (house.circle) {
+              map.addLayer(house.circle);
+            }
+          }
+
+          isRingVisible = !isRingVisible; // Toggle the ring's visibility
+        });
+      }
+    });
+
+
+
+
+
+    //Button listeners***************************************************************************************************************************************************
+
+    // Initialize a counter variable
+    var electriciansButtonCounter = 0;
+
+    // Event listener for the "Electricians" button
+    var electriciansButton = document.getElementById("Electricians");
+    electriciansButton.addEventListener("click", function () {
+      electriciansButtonCounter++;
+
+      if (electriciansButtonCounter % 2 === 1) {
+        electriciansButton.classList.add("selected");
+        // Show electrician markers
+        houses.forEach(house => {
+          if (house.id === "electrician") {
+            house.marker.getElement().classList.remove("hidden");
+            if (house.circle) {
+              map.addLayer(house.circle);
+            }
+          }
+        });
+      } else {
+        electriciansButton.classList.remove("selected");
+        // Hide electrician markers
+        houses.forEach(house => {
+          if (house.id === "electrician") {
+            house.marker.getElement().classList.add("hidden");
+            if (house.circle) {
+              map.removeLayer(house.circle);
+            }
+          }
+        });
+      }
+    });
+
+
+
+    // Initialize a counter variable
+    var generalOperativesButtonCounter = 0;
+
+    // Event listener for the "General Operatives" button
+    var generalOperativesButton = document.getElementById("GeneralOperatives");
+    generalOperativesButton.addEventListener("click", function () {
+      generalOperativesButtonCounter++;
+
+      if (generalOperativesButtonCounter % 2 === 1) {
+        generalOperativesButton.classList.add("selected");
+        // Show general operative markers
+        houses.forEach(house => {
+          if (house.id === "generaloperative") {
+            house.marker.getElement().classList.remove("hidden");
+            if (house.circle) {
+              map.addLayer(house.circle);
+            }
+          }
+        });
+      } else {
+        generalOperativesButton.classList.remove("selected");
+        // Hide general operative markers
+        houses.forEach(house => {
+          if (house.id === "generaloperative") {
+            house.marker.getElement().classList.add("hidden");
+            if (house.circle) {
+              map.removeLayer(house.circle);
+            }
+          }
+        });
+      }
+    });
+
+
+    // Initialize a counter variable
+    var plumbersButtonCounter = 0;
+    // Event listener for the "Plumbers" button
+    var plumbersButton = document.getElementById("Plumbers");
+    plumbersButton.addEventListener("click", function () {
+      plumbersButtonCounter++;
+
+      if (plumbersButtonCounter % 2 === 1) {
+        plumbersButton.classList.add("selected");
+        // Show plumber markers and rings
+        houses.forEach(house => {
+          if (house.id === "plumber") {
+            house.marker.getElement().classList.remove("hidden");
+            if (house.circle) {
+              map.addLayer(house.circle);
+            }
+          }
+        });
+      } else {
+        plumbersButton.classList.remove("selected");
+        // Hide plumber markers and rings
+        houses.forEach(house => {
+          if (house.id === "plumber") {
+            house.marker.getElement().classList.add("hidden");
+            if (house.circle) {
+              map.removeLayer(house.circle);
+            }
+          }
+        });
+      }
+    });
+
+
+
+    // Initialize a counter variable
+    var RGIPlumbersButtonCounter = 0;
+
+    // Event listener for the "RGIPlumbers" button
+    var RGIPlumbersButton = document.getElementById("RGIPlumbers");
+    RGIPlumbersButton.addEventListener("click", function () {
+      RGIPlumbersButtonCounter++;
+
+      if (RGIPlumbersButtonCounter % 2 === 1) {
+        RGIPlumbersButton.classList.add("selected");
+        // Show RGI plumber markers and rings
+        houses.forEach(house => {
+          if (house.id === "rgiplumber") {
+            house.marker.getElement().classList.remove("hidden");
+            if (house.circle) {
+              map.addLayer(house.circle);
+            }
+          }
+        });
+      } else {
+        RGIPlumbersButton.classList.remove("selected");
+        // Hide RGI plumber markers and rings
+        houses.forEach(house => {
+          if (house.id === "rgiplumber") {
+            house.marker.getElement().classList.add("hidden");
+            if (house.circle) {
+              map.removeLayer(house.circle);
+            }
+          }
+        });
+      }
+    });
+
+
+
+    // Initialize a counter variable
+    var ACSButtonCounter = 0;
+
+    // Event listener for the "ACs" button
+    var ACSButton = document.getElementById("acs");
+    ACSButton.addEventListener("click", function () {
+      ACSButtonCounter++;
+
+      if (ACSButtonCounter % 2 === 1) {
+        ACSButton.classList.add("selected");
+        // Show AC markers and rings
+        houses.forEach(house => {
+          if (house.id === "ac") {
+            house.marker.getElement().classList.remove("hidden");
+            if (house.circle) {
+              map.addLayer(house.circle);
+            }
+          }
+        });
+      } else {
+        ACSButton.classList.remove("selected");
+        // Hide AC markers and rings
+        houses.forEach(house => {
+          if (house.id === "ac") {
+            house.marker.getElement().classList.add("hidden");
+            if (house.circle) {
+              map.removeLayer(house.circle);
+            }
+          }
+        });
+      }
+    });
+
+    //OPW Toggle
+    var opwsButtonCounter = 0;
+
+    var opwsButton = document.getElementById("opws");
+    opwsButton.addEventListener("click", function () {
+      opwsButtonCounter++;
+
+      if (opwsButtonCounter % 2 === 1) {
+        opwsButton.classList.add("selected");
+      } else {
+        opwsButton.classList.remove("selected");
+      }
+
+      cities.forEach(city => {
+        if (city.id.trim() === "opw") { // Trim the ID value before checking
+          if (opwsButtonCounter % 2 === 1) {
+            map.addLayer(city.marker);
+          } else {
+            map.removeLayer(city.marker);
+          }
+        }
+      });
+    });
+
+    //AnPost Toggle
+    var anpostsButtonCounter = 0;
+
+    var anpostsButton = document.getElementById("anposts");
+    anpostsButton.addEventListener("click", function () {
+      anpostsButtonCounter++;
+
+      if (anpostsButtonCounter % 2 === 1) {
+        anpostsButton.classList.add("selected");
+      } else {
+        anpostsButton.classList.remove("selected");
+      }
+
+      cities.forEach(city => {
+        if (city.id.trim() === "anpost") { // Trim the ID value before checking
+          if (anpostsButtonCounter % 2 === 1) {
+            map.addLayer(city.marker);
+          } else {
+            map.removeLayer(city.marker);
+          }
+        }
+      });
+    });
+
+    //IPS Toggle 
+    var ipssButtonCounter = 0;
+
+    var ipssButton = document.getElementById("ipss");
+    ipssButton.addEventListener("click", function () {
+      ipssButtonCounter++;
+
+      if (ipssButtonCounter % 2 === 1) {
+        ipssButton.classList.add("selected");
+      } else {
+        ipssButton.classList.remove("selected");
+      }
+
+      cities.forEach(city => {
+        if (city.id.trim() === "ips") { // Trim the ID value before checking
+          if (ipssButtonCounter % 2 === 1) {
+            map.addLayer(city.marker);
+          } else {
+            map.removeLayer(city.marker);
+          }
+        }
+      });
+    });
+
+    //HSE Toggle 
+    var hsesButtonCounter = 0;
+
+    var hsesButton = document.getElementById("hses");
+    hsesButton.addEventListener("click", function () {
+      hsesButtonCounter++;
+
+      if (hsesButtonCounter % 2 === 1) {
+        hsesButton.classList.add("selected");
+      } else {
+        hsesButton.classList.remove("selected");
+      }
+
+      cities.forEach(city => {
+        if (city.id.trim() === "hse") { // Trim the ID value before checking
+          if (hsesButtonCounter % 2 === 1) {
+            map.addLayer(city.marker);
+          } else {
+            map.removeLayer(city.marker);
+          }
+        }
+      });
+    });
+
+    //Others Toggle
+    var othersButtonCounter = 0;
+
+    var othersButton = document.getElementById("others");
+    othersButton.addEventListener("click", function () {
+      othersButtonCounter++;
+
+      if (othersButtonCounter % 2 === 1) {
+        othersButton.classList.add("selected");
+      } else {
+        othersButton.classList.remove("selected");
+      }
+
+      cities.forEach(city => {
+        if (city.id.trim() === "other") { // Trim the ID value before checking
+          if (othersButtonCounter % 2 === 1) {
+            map.addLayer(city.marker);
+          } else {
+            map.removeLayer(city.marker);
+          }
+        }
+      });
+    });
+
+    // Reset Button
+    var resetButton = document.getElementById("resetButton");
+    resetButton.addEventListener("click", function () {
+      // Reset all button states
+      electriciansButtonCounter = 0;
+      electriciansButton.classList.remove("selected");
+
+      generalOperativesButtonCounter = 0;
+      generalOperativesButton.classList.remove("selected");
+
+      plumbersButtonCounter = 0;
+      plumbersButton.classList.remove("selected");
+
+      RGIPlumbersButtonCounter = 0;
+      RGIPlumbersButton.classList.remove("selected");
+
+      ACSButtonCounter = 0;
+      ACSButton.classList.remove("selected");
+
+      opwsButtonCounter = 0;
+      opwsButton.classList.remove("selected");
+
+      anpostsButtonCounter = 0;
+      anpostsButton.classList.remove("selected");
+
+      ipssButtonCounter = 0;
+      ipssButton.classList.remove("selected");
+
+      hsesButtonCounter = 0;
+      hsesButton.classList.remove("selected");
+
+      otherssButtonCounter = 0;
+      othersButton.classList.remove("selected");
+
+      // Reset markers and rings
+      houses.forEach(house => {
+        house.marker.getElement().classList.add("hidden");
+        if (house.circle) {
+          map.removeLayer(house.circle);
+        }
+      });
+
+      cities.forEach(city => {
+        map.removeLayer(city.marker);
+      });
+    });
+
+    // Event listener for the "ToggleElectriciansCircle" button
+    var toggleElectriciansCircleButton = document.getElementById("ToggleElectriciansCircle");
+    toggleElectriciansCircleButton.addEventListener("click", function () {
+      houses.forEach(house => {
+        if (house.id === "electrician") {
+          if (house.circle) {
+            if (map.hasLayer(house.circle)) {
+              map.removeLayer(house.circle);
+            } else {
+              map.addLayer(house.circle);
+            }
+          }
+        }
+      });
+    });
+
+    // Event listener for the "ToggleGeneralOperativesCircle" button
+    var toggleGeneralOperativesCircleButton = document.getElementById("ToggleGeneralOperativesCircle");
+    toggleGeneralOperativesCircleButton.addEventListener("click", function () {
+      houses.forEach(house => {
+        if (house.id === "generaloperative") {
+          if (house.circle) {
+            if (map.hasLayer(house.circle)) {
+              map.removeLayer(house.circle);
+            } else {
+              map.addLayer(house.circle);
+            }
+          }
+        }
+      });
+    });
+
+    // Event listener for the "TogglePlumbersCircle" button
+    var togglePlumbersCircleButton = document.getElementById("TogglePlumbersCircle");
+    togglePlumbersCircleButton.addEventListener("click", function () {
+      houses.forEach(house => {
+        if (house.id === "plumber") {
+          if (house.circle) {
+            if (map.hasLayer(house.circle)) {
+              map.removeLayer(house.circle);
+            } else {
+              map.addLayer(house.circle);
+            }
+          }
+        }
+      });
+    });
+
+    // Event listener for the "ToggleRGIPlumbersCircle" button
+    var toggleRGIPlumbersCircleButton = document.getElementById("ToggleRGIPlumbersCircle");
+    toggleRGIPlumbersCircleButton.addEventListener("click", function () {
+      houses.forEach(house => {
+        if (house.id === "rgiplumber") {
+          if (house.circle) {
+            if (map.hasLayer(house.circle)) {
+              map.removeLayer(house.circle);
+            } else {
+              map.addLayer(house.circle);
+            }
+          }
+        }
+      });
+    });
+
+    // Event listener for the "ToggleACCircle" button
+    var toggleACCircleButton = document.getElementById("ToggleACCircle");
+    toggleACCircleButton.addEventListener("click", function () {
+      houses.forEach(house => {
+        if (house.id === "ac") {
+          if (house.circle) {
+            if (map.hasLayer(house.circle)) {
+              map.removeLayer(house.circle);
+            } else {
+              map.addLayer(house.circle);
+            }
+          }
+        }
+      });
+    });
+
+  </script>
+</body>
+
+</html>
