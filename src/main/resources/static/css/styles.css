@@ -52,7 +52,7 @@ footer {
     text-align: center;
 }
 
-/* Responsive design for smaller screens (up to 600px) */
+/* Responsive design for small screens (up to 600px) */
 @media only screen and (max-width: 600px) {
     nav a {
         float: none;
@@ -77,8 +77,19 @@ footer {
     }
 }
 
-/* Responsive design for large screens (901px and above) */
-@media only screen and (min-width: 901px) {
+/* Responsive design for large screens (901px to 1200px) */
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+    nav a {
+        padding: 12px;
+    }
+
+    main {
+        padding: 18px;
+    }
+}
+
+/* Responsive design for extra-large screens (1201px and above) */
+@media only screen and (min-width: 1201px) {
     nav a {
         padding: 16px;
     }
