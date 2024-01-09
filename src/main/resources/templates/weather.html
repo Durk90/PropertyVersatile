@@ -32,43 +32,47 @@
         <canvas id="weather-chart"></canvas>
 
         <script>
-            // Dummy data for testing
-            var dummyData = {
-                hourlyTimes: ["1", "2", "3", "4", "5"],
-                hourlyTemperatures: [20, 22, 18, 25, 23],
-                hourlyWindSpeeds: [5, 8, 10, 7, 6],
-                current: {
-                    time: "Now",
-                    temperature_2m: 23,
-                    wind_speed_10m: 6
+            // Function to fetch weather data from the Open Meteo API
+            async function fetchWeatherData() {
+                try {
+                    const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,snowfall,snow_depth,wind_speed_10m&timezone=Europe%2FLondon";
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error("Error fetching weather data:", error);
+                    return null;
                 }
-            };
-        
+            }
+
             // Function to display weather data and create a chart
-            function displayWeatherData() {
+            async function displayWeatherData() {
+                // Fetch weather data
+                const weatherData = await fetchWeatherData();
+
                 // If data is available, proceed to display
-                if (dummyData) {
-                    console.log("Dummy Data:", dummyData);
-        
-                    // Access the relevant data from the dummy data
-                    var hourlyTimes = dummyData.hourlyTimes;
-                    var hourlyTemperatures = dummyData.hourlyTemperatures;
-                    var hourlyWindSpeeds = dummyData.hourlyWindSpeeds;
-        
+                if (weatherData) {
+                    console.log("Weather Data:", weatherData); // Log data to console for debugging
+
+                    // Access the relevant data from the API response
+                    var hourlyTimes = weatherData.hourly.time;
+                    var hourlyTemperatures = weatherData.hourly.temperature_2m;
+                    var hourlyWindSpeeds = weatherData.hourly.wind_speed_10m;
+
                     // Create HTML content with the current weather data
                     var currentWeatherHtml = `
                         <h2>Current Weather</h2>
-                        <p>Time: ${dummyData.current.time}</p>
-                        <p>Temperature: ${dummyData.current.temperature_2m} °C</p>
-                        <p>Wind Speed: ${dummyData.current.wind_speed_10m} m/s</p>
+                        <p>Time: ${weatherData.current.time}</p>
+                        <p>Temperature: ${weatherData.current.temperature_2m} °C</p>
+                        <p>Wind Speed: ${weatherData.current.wind_speed_10m} m/s</p>
                     `;
-        
+
                     // Update the HTML in the weather-container
                     document.getElementById("weather-container").innerHTML = currentWeatherHtml;
-        
+
                     // Create a line chart using Chart.js
                     var ctx = document.getElementById("weather-chart").getContext("2d");
-        
+
                     var chartData = {
                         labels: hourlyTimes,
                         datasets: [
@@ -88,7 +92,7 @@
                             },
                         ],
                     };
-        
+
                     var chartOptions = {
                         scales: {
                             x: {
@@ -117,21 +121,20 @@
                             },
                         },
                     };
-        
+
                     var weatherChart = new Chart(ctx, {
                         type: "line",
                         data: chartData,
                         options: chartOptions,
                     });
                 } else {
-                    console.error("Dummy data not available");
+                    console.error("Weather data not available");
                 }
             }
-        
+
             // Display the weather data when the page loads
             displayWeatherData();
         </script>
-        
     </main>
 
     <footer>
