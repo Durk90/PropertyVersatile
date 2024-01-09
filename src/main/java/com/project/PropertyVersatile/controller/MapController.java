@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MapController {
 
-    @GetMapping("/maintenance-requests")
+    @GetMapping("/engineers")
     public String showMaintenanceRequestsMap(Model model) {
        
         model.addAttribute("mapMessage", "Welcome to the Maintenance Requests Map!");

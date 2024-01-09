@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property-Versatile - Weather</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -24,28 +26,47 @@
     </nav>
 
     <main>
-        <h2>Current Weather</h2>
-        <p th:text="${weatherData.current.time}"></p>
-        <p th:text="${weatherData.current.temperature_2m}"></p>
-        <p th:text="${weatherData.current.wind_speed_10m}"></p>
+        <div id="weather-container">
+            <!-- Weather data will be displayed here -->
+        </div>
 
-        <h2>Hourly Weather</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Temperature (2m)</th>
-                    <th>Wind Speed (10m)</th>
-                </tr>
-            </thead>
-            <tbody th:each="weather, i : ${weatherData.hourly.time}">
-                <tr>
-                    <td th:text="${weatherData.hourly.time[i.index]}"></td>
-                    <td th:text="${weatherData.hourly.temperature_2m[i.index]}"></td>
-                    <td th:text="${weatherData.hourly.wind_speed_10m[i.index]}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <script>
+            // API URL
+            var apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,snowfall,snow_depth,wind_speed_10m&timezone=Europe%2FLondon";
+
+            // Fetch data from the API
+            $.ajax({
+                url: apiUrl,
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    // Process the retrieved data and update the HTML
+                    displayWeatherData(data);
+                },
+                error: function (error) {
+                    console.error("Error fetching weather data:", error);
+                }
+            });
+
+            // Function to display weather data in the HTML
+            function displayWeatherData(data) {
+                // Access the relevant data from the API response
+                var currentWeatherTime = data.current.time;
+                var currentTemperature = data.current.temperature_2m;
+                var currentWindSpeed = data.current.wind_speed_10m;
+
+                // Create HTML content with the current weather data
+                var currentWeatherHtml = `
+                    <h2>Current Weather</h2>
+                    <p>Time: ${currentWeatherTime}</p>
+                    <p>Temperature: ${currentTemperature} °C</p>
+                    <p>Wind Speed: ${currentWindSpeed} m/s</p>
+                `;
+
+                // Update the HTML in the weather-container
+                $("#weather-container").html(currentWeatherHtml);
+            }
+        </script>
     </main>
 
     <footer>
