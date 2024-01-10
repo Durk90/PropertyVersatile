@@ -10,7 +10,7 @@ import com.project.PropertyVersatile.model.WeatherData;
 @Service
 public class WeatherService {
     
-    @Value("${weather.api.url}")
+    @Value("${open-meteo.api.url}")
     private String weatherApiUrl;
 
     public WeatherData getWeatherData(double latitude, double longitude) {
