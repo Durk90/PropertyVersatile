@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Weather</title>
-        <link th:href="@{/css/weather-styles.css}" rel="stylesheet" />
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
-    </head>
-    
-    <body>
-        <div class="container">
-            <img src="" alt="" srcset="" id="weather-icon">
-            <div id="location">Unable to Fetch Weather</div>
-            <div class="desc">No Information Available.</div>
-            <div class="weather">
-                <div class="c">Error</div>
-                <div class="circle"></div>
-                <div class="f">Error</div>
-            </div>
-            <div class="info">
-                <h4>Sunrise: <span class="sunrise">No Information Available</span></h4>
-                <h4>Sunset: <span class="sunset">No Information Available</span></h4>
-            </div>
-    
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather</title>
+    <link th:href="@{/css/weather-styles.css}" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Property-Versatile</h1>
+    </header>
+
+    <nav>
+        <a th:href="@{/index}">Home</a>
+        <a th:href="@{/properties}">Properties</a>
+        <a th:href="@{/maintenance}">Maintenance Requests</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/engineers}">Engineers</a>
+    </nav>
+    <div class="container">
+        <img src="" alt="" srcset="" id="weather-icon">
+        <div id="location">Unable to Fetch Weather</div>
+        <div class="desc">No Information Available.</div>
+        <div class="weather">
+            <div class="c">Error</div>
+            <div class="circle"></div>
+            <div class="f">Error</div>
         </div>
-        <script src="scripts.js"></script>
-    </body>
-    
-    </html>
+        <div class="info">
+            <h4>Sunrise: <span class="sunrise">No Information Available</span></h4>
+            <h4>Sunset: <span class="sunset">No Information Available</span></h4>
+        </div>
+
+    </div>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
