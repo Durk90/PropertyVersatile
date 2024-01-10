@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>   
+    <script th:src="@{/js/map.js}"></script>
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
         <a th:href="@{/weather}">Weather</a>
         <a th:href="@{/engineers}">Engineers</a>
     </nav>
-    
+
     <div id="map" style="height: 600px;"></div>
 
     <script>
