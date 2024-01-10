@@ -3,7 +3,6 @@ package com.project.PropertyVersatile.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.project.PropertyVersatile.model.WeatherData;
 
@@ -14,14 +13,11 @@ public class WeatherService {
     private String weatherApiUrl;
 
     public WeatherData getWeatherData(double latitude, double longitude) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(weatherApiUrl)
-                .queryParam("latitude", latitude)
-                .queryParam("longitude", longitude)
-                .queryParam("current", "temperature_2m,rain,showers,snowfall")
-                .queryParam("hourly", "temperature_2m,relative_humidity_2m,precipitation_probability,snowfall,snow_depth,wind_speed_10m")
-                .queryParam("timezone", "Europe/London");
-
-        String apiUrl = builder.toUriString();
+        String apiUrl = weatherApiUrl + "?latitude=" + latitude +
+                "&longitude=" + longitude +
+                "&current=temperature_2m,rain,showers,snowfall" +
+                "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,snowfall,snow_depth,wind_speed_10m" +
+                "&timezone=Europe%2FLondon";
 
         // Make an HTTP request to the weather API
         RestTemplate restTemplate = new RestTemplate();
