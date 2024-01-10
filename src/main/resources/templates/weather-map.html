@@ -2,14 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Map</title>
-    
-    <link th:href="@{/css/map.css}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script th:src="@{/js/map.js}"></script>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Weather Map</title>
+
+   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+   <link rel="stylesheet" href="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.css" />
+   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   <script src="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.js"></script>
+   <script th:src="@{/js/map.js}"></script>
 
 </head>
 
@@ -35,8 +36,8 @@
             // Your OpenWeatherMap API key
             var apiKey = '7329adde15660656920342e78257e068';
 
-            // Add your OpenWeatherMap layer URL here
-            var layerUrl = 'https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey;
+            // Updated OpenWeatherMap layer URL
+            var layerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/PARAIN/{z}/{x}/{y}?date=1618898990&appid=' + apiKey;
 
             // Create the map with an initial location and zoom level
             map = L.map('map').setView([51.58, 10.1], 6);
