@@ -8,6 +8,6 @@ public class WeatherController {
 
     @GetMapping("/weather")
     public String showWeatherPage() {
-        return "weather"; // Assuming "weather.html" is your Thymeleaf template
+        return "weather"; 
     }
 }
