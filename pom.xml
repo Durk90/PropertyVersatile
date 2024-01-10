@@ -21,6 +21,11 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>leaflet</artifactId>
+        <version>1.7.1</version>
+    </dependency>
         <!-- Azure SQL JDBC driver -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
