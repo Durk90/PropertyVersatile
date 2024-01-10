@@ -26,6 +26,7 @@
     </nav>
     <div class="container">
         <img src="" alt="" srcset="" id="weather-icon">
+        <img src="" alt="" srcset="" id="weather-map">
         <div id="location">Unable to Fetch Weather</div>
         <div class="desc">No Information Available.</div>
         <div class="weather">
@@ -37,9 +38,60 @@
             <h4>Sunrise: <span class="sunrise">No Information Available</span></h4>
             <h4>Sunset: <span class="sunset">No Information Available</span></h4>
         </div>
-
     </div>
     <script th:src="@{/js/scripts.js}"></script>
+    <script>
+        const api = '7329adde15660656920342e78257e068'; // Replace with your API
+        const iconImg = document.getElementById('weather-icon');
+        const mapImg = document.getElementById('weather-map');
+        const loc = document.querySelector('#location');
+        const tempC = document.querySelector('.c');
+        const tempF = document.querySelector('.f');
+        const desc = document.querySelector('.desc');
+        const sunriseDOM = document.querySelector('.sunrise');
+        const sunsetDOM = document.querySelector('.sunset');
+        
+        window.addEventListener('load', () => {
+            let long;
+            let lat;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    long = position.coords.longitude;
+                    lat = position.coords.latitude;
+                    const base = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${api}&units=metric`;
+                    
+                    fetch(base)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((data) => {
+                            const { temp } = data.main;
+                            const place = data.name;
+                            const { description, icon } = data.weather[0];
+                            const { sunrise, sunset } = data.sys;
+                            
+                            const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+                            const mapUrl = `https://tile.openweathermap.org/map/precipitation_new/5/${Math.floor(
+                                lat
+                            )}/${Math.floor(long)}.png?appid=${api}`;
+                            const fahrenheit = (temp * 9) / 5 + 32;
+                            
+                            const sunriseGMT = new Date(sunrise * 1000);
+                            const sunsetGMT = new Date(sunset * 1000);
+                            
+                            iconImg.src = iconUrl;
+                            mapImg.src = mapUrl;
+                            loc.textContent = `${place}`;
+                            desc.textContent = `${description}`;
+                            tempC.textContent = `${temp.toFixed(2)} °C`;
+                            tempF.textContent = `${fahrenheit.toFixed(2)} °F`;
+                            sunriseDOM.textContent = `${sunriseGMT.toLocaleDateString()}, ${sunriseGMT.toLocaleTimeString()}`;
+                            sunsetDOM.textContent = `${sunsetGMT.toLocaleDateString()}, ${sunsetGMT.toLocaleTimeString()}`;
+                        });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
