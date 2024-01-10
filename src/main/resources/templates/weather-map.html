@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Map</title>
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.css" />
-    <link th:href="@{/css/map.css}" rel="stylesheet" />
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.js"></script>
     <script th:src="@{/js/map.js}"></script>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
 
 <body>
@@ -25,9 +21,9 @@
         <a th:href="@{/properties}">Properties</a>
         <a th:href="@{/maintenance}">Maintenance Requests</a>
         <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/weather-map}">Weather Map</a>
         <a th:href="@{/engineers}">Engineers</a>
     </nav>
-
     <div id="map" style="height: 600px;"></div>
 
     <script>
@@ -37,12 +33,24 @@
             // Your OpenWeatherMap API key
             var apiKey = '7329adde15660656920342e78257e068';
 
-            // Updated OpenWeatherMap layer URLs
-            var parainLayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/PARAIN/{z}/{x}/{y}?date=1618898990&appid=' + apiKey;
-            var ta2LayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/TA2/{z}/{x}/{y}?date=1618898990&opacity=0.9&fill_bound=true&palette=0:FF0000;10:00FF00;20:0000FF&appid=' + apiKey;
+            // Add your existing OpenWeatherMap layer URL here
+            var existingLayerUrl = 'https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey;
+
+            // Add the new OpenWeatherMap layer URL here
+            var newLayerUrl = 'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + apiKey;
+
+            // Add the new OpenWeatherMap layer URL here
+            var newLayerUrl = 'https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey;
+
+            // Add the new OpenWeatherMap layer URL here
+            var newLayerUrl = 'https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey;
+
+            // Add the new OpenWeatherMap layer URL here
+            var newLayerUrl = 'https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=' + apiKey;
+
 
             // Create the map with an initial location and zoom level
-            map = L.map('map').setView([53.349805, -6.26031], 6);
+            map = L.map('map').setView([51.58, 10.1], 6);
 
             // Add the OpenStreetMap layer as a base map
             var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -50,15 +58,34 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Add the OpenWeatherMap layers as overlays
-            var parainLayer = L.tileLayer(parainLayerUrl, {
+            // Add the existing OpenWeatherMap layer as an overlay
+            var existingWeatherLayer = L.tileLayer(existingLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
             }).addTo(map);
 
-            var ta2Layer = L.tileLayer(ta2LayerUrl, {
+            // Add the new OpenWeatherMap layer as an overlay
+            var newWeatherLayer = L.tileLayer(newLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
+            }).addTo(map);
+
+            // Add the new OpenWeatherMap layer as an overlay
+            var newWeatherLayer = L.tileLayer(newLayerUrl, {
+                maxZoom: 19,
+                attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
+            }).addTo(map);
+
+            // Add the new OpenWeatherMap layer as an overlay
+            var newWeatherLayer = L.tileLayer(newLayerUrl, {
+                maxZoom: 19,
+                attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
+            }).addTo(map);
+
+            // Add the OpenStreetMap layer as a base map
+            var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
             }).addTo(map);
 
             // Create a layer control for switching between base and overlay maps
@@ -67,9 +94,11 @@
             };
 
             var overlayMaps = {
-                'PARAIN': parainLayer,
-                'TA2': ta2Layer
-                // Add other overlay layers here if needed
+                'Current Rainfall': existingWeatherLayer,
+                'Current Temperature': newWeatherLayer,
+                'Wind Intensity': newWeatherLayer,
+                'Cloud Coverage': newWeatherLayer,
+                'Pressure Intensity': newWeatherLayer
             };
 
             L.control.layers(baseMaps, overlayMaps).addTo(map);
@@ -78,6 +107,9 @@
         // Call the initMap function when the page has finished loading
         document.addEventListener('DOMContentLoaded', initMap);
     </script>
+    <footer>
+        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+    </footer>
 </body>
 
 </html>
