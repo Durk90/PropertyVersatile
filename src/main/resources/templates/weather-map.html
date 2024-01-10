@@ -36,18 +36,11 @@
             // Add your existing OpenWeatherMap layer URL here
             var existingLayerUrl = 'https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey;
 
-            // Add the new OpenWeatherMap layer URL here
-            var newLayerUrl = 'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + apiKey;
-
-            // Add the new OpenWeatherMap layer URL here
-            var newLayerUrl = 'https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey;
-
-            // Add the new OpenWeatherMap layer URL here
-            var newLayerUrl = 'https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey;
-
-            // Add the new OpenWeatherMap layer URL here
-            var newLayerUrl = 'https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=' + apiKey;
-
+            // Add the new OpenWeatherMap layer URLs here
+            var tempLayerUrl = 'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + apiKey;
+            var windLayerUrl = 'https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey;
+            var cloudsLayerUrl = 'https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey;
+            var pressureLayerUrl = 'https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=' + apiKey;
 
             // Create the map with an initial location and zoom level
             map = L.map('map').setView([51.58, 10.1], 6);
@@ -64,29 +57,26 @@
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
             }).addTo(map);
 
-            // Add the new OpenWeatherMap layer as an overlay
-            var newWeatherLayer = L.tileLayer(newLayerUrl, {
+            // Add the new OpenWeatherMap layers as overlays
+            var tempWeatherLayer = L.tileLayer(tempLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
-            }).addTo(map);
+            });
 
-            // Add the new OpenWeatherMap layer as an overlay
-            var newWeatherLayer = L.tileLayer(newLayerUrl, {
+            var windWeatherLayer = L.tileLayer(windLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
-            }).addTo(map);
+            });
 
-            // Add the new OpenWeatherMap layer as an overlay
-            var newWeatherLayer = L.tileLayer(newLayerUrl, {
+            var cloudsWeatherLayer = L.tileLayer(cloudsLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
-            }).addTo(map);
+            });
 
-            // Add the OpenStreetMap layer as a base map
-            var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            var pressureWeatherLayer = L.tileLayer(pressureLayerUrl, {
                 maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
-            }).addTo(map);
+                attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
+            });
 
             // Create a layer control for switching between base and overlay maps
             var baseMaps = {
@@ -95,10 +85,10 @@
 
             var overlayMaps = {
                 'Current Rainfall': existingWeatherLayer,
-                'Current Temperature': newWeatherLayer,
-                'Wind Intensity': newWeatherLayer,
-                'Cloud Coverage': newWeatherLayer,
-                'Pressure Intensity': newWeatherLayer
+                'Current Temperature': tempWeatherLayer,
+                'Wind Intensity': windWeatherLayer,
+                'Cloud Coverage': cloudsWeatherLayer,
+                'Pressure Intensity': pressureWeatherLayer
             };
 
             L.control.layers(baseMaps, overlayMaps).addTo(map);
