@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.css" />
+    <link th:href="@{/css/map.css}" rel="stylesheet" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.js"></script>
     <script th:src="@{/js/map.js}"></script>
@@ -35,11 +36,9 @@
             // Your OpenWeatherMap API key
             var apiKey = '7329adde15660656920342e78257e068';
 
-            // Updated OpenWeatherMap layer URL for PARAIN
+            // Updated OpenWeatherMap layer URLs
             var parainLayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/PARAIN/{z}/{x}/{y}?date=1618898990&appid=' + apiKey;
-
-            // New OpenWeatherMap layer URL for temp_new
-            var tempNewLayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/temp_new/{z}/{x}/{y}?appid=' + apiKey;
+            var ta2LayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/TA2/{z}/{x}/{y}?appid=' + apiKey;
 
             // Create the map with an initial location and zoom level
             map = L.map('map').setView([51.58, 10.1], 6);
@@ -54,12 +53,12 @@
             var parainLayer = L.tileLayer(parainLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
-            });
+            }).addTo(map);
 
-            var tempNewLayer = L.tileLayer(tempNewLayerUrl, {
+            var ta2Layer = L.tileLayer(ta2LayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
-            });
+            }).addTo(map);
 
             // Create a layer control for switching between base and overlay maps
             var baseMaps = {
@@ -67,8 +66,9 @@
             };
 
             var overlayMaps = {
-                'PARAIN Map': parainLayer,
-                'temp_new Map': tempNewLayer
+                'PARAIN': parainLayer,
+                'TA2': ta2Layer
+                // Add other overlay layers here if needed
             };
 
             L.control.layers(baseMaps, overlayMaps).addTo(map);
