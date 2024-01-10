@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WeatherMapController {
 
-    @GetMapping("/weathermap")
+    @GetMapping("/weather-map")
     public String showWeatherMap() {
-        return "weathermap";
+        return "weather-map";
     }
 }
