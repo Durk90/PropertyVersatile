@@ -1,0 +1,18 @@
+body,
+html {
+  margin: 0;
+  overflow: hidden;
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+}
+
+.selected {
+  background-color: lightgreen;
+}
+
+.hidden {
+  display: none;
+}
