@@ -21,8 +21,10 @@
     <a th:href="@{/weather}">Weather</a>
     <a th:href="@{/weather-map}">Weather Map</a>
     <a th:href="@{/engineers}">Engineers</a>
-</nav>
+  </nav>
 
+  <script th:src="@{/js/engineers.js}"></script>
+  
   <div id="map"></div>
 
   <!-- Engineer Buttons -->
@@ -41,17 +43,20 @@
 
   <!-- Toggle Radius Buttons -->
   <div id="toggleRadiusButtons">
-    <button id="ToggleElectriciansCircle" class="toggle-radius-button" style="top: 20px; right: 150px;">Toggle Radius</button>
-    <button id="ToggleGeneralOperativesCircle" class="toggle-radius-button" style="top: 70px; right: 150px;">Toggle Radius</button>
-    <button id="TogglePlumbersCircle" class="toggle-radius-button" style="top: 120px; right: 150px;">Toggle Radius</button>
-    <button id="ToggleRGIPlumbersCircle" class="toggle-radius-button" style="top: 170px; right: 150px;">Toggle Radius</button>
+    <button id="ToggleElectriciansCircle" class="toggle-radius-button" style="top: 20px; right: 150px;">Toggle
+      Radius</button>
+    <button id="ToggleGeneralOperativesCircle" class="toggle-radius-button" style="top: 70px; right: 150px;">Toggle
+      Radius</button>
+    <button id="TogglePlumbersCircle" class="toggle-radius-button" style="top: 120px; right: 150px;">Toggle
+      Radius</button>
+    <button id="ToggleRGIPlumbersCircle" class="toggle-radius-button" style="top: 170px; right: 150px;">Toggle
+      Radius</button>
     <button id="ToggleACCircle" class="toggle-radius-button" style="top: 220px; right: 150px;">Toggle Radius</button>
   </div>
 
   <!-- Reset Button -->
   <button id="resetButton" style="top: 580px; right: 20px; background-color: lightcoral;">RESET ALL</button>
 
-  <script th:src="@{/js/engineers.js}"></script>
 </body>
 
 </html>
