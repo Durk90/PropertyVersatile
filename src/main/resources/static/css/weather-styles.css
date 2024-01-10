@@ -1,102 +1,102 @@
-/* https://nordicapis.com/how-to-build-an-api-driven-weather-app/#:~:text=First%2C%20go%20to%20OpenWeatherApp%20and,section%20and%20select%20'Subscribe'.*/
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  body {
-    font-family: 'Lora', serif;
-  }
+body {
+  font-family: 'Lora', serif;
+}
 
-  .container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: rgb(251, 242, 133);
-    background: radial-gradient(
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgb(173, 216, 230); 
+  background: radial-gradient(
       circle,
-      rgba(251, 242, 133, 0.6334908963585435) 0%,
-      rgba(224, 196, 91, 0.8407738095238095) 35%,
-      rgba(230, 224, 113, 1) 100%
-    );
-  }
+      rgba(173, 216, 230, 0.6334908963585435) 0%,
+      rgba(135, 206, 250, 0.8407738095238095) 35%,
+      rgba(135, 206, 250, 1) 100%
+  );
+}
 
-  .weather {
-    display: flex; 
-    align-items: center;
-    margin: 15px 0;
-    font-size: 1.5rem;
-  }
+.weather {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  font-size: 1.5rem;
+}
 
-  #location {
-    font-size: 3rem;
-    font-weight: 800;
-    font-style: italic;
-  }
-  .desc {
-    font-size: 1.25rem;
-    text-transform: capitalize;
-  }
+#location {
+  font-size: 3rem;
+  font-weight: 800;
+  font-style: italic;
+}
 
-  .circle {
-    background-color: black;
-    border-radius: 50px;
-    height: 15px;
-    width: 15px;
-    margin: 0 15px;
-  }
+.desc {
+  font-size: 1.25rem;
+  text-transform: capitalize;
+}
 
-  header {
-    background-color: #333;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
+.circle {
+  background-color: black;
+  border-radius: 50px;
+  height: 15px;
+  width: 15px;
+  margin: 0 15px;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
 }
 
 nav {
-    background-color: #555;
-    padding: 1em;
-    text-align: center;
+  background-color: #555;
+  padding: 1em;
+  text-align: center;
 }
 
 nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 1em;
-    margin: 0 1em;
+  color: #fff;
+  text-decoration: none;
+  padding: 1em;
+  margin: 0 1em;
 }
 
 main {
-    flex-grow: 1;
-    padding: 1em;
+  flex-grow: 1;
+  padding: 1em;
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
 }
 
 table {
-    width: 100%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    margin-top: 1em;
-    overflow-x: auto;
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  margin-top: 1em;
+  overflow-x: auto;
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
 
 th {
-    background-color: #555;
-    color: #fff;
+  background-color: #555;
+  color: #fff;
 }
