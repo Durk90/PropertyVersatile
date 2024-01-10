@@ -34,8 +34,11 @@
             // Your OpenWeatherMap API key
             var apiKey = '7329adde15660656920342e78257e068';
 
-            // Updated OpenWeatherMap layer URL
-            var layerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/PARAIN/{z}/{x}/{y}?date=1618898990&appid=' + apiKey;
+            // Updated OpenWeatherMap layer URL for PARAIN
+            var parainLayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/PARAIN/{z}/{x}/{y}?date=1618898990&appid=' + apiKey;
+
+            // New OpenWeatherMap layer URL for temp_new
+            var tempNewLayerUrl = 'https://maps.openweathermap.org/maps/2.0/weather/1h/temp_new/{z}/{x}/{y}?appid=' + apiKey;
 
             // Create the map with an initial location and zoom level
             map = L.map('map').setView([51.58, 10.1], 6);
@@ -46,11 +49,16 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Add the OpenWeatherMap layer as an overlay
-            var weatherLayer = L.tileLayer(layerUrl, {
+            // Add the OpenWeatherMap layers as overlays
+            var parainLayer = L.tileLayer(parainLayerUrl, {
                 maxZoom: 19,
                 attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
-            }).addTo(map);
+            });
+
+            var tempNewLayer = L.tileLayer(tempNewLayerUrl, {
+                maxZoom: 19,
+                attribution: 'Weather data &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>'
+            });
 
             // Create a layer control for switching between base and overlay maps
             var baseMaps = {
@@ -58,7 +66,8 @@
             };
 
             var overlayMaps = {
-                'Weather Map': weatherLayer
+                'PARAIN Map': parainLayer,
+                'temp_new Map': tempNewLayer
             };
 
             L.control.layers(baseMaps, overlayMaps).addTo(map);
