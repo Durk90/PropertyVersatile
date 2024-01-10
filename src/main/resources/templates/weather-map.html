@@ -8,6 +8,17 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
+    <header>
+        <h1>Property-Versatile</h1>
+    </header>
+
+    <nav>
+        <a th:href="@{/index}">Home</a>
+        <a th:href="@{/properties}">Properties</a>
+        <a th:href="@{/maintenance}">Maintenance Requests</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/engineers}">Engineers</a>
+    </nav>
     <div id="map" style="height: 600px;"></div>
 
     <script>
