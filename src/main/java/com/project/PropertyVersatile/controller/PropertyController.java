@@ -75,19 +75,7 @@ public class PropertyController {
             model.addAttribute("error", "Error retrieving property for editing");
             return "error";
         }
-    }
-
-    @PostMapping("/update")
-    public String updateProperty(@ModelAttribute Property property, Model model) {
-        try {
-            propertyService.updateProperty(property.getPropertyId(), property);
-            return "redirect:/properties";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error editing property");
-            return "error";
-        }
-    }
+    } 
 
     @GetMapping("/{propertyId}/delete")
     public String deleteProperty(@PathVariable int propertyId, Model model) {
@@ -99,6 +87,18 @@ public class PropertyController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error deleting property request");
+            return "error";
+        }
+    }
+    
+    @PostMapping("/update")
+    public String updateProperty(@ModelAttribute Property property, Model model) {
+        try {
+            propertyService.updateProperty(property.getPropertyId(), property);
+            return "redirect:/properties";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Error editing property");
             return "error";
         }
     }

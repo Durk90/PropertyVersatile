@@ -93,5 +93,26 @@ public class MaintenanceController {
             return "error";
         }
     }
+    
+    @PostMapping("/update")
+    public String updateMaintenance(@ModelAttribute Maintenance updatedMaintenance, Model model) {
+        try {
+            // Call the updateMaintenance method in the maintenanceService to update the maintenance request
+            maintenanceService.updateMaintenance(updatedMaintenance.getMaintenanceId(), updatedMaintenance);
+
+            // Redirect to the "/maintenance" URL after successfully updating the maintenance request
+            return "redirect:/maintenance";
+        } catch (Exception e) {
+            // If an exception occurs during the update operation:
+            e.printStackTrace();
+
+            // Add an error attribute to the model with an error message
+            model.addAttribute("error", "Error updating maintenance request");
+
+            // Return the name of the error view (e.g., "error")
+            return "error";
+        }
+    }
+
 
 }
