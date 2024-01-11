@@ -60,8 +60,7 @@ public class MaintenanceController {
     public String showEditMaintenanceForm(@PathVariable int maintenanceId, Model model) {
     	try {
             Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
-            model.addAttribute("maintenance", maintenance);
-            model.addAttribute("action", "edit"); // Set action to 'edit'
+            model.addAttribute("maintenance", maintenance);           
             return "edit-maintenance";
         } catch (Exception e) {
             e.printStackTrace();
