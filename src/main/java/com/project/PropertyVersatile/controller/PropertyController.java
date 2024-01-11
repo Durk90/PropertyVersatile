@@ -95,7 +95,7 @@ public class PropertyController {
             propertyService.deleteProperty(propertyId);
             // Additional logic for deleting property
             model.addAttribute("action", "delete"); // Set action to 'delete'
-            return "properties";
+            return "redirect:/properties";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error deleting property request");
