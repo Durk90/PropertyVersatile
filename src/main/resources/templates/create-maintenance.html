@@ -34,8 +34,7 @@
             <input type="text" id="propertyId" name="propertyId" th:field="*{property.propertyId}" required />
 
             <label for="maintenanceDate">Maintenance Date:</label>
-            <input type="text" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}"
-                pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-MM-dd" required />
+            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" th:field="*{description}" required></textarea>
@@ -45,6 +44,8 @@
 
             <button type="submit">Submit Maintenance Request</button>
         </form>
+
+        <!-- Add a cancel or back button if needed -->
 
     </main>
 
