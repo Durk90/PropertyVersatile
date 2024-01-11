@@ -46,13 +46,15 @@ public class MaintenanceController {
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
         try {
             maintenanceService.createMaintenance(maintenance);
-            return "maintenance";
+            // Redirect to the "/maintenance" URL after successfully creating the maintenance request
+            return "redirect:/maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error creating maintenance request. Please check your input.");
             return "error";
         }
     }
+
 
     @GetMapping("/{maintenanceId}/edit")
     public String showEditMaintenanceForm(@PathVariable int maintenanceId, Model model) {
