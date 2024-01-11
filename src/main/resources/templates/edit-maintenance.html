@@ -27,12 +27,14 @@
         <h2>Edit Maintenance Request</h2>
 
         <!-- Form for editing maintenance requests -->
-        <form th:action="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.id})}" method="post" th:object="${maintenance}" class="maintenance-form">
+        <form th:action="@{/maintenance/update}" method="post" th:object="${maintenance}" class="maintenance-form">
 
+            <!-- Use the correct property name for maintenanceId -->
             <input type="hidden" id="maintenanceId" name="maintenanceId" th:field="*{maintenanceId}" />
 
-            <label for="propertyName">Property Name:</label>
-            <input type="text" id="propertyName" name="propertyName" th:field="*{property.propertyName}" required/>
+            <!-- Assuming propertyId is a property within maintenance -->
+            <label for="propertyId">Property ID:</label>
+            <input type="text" id="propertyId" name="propertyId" th:field="*{propertyId}" required/>
 
             <label for="maintenanceDate">Maintenance Date:</label>
             <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required/>
@@ -45,8 +47,6 @@
 
             <button type="submit">Update Maintenance Request</button>
         </form>
-
-        <!-- Add a cancel or back button if needed -->
 
     </main>
 
