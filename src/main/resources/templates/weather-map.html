@@ -27,17 +27,17 @@
 
     <div id="map" style="height: 600px;"></div>
 
+    <!-- https://openweathermap.org/api/weathermaps -->
+
     <script>
         var map;
 
         function initMap() {
-            // Your OpenWeatherMap API key
+            // OpenWeatherMap API key
             var apiKey = '7329adde15660656920342e78257e068';
 
-            // Add your existing OpenWeatherMap layer URL here
+            // OpenWeatherMap layer URL here
             var existingLayerUrl = 'https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey;
-
-            // Add the new OpenWeatherMap layer URLs here
             var tempLayerUrl = 'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + apiKey;
             var windLayerUrl = 'https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey;
             var cloudsLayerUrl = 'https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey;
