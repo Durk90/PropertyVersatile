@@ -1,11 +1,11 @@
 package com.project.PropertyVersatile.controller;
 
 import com.project.PropertyVersatile.entity.Maintenance;
-import com.project.PropertyVersatile.service.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.project.PropertyVersatile.service.MaintenanceService;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class MaintenanceController {
     }
 
     @GetMapping
+    
     public String getAllMaintenance(Model model) {
         try {
             List<Maintenance> maintenanceRequests = maintenanceService.getAllMaintenance();
@@ -37,14 +38,15 @@ public class MaintenanceController {
     public String showCreateMaintenanceForm(Model model) {
         model.addAttribute("maintenance", new Maintenance());
         model.addAttribute("action", "create"); // Set action to 'create'
-        return "create-maintenance";
+        return "create-maintenance"; 
     }
+
 
     @PostMapping("/create")
     public String createMaintenance(@ModelAttribute Maintenance maintenance, Model model) {
         try {
             maintenanceService.createMaintenance(maintenance);
-            return "redirect:/maintenance";
+            return "maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error creating maintenance request. Please check your input.");
@@ -54,7 +56,7 @@ public class MaintenanceController {
 
     @GetMapping("/{maintenanceId}/edit")
     public String showEditMaintenanceForm(@PathVariable int maintenanceId, Model model) {
-        try {
+    	try {
             Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
             model.addAttribute("maintenance", maintenance);
             model.addAttribute("action", "edit"); // Set action to 'edit'
@@ -66,10 +68,10 @@ public class MaintenanceController {
         }
     }
 
-    @PostMapping("/update")
-    public String updateMaintenance(@ModelAttribute Maintenance updatedMaintenance, Model model) {
+    @PostMapping("/{maintenanceId}/edit")
+    public String updateMaintenance(@PathVariable int maintenanceId, @ModelAttribute Maintenance updatedMaintenance, Model model) {
         try {
-            maintenanceService.updateMaintenance(updatedMaintenance.getMaintenanceId(), updatedMaintenance);
+            maintenanceService.updateMaintenance(maintenanceId, updatedMaintenance);
             return "redirect:/maintenance";
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,11 +86,12 @@ public class MaintenanceController {
             maintenanceService.deleteMaintenance(maintenanceId);
             // Additional logic for deleting maintenance
             model.addAttribute("action", "delete"); // Set action to 'delete'
-            return "redirect:/maintenance"; // Use redirect to navigate back to the maintenance page
+            return "maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error deleting maintenance request");
             return "error";
         }
     }
+
 }
