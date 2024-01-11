@@ -68,18 +68,6 @@ public class MaintenanceController {
         }
     }
 
-    @PostMapping("/{maintenanceId}/edit")
-    public String updateMaintenance(@PathVariable int maintenanceId, @ModelAttribute Maintenance updatedMaintenance, Model model) {
-        try {
-            maintenanceService.updateMaintenance(maintenanceId, updatedMaintenance);
-            return "redirect:/maintenance";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Error updating maintenance request. Please check your input.");
-            return "error";
-        }
-    }
-
     @GetMapping("/{maintenanceId}/delete")
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
         try {
