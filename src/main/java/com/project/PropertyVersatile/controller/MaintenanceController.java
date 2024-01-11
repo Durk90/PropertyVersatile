@@ -86,7 +86,7 @@ public class MaintenanceController {
             maintenanceService.deleteMaintenance(maintenanceId);
             // Additional logic for deleting maintenance
             model.addAttribute("action", "delete"); // Set action to 'delete'
-            return "maintenance";
+            return "redirect:/maintenance"; // Use redirect to navigate back to the maintenance page
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error deleting maintenance request");
