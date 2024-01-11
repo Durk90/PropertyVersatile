@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     var houses = [
-        // Engineers coordinates ***************************************************************************************
+        // Engineers coordinates **************************************************************************************
         { name: "Plumber A", coords: [53.595770626337256, -6.7279258047858965], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "blue", id: "plumber" },
         { name: "General Operative A", coords: [52.35138794449713, -7.332403855430152], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
         { name: "General Operative B", coords: [52.980337860461, -6.0474707878394325], iconUrl: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png', color: "green", id: "generaloperative" },
