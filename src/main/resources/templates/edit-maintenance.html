@@ -27,7 +27,7 @@
         <h2>Edit Maintenance Request</h2>
 
         <!-- Form for editing maintenance requests -->
-        <form th:action="@{/maintenance/{maintenanceId}/edit}" method="post" th:object="${maintenance}" class="maintenance-form">
+        <form th:action="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.id})}" method="post" th:object="${maintenance}" class="maintenance-form">
 
             <input type="hidden" id="maintenanceId" name="maintenanceId" th:field="*{maintenanceId}" />
 
