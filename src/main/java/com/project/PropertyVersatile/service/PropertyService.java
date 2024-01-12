@@ -74,11 +74,28 @@ public class PropertyService {
 
     public boolean deleteProperty(int propertyId) {
         try {
+            if (hasMaintenanceRequests(propertyId)) {
+                logger.warning("Cannot delete property with associated maintenance requests. ID: " + propertyId);
+                return false;
+            }
+
             propertyRepository.deleteById(propertyId);
             logger.info("Property deleted successfully. ID: " + propertyId);
             return true;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error deleting property with ID: " + propertyId, e);
+            return false;
+        }
+    }
+
+    public boolean hasMaintenanceRequests(int propertyId) {
+        try {
+            // Check if there are maintenance requests associated with the property
+            // Implement the logic to check the association (e.g., querying the database)
+            // Return true if maintenance requests are present, false otherwise
+            return false; // Placeholder, replace with actual logic
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error checking maintenance requests for property with ID: " + propertyId, e);
             return false;
         }
     }
