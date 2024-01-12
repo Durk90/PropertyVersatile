@@ -29,12 +29,16 @@
         <!-- Form for creating new maintenance requests -->
         <form th:action="@{'/maintenance/create'}" method="post" th:object="${maintenance}">
 
-            <!-- Make sure to use property.propertyId instead of property.propertyName -->
+            <!-- Dropdown for selecting propertyId from properties table -->
             <label for="propertyId">Property ID:</label>
-            <input type="text" id="propertyId" name="propertyId" th:field="*{property.propertyId}" required />
+            <select id="propertyId" name="propertyId" th:field="*{propertyId}" required>
+                <!-- Populate the dropdown options with property IDs -->
+                <option th:each="property : ${properties}" th:value="${property.propertyId}" th:text="${property.propertyId}">Property ID</option>
+            </select>
 
+            <!-- Input for selecting maintenance date -->
             <label for="maintenanceDate">Maintenance Date:</label>
-            <input type="text" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
+            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
 
             <label for="description">Description:</label>
             <input type="text" id="description" name="description" th:field="*{description}" required />

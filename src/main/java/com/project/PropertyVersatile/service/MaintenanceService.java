@@ -1,7 +1,9 @@
 package com.project.PropertyVersatile.service;
 
 import com.project.PropertyVersatile.entity.Maintenance;
+import com.project.PropertyVersatile.entity.Property; // Import Property entity
 import com.project.PropertyVersatile.repository.MaintenanceRepository;
+import com.project.PropertyVersatile.repository.PropertyRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,13 @@ import java.util.logging.Logger;
 public class MaintenanceService {
 
     private final MaintenanceRepository maintenanceRepository;
+    private final PropertyRepository propertyRepository;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public MaintenanceService(MaintenanceRepository maintenanceRepository) {
+    public MaintenanceService(MaintenanceRepository maintenanceRepository, PropertyRepository propertyRepository) {
         this.maintenanceRepository = maintenanceRepository;
+        this.propertyRepository = propertyRepository;
     }
 
     public List<Maintenance> getAllMaintenance() {
@@ -35,8 +39,22 @@ public class MaintenanceService {
 
     public Maintenance createMaintenance(Maintenance maintenance) {
         try {
-            // Additional validation logic if needed
-            return maintenanceRepository.save(maintenance);
+            // Fetch the Property entity from the database using propertyId
+            int propertyId = maintenance.getPropertyId();
+            Optional<Property> propertyOptional = propertyRepository.findById(propertyId);
+            if (propertyOptional.isPresent()) {
+                Property property = propertyOptional.get();
+
+                // Set the fetched Property entity in the Maintenance entity
+                maintenance.setProperty(property);
+
+                // Save the Maintenance entity
+                return maintenanceRepository.save(maintenance);
+            } else {
+                // Handle the case where Property with propertyId is not found
+                logger.log(Level.SEVERE, "Property with id " + propertyId + " not found");
+                return null;
+            }
         } catch (Exception e) {
             // Log the exception
             logger.log(Level.SEVERE, "Error creating maintenance", e);
@@ -47,8 +65,7 @@ public class MaintenanceService {
     public Maintenance updateMaintenance(int maintenanceId, Maintenance updatedMaintenance) {
         try {
             Optional<Maintenance> existingMaintenanceOptional = maintenanceRepository.findById(maintenanceId);
-            return existingMaintenanceOptional.map(existingMaintenance -> {
-                // Update the fields based on your requirements
+            return existingMaintenanceOptional.map(existingMaintenance -> {              
                 existingMaintenance.setMaintenanceDate(updatedMaintenance.getMaintenanceDate());
                 existingMaintenance.setDescription(updatedMaintenance.getDescription());
                 existingMaintenance.setCost(updatedMaintenance.getCost());
