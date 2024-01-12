@@ -80,15 +80,8 @@ public class PropertyController {
     @GetMapping("/{propertyId}/delete")
     public String deleteProperty(@PathVariable int propertyId, Model model) {
         try {
-            boolean hasMaintenanceRequests = propertyService.hasMaintenanceRequests(propertyId);
-
-            if (hasMaintenanceRequests) {
-                model.addAttribute("maintenanceRequestsPresent", true);
-            } else {
-                propertyService.deleteProperty(propertyId);
-                model.addAttribute("action", "delete");
-            }
-
+            propertyService.deleteProperty(propertyId);
+            // Redirect to the "/properties" URL after successfully deleting the property
             return "redirect:/properties";
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +89,7 @@ public class PropertyController {
             return "error";
         }
     }
+
     
     @PostMapping("/update")
     public String updateProperty(@ModelAttribute Property property, Model model) {

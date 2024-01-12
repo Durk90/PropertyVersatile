@@ -33,11 +33,6 @@
             <a th:href="@{/properties/create}" class="add-property-button"><button type="button">Add Property</button></a>
         </div>
 
-        <!-- Warning message -->
-        <div th:if="${warning}">
-            <p class="warning">Cannot delete property with associated maintenance requests.</p>
-        </div>
-
         <table>
             <tr>
                 <th>Property ID</th>
