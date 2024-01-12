@@ -13,7 +13,7 @@ public class Maintenance {
     private int maintenanceId;
 
     @Column(name = "property_id")
-    private int propertyId;
+    public int propertyId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "property_id", referencedColumnName = "property_id", insertable = false, updatable = false)
