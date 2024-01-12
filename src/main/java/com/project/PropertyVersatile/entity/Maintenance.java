@@ -15,10 +15,6 @@ public class Maintenance {
     @Column(name = "property_id")
     private int propertyId;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Many maintenance requests can be associated with one property
-    @JoinColumn(name = "property_id", referencedColumnName = "property_id", insertable = false, updatable = false)
-    private Property property; // Add a Property field
-
     @Column(name = "maintenance_date")
     private LocalDate maintenanceDate;
 
