@@ -29,16 +29,16 @@
         <!-- Form for creating new maintenance requests -->
         <form th:action="@{'/maintenance/create'}" method="post" th:object="${maintenance}">
 
-            <!-- Dropdown for selecting propertyId from properties table -->
+            <!-- Dropdown for Property ID -->
             <label for="propertyId">Property ID:</label>
             <select id="propertyId" name="propertyId" th:field="*{propertyId}" required>
-                <!-- Populate the dropdown options with property IDs -->
-                <option th:each="property : ${properties}" th:value="${property.propertyId}" th:text="${property.propertyId}">Property ID</option>
+                <!-- Use Thymeleaf to iterate over the list of property IDs -->
+                <option th:each="propertyId : ${propertyIds}" th:value="${propertyId}" th:text="${propertyId}">Property
+                    ID</option>
             </select>
 
-            <!-- Input for selecting maintenance date -->
             <label for="maintenanceDate">Maintenance Date:</label>
-            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
+            <input type="text" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
 
             <label for="description">Description:</label>
             <input type="text" id="description" name="description" th:field="*{description}" required />
@@ -48,6 +48,7 @@
 
             <button type="submit">Submit Maintenance Request</button>
         </form>
+
 
         <!-- Add a cancel or back button if needed -->
 

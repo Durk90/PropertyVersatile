@@ -49,10 +49,18 @@ public class MaintenanceController {
 
 
     @GetMapping("/create")
-    public String showCreateMaintenanceForm(Model model) {
-        model.addAttribute("maintenance", new Maintenance());       
-        return "create-maintenance"; 
-    }
+    public String showCreateMaintenanceForm(Model model) {        
+            // Fetch the list of property IDs
+            List<Integer> propertyIds = maintenanceService.getAllPropertyIds();
+
+            // Add the property IDs to the model
+            model.addAttribute("propertyIds", propertyIds);
+
+            // Add an empty Maintenance object to the model
+            model.addAttribute("maintenance", new Maintenance());
+
+            return "create-maintenance";
+        }
 
 
     @PostMapping("/create")

@@ -1,18 +1,19 @@
 package com.project.PropertyVersatile.service;
 
 import com.project.PropertyVersatile.entity.Maintenance;
-import com.project.PropertyVersatile.entity.Property; // Import Property entity
+import com.project.PropertyVersatile.entity.Property;
 import com.project.PropertyVersatile.repository.MaintenanceRepository;
 import com.project.PropertyVersatile.repository.PropertyRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -65,7 +66,7 @@ public class MaintenanceService {
     public Maintenance updateMaintenance(int maintenanceId, Maintenance updatedMaintenance) {
         try {
             Optional<Maintenance> existingMaintenanceOptional = maintenanceRepository.findById(maintenanceId);
-            return existingMaintenanceOptional.map(existingMaintenance -> {              
+            return existingMaintenanceOptional.map(existingMaintenance -> {
                 existingMaintenance.setMaintenanceDate(updatedMaintenance.getMaintenanceDate());
                 existingMaintenance.setDescription(updatedMaintenance.getDescription());
                 existingMaintenance.setCost(updatedMaintenance.getCost());
@@ -88,6 +89,19 @@ public class MaintenanceService {
             // Log the exception
             logger.log(Level.SEVERE, "Error deleting maintenance with ID: " + maintenanceId, e);
             return false;
+        }
+    }
+
+    public List<Integer> getAllPropertyIds() {
+        try {
+            // Fetch all properties from the repository and extract their IDs
+            return propertyRepository.findAll().stream()
+                    .map(Property::getPropertyId)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            // Log the exception
+            logger.log(Level.SEVERE, "Error retrieving property IDs", e);
+            return Collections.emptyList();
         }
     }
 }
