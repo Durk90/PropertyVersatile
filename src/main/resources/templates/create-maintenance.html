@@ -38,7 +38,10 @@
             </select>
 
             <label for="maintenanceDate">Maintenance Date:</label>
-            <input type="text" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required />
+            <input type="date" id="maintenanceDate" name="maintenanceDate" th:field="*{maintenanceDate}" required
+                placeholder="dd/mm/yyyy" />
+
+
 
             <label for="description">Description:</label>
             <input type="text" id="description" name="description" th:field="*{description}" required />
@@ -48,9 +51,6 @@
 
             <button type="submit">Submit Maintenance Request</button>
         </form>
-
-
-        <!-- Add a cancel or back button if needed -->
 
     </main>
 

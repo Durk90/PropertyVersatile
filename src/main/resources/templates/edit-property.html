@@ -13,7 +13,7 @@
     <header>
         <h1>Property-Versatile</h1>
     </header>
-    
+
     <nav>
         <a th:href="@{/index}">Home</a>
         <a th:href="@{/properties}">Properties</a>
@@ -38,7 +38,8 @@
             <input type="text" id="address" name="address" th:field="*{address}" required>
 
             <label for="constructionDate">Construction Date:</label>
-            <input type="text" id="constructionDate" name="constructionDate" th:field="*{constructionDate}" required>
+            <input type="date" id="constructionDate" name="constructionDate" th:field="*{constructionDate}" required
+                placeholder="dd/mm/yyyy" />
 
             <label for="squareFootage">Square Footage:</label>
             <input type="text" id="squareFootage" name="squareFootage" th:field="*{squareFootage}" required>
