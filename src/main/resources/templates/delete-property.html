@@ -29,13 +29,13 @@
         <p>Are you sure you want to delete this property?</p>
 
         <!-- Form for deleting properties -->
-        <form th:action="@{/properties/{propertyId}/delete(propertyId=${property.propertyId})}" method="post" th:object="${property}" class="property-form">
+        <form th:action="@{/properties/{propertyId}/delete}" method="post" th:object="${property}"
+            class="property-form">
             <input type="hidden" id="propertyId" name="propertyId" th:field="*{propertyId}" />
             <button type="submit">Delete Property</button>
         </form>
-        
 
-        <!-- Add a cancel or back button if needed -->
+
 
     </main>
 

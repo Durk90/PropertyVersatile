@@ -29,12 +29,12 @@
         <p>Are you sure you want to delete this maintenance request?</p>
 
         <!-- Form for deleting maintenance requests -->
-        <form th:action="@{/maintenance/{maintenanceId}/delete}" method="post" th:object="${maintenance}" class="maintenance-form">
-
+        <form th:action="@{/maintenance/{maintenanceId}/delete}" method="post" th:object="${maintenance}"
+            class="maintenance-form">
             <input type="hidden" id="maintenanceId" name="maintenanceId" th:field="*{maintenanceId}" />
-
             <button type="submit">Delete Maintenance Request</button>
         </form>
+
 
     </main>
 
