@@ -94,15 +94,15 @@ public class MaintenanceController {
     public String deleteMaintenance(@PathVariable int maintenanceId, Model model) {
         try {
             maintenanceService.deleteMaintenance(maintenanceId);
-            // Additional logic for deleting maintenance
-            model.addAttribute("action", "delete"); // Set action to 'delete'
-            return "maintenance";
+            // Redirect to the "/maintenance" URL after successfully deleting the maintenance request
+            return "redirect:/maintenance";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Error deleting maintenance request");
             return "error";
         }
     }
+
     
     @PostMapping("/update")
     public String updateMaintenance(@ModelAttribute Maintenance updatedMaintenance, Model model) {
