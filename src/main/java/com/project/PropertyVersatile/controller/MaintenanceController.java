@@ -33,6 +33,20 @@ public class MaintenanceController {
             return "error";
         }
     }
+    
+    @GetMapping("/{maintenanceId}")
+    public String getMaintenanceById(@PathVariable int maintenanceId, Model model) {
+        try {
+            Maintenance maintenance = maintenanceService.getMaintenanceById(maintenanceId);
+            model.addAttribute("maintenance", maintenance);
+            return "maintenance-details";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Error retrieving maintenance details");
+            return "error";
+        }
+    }
+
 
     @GetMapping("/create")
     public String showCreateMaintenanceForm(Model model) {
