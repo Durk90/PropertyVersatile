@@ -15,7 +15,7 @@ public class Maintenance {
     @Column(name = "property_id")
     private int propertyId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", referencedColumnName = "property_id", insertable = false, updatable = false)
     private Property property;
 
