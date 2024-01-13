@@ -5,6 +5,7 @@ import com.project.PropertyVersatile.entity.Property;
 import com.project.PropertyVersatile.repository.MaintenanceRepository;
 import com.project.PropertyVersatile.repository.PropertyRepository;
 import com.project.PropertyVersatile.service.MaintenanceService;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,8 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -115,9 +118,18 @@ public class MaintenanceServiceTest {
 
     @Test
     public void testGetAllPropertyIds() {
-        // Test to ensure retrieving all property IDs works correctly
-        when(propertyRepository.findAll()).thenReturn(Collections.singletonList(new Property()));
+        // Mock propertyRepository to return a list of Property objects
+        List<Property> properties = Collections.singletonList(new Property());
+        when(propertyRepository.findAll()).thenReturn(properties);
 
-        assertEquals(Collections.singletonList(1), maintenanceService.getAllPropertyIds());  // Expecting a list with property ID 1
+        // Assuming getAllPropertyIds returns a list of Property IDs
+        List<Integer> result = maintenanceService.getAllPropertyIds();
+
+        // Extract property IDs from the list of Property objects
+        List<Integer> expectedPropertyIds = properties.stream().map(Property::getPropertyId).collect(Collectors.toList());
+
+        assertEquals(expectedPropertyIds, result);
     }
+
+
 }
