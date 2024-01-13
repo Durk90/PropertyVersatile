@@ -1,4 +1,4 @@
-package com.project.PropertyVersatile;
+package com.project.PropertyVersatile.controller;
 
 import com.project.PropertyVersatile.controller.PropertyController;
 import com.project.PropertyVersatile.entity.Property;

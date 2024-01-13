@@ -1,4 +1,4 @@
-package com.project.PropertyVersatile;
+package com.project.PropertyVersatile.service;
 
 import com.project.PropertyVersatile.entity.Maintenance;
 import com.project.PropertyVersatile.entity.Property;

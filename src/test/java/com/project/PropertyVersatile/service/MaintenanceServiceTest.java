@@ -1,4 +1,4 @@
-package com.project.PropertyVersatile;
+package com.project.PropertyVersatile.service;
 
 import com.project.PropertyVersatile.entity.Maintenance;
 import com.project.PropertyVersatile.entity.Property;
@@ -39,15 +39,24 @@ public class MaintenanceServiceTest {
         Maintenance maintenance = new Maintenance();
         maintenance.setPropertyId(1);
 
-        when(propertyRepository.findById(eq(1))).thenReturn(Optional.of(new Property()));
-        when(maintenanceRepository.save(any())).thenReturn(maintenance);
+        Property mockProperty = new Property();
+        mockProperty.setPropertyId(1);  // Set the property ID
+
+        when(propertyRepository.findById(eq(1))).thenReturn(Optional.of(mockProperty));
+        when(maintenanceRepository.save(any())).thenAnswer(invocation -> {
+            Maintenance savedMaintenance = invocation.getArgument(0);
+            assertNotNull(savedMaintenance);  // Ensure the saved maintenance is not null
+            assertEquals(mockProperty, savedMaintenance.getProperty());  // Verify the saved maintenance has the correct property
+            return savedMaintenance;
+        });
 
         Maintenance result = maintenanceService.createMaintenance(maintenance);
 
         assertNotNull(result);  // Expecting a non-null result
         assertEquals(maintenance, result);  // Expecting the same maintenance object
-        assertEquals(1, result.getPropertyId());  // Expecting the correct property ID
     }
+
+
 
     @Test
     public void testCreateMaintenancePropertyNotFound() {
