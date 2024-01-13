@@ -26,21 +26,26 @@
     <main>
         <h2>Delete Property</h2>
 
-        <p>Are you sure you want to delete this property?</p>
+        <!-- Inject the propertyId into a JavaScript variable -->
+        <script th:inline="javascript">
+            var propertyId = /*[[${property.propertyId}]]*/ 0;
+        </script>
+
+        <!-- Include the external JavaScript file -->
+        <script th:src="@{/js/delete-property.js}" defer="defer"></script>
 
         <!-- Form for deleting properties -->
         <form th:action="@{/properties/{propertyId}/delete}" method="post" th:object="${property}" class="property-form"
-            onsubmit="return confirmDelete(/*[[${property.propertyId}]]*/ 0);">
+            onsubmit="return confirmDelete(propertyId);">
             <!-- Pass propertyId to JavaScript function -->
             <input type="hidden" id="propertyId" name="propertyId" th:field="*{propertyId}" />
             <button type="submit">Delete Property</button>
         </form>
-        <script th:src="@{/js/delete-property.js}" defer="defer"></script>
-    </main>
 
-    <footer>
-        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
-    </footer>
+
+        <footer>
+            <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+        </footer>
 
 </body>
 
