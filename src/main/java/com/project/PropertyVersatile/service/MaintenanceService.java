@@ -19,8 +19,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class MaintenanceService {
 
+    // Repositories for interacting with Maintenance and Property entities
     private final MaintenanceRepository maintenanceRepository;
     private final PropertyRepository propertyRepository;
+
+    // Logger for logging messages
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
@@ -29,27 +32,28 @@ public class MaintenanceService {
         this.propertyRepository = propertyRepository;
     }
 
+    // Retrieves all maintenance records from the database
     public List<Maintenance> getAllMaintenance() {
         return maintenanceRepository.findAll();
     }
 
+    // Retrieves a specific maintenance record by its ID
     public Maintenance getMaintenanceById(int maintenanceId) {
         Optional<Maintenance> maintenanceOptional = maintenanceRepository.findById(maintenanceId);
         return maintenanceOptional.orElse(null);
     }
 
+    // Creates a new maintenance record in the database
     public Maintenance createMaintenance(Maintenance maintenance) {
         try {
-            // Fetch the Property entity from the database using propertyId
+            // Fetch the associated Property entity using propertyId
             int propertyId = maintenance.getPropertyId();
             Optional<Property> propertyOptional = propertyRepository.findById(propertyId);
+            
+            // If Property entity is found, associate it with the Maintenance entity and save
             if (propertyOptional.isPresent()) {
                 Property property = propertyOptional.get();
-
-                // Set the fetched Property entity in the Maintenance entity
                 maintenance.setProperty(property);
-
-                // Save the Maintenance entity
                 return maintenanceRepository.save(maintenance);
             } else {
                 // Handle the case where Property with propertyId is not found
@@ -63,14 +67,16 @@ public class MaintenanceService {
         }
     }
 
+    // Updates an existing maintenance record in the database
     public Maintenance updateMaintenance(int maintenanceId, Maintenance updatedMaintenance) {
         try {
+            // Retrieve the existing maintenance record by ID
             Optional<Maintenance> existingMaintenanceOptional = maintenanceRepository.findById(maintenanceId);
             return existingMaintenanceOptional.map(existingMaintenance -> {
+                // Update the fields of the existing maintenance record
                 existingMaintenance.setMaintenanceDate(updatedMaintenance.getMaintenanceDate());
                 existingMaintenance.setDescription(updatedMaintenance.getDescription());
                 existingMaintenance.setCost(updatedMaintenance.getCost());
-
                 // Save the updated maintenance record
                 return maintenanceRepository.save(existingMaintenance);
             }).orElse(null); // Handle the case where maintenanceId is not found
@@ -81,6 +87,7 @@ public class MaintenanceService {
         }
     }
 
+    // Deletes a maintenance record from the database
     public boolean deleteMaintenance(int maintenanceId) {
         try {
             maintenanceRepository.deleteById(maintenanceId);
@@ -92,6 +99,7 @@ public class MaintenanceService {
         }
     }
 
+    // Retrieves a list of all property IDs
     public List<Integer> getAllPropertyIds() {
         try {
             // Fetch all properties from the repository and extract their IDs

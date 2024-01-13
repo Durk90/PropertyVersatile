@@ -7,24 +7,31 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "maintenance")
 public class Maintenance {
+
+    // Unique identifier for the maintenance record
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "maintenance_id")
     private int maintenanceId;
 
+    // Identifier of the associated property
     @Column(name = "property_id")
     private int propertyId;
 
+    // Many-to-One relationship with the Property entity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", referencedColumnName = "property_id", insertable = false, updatable = false)
     private Property property;
 
+    // Date when the maintenance occurred
     @Column(name = "maintenance_date")
     private LocalDate maintenanceDate;
 
+    // Description of the maintenance activity
     @Column(name = "description")
     private String description;
 
+    // Cost associated with the maintenance activity
     @Column(name = "cost")
     private BigDecimal cost;
 

@@ -36,5 +36,4 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
         }
     }
 
-    // Add similar methods for other custom queries
 }

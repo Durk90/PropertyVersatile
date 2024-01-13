@@ -22,22 +22,18 @@ nav {
     background-color: #555;
     padding: 1em;
     text-align: center;
-    overflow: hidden;
 }
 
 nav a {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
+    color: #fff;
     text-decoration: none;
+    padding: 1em;
+    margin: 0 1em;
 }
 
 main {
     flex-grow: 1;
     padding: 1em;
-    max-width: 100%; /* Allow main to take full width */
 }
 
 footer {
@@ -70,6 +66,11 @@ tr:hover {
     background-color: #f5f5f5;
 }
 
+/* Example of making forms responsive */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
 
 /* Media queries for different screen sizes */
 
@@ -79,8 +80,8 @@ tr:hover {
         flex-direction: column;
     }
 
-    .maintenance-table {
-        overflow-x: hidden; /* Hide horizontal scrollbar */
+    nav a {
+        margin: 0.5em 0;
     }
 }
 
@@ -124,13 +125,6 @@ tr:hover {
     cursor: pointer;
 }
 
-
-/* Forms responsive */
-.property-form {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
 .maintenance-form {
     max-width: 400px;
     margin: 0 auto;
@@ -157,12 +151,6 @@ tr:hover {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-
-/* Forms responsive */
-.maintenance-form {
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .add-property-form {
@@ -219,9 +207,9 @@ tr:hover {
 
 .property-table {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* Light transparent white */
+    background-color: rgba(255, 255, 255, 0.8); 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Add horizontal scrollbar if needed */
+    overflow-x: auto; 
 }
 
 .property-table th,
@@ -245,9 +233,9 @@ tr:hover {
 
 .maintenance-table {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* Light transparent white */
+    background-color: rgba(255, 255, 255, 0.8); 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Add horizontal scrollbar if needed */
+    overflow-x: auto; 
 }
 
 .maintenance-table th,

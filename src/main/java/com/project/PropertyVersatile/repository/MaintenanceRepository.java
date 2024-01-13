@@ -52,5 +52,4 @@ public interface MaintenanceRepository extends JpaRepository<Maintenance, Intege
         }
     }
 
-    // Add similar methods for other custom queries
 }

@@ -12,7 +12,7 @@ public class MapController {
        
         model.addAttribute("mapMessage", "Welcome to the Maintenance Requests Map!");
 
-        // Return the Thymeleaf template name (maintenance-requests.html)
+        // Return the Thymeleaf template name 
         return "engineers";
     }
 }

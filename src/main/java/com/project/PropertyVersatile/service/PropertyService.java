@@ -18,8 +18,11 @@ import java.util.logging.Logger;
 @Transactional
 public class PropertyService {
 
+    // Repositories for interacting with Property and Maintenance entities
     private final PropertyRepository propertyRepository;
     private final MaintenanceRepository maintenanceRepository;
+
+    // Logger for logging messages
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
@@ -28,6 +31,7 @@ public class PropertyService {
         this.maintenanceRepository = maintenanceRepository;
     }
 
+    // Retrieves all properties from the database
     public List<Property> getAllProperties() {
         try {
             List<Property> properties = propertyRepository.findAll();
@@ -39,6 +43,7 @@ public class PropertyService {
         }
     }
 
+    // Retrieves a specific property by its ID
     public Property getPropertyById(int propertyId) {
         try {
             Optional<Property> propertyOptional = propertyRepository.findById(propertyId);
@@ -49,6 +54,7 @@ public class PropertyService {
         }
     }
 
+    // Creates a new property in the database
     public Property createProperty(Property property) {
         try {
             return propertyRepository.save(property);
@@ -58,10 +64,13 @@ public class PropertyService {
         }
     }
 
+    // Updates an existing property in the database
     public Property updateProperty(int propertyId, Property updatedProperty) {
         try {
+            // Retrieve the existing property record by ID
             Optional<Property> existingPropertyOptional = propertyRepository.findById(propertyId);
             return existingPropertyOptional.map(existingProperty -> {
+                // Update the fields of the existing property record
                 existingProperty.setPropertyName(updatedProperty.getPropertyName());
                 existingProperty.setAddress(updatedProperty.getAddress());
                 existingProperty.setConstructionDate(updatedProperty.getConstructionDate());
@@ -76,6 +85,7 @@ public class PropertyService {
         }
     }
 
+    // Deletes a property from the database
     public boolean deleteProperty(int propertyId) {
         try {
             // Check if there are maintenance requests associated with the property
@@ -84,6 +94,7 @@ public class PropertyService {
                 return false;
             }
 
+            // Delete the property
             propertyRepository.deleteById(propertyId);
             logger.info("Property deleted successfully. ID: " + propertyId);
             return true;
@@ -93,6 +104,7 @@ public class PropertyService {
         }
     }
 
+    // Checks if there are maintenance requests associated with a property
     public boolean hasMaintenanceRequests(int propertyId) {
         try {
             List<Maintenance> maintenanceList = maintenanceRepository.findByPropertyId(propertyId);

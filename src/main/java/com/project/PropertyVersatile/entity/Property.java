@@ -11,23 +11,30 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "properties")
 public class Property {
+
+    // Unique identifier for the property
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "property_id")
     private int propertyId;
 
+    // Name of the property
     @Column(name = "property_name")
     private String propertyName;
 
+    // Address of the property
     @Column(name = "address")
     private String address;
 
+    // Date when the property was constructed
     @Column(name = "construction_date")
     private LocalDate constructionDate;
 
+    // Square footage of the property
     @Column(name = "square_footage")
     private int squareFootage;
 
+    // Type of the property (e.g., residential, commercial)
     @Column(name = "property_type")
     private String propertyType;
 
