@@ -85,10 +85,9 @@ public class PropertyController {
             // Check if there are maintenance requests associated with the property
             boolean hasMaintenanceRequests = propertyService.hasMaintenanceRequests(propertyId);
 
-            // If there are maintenance requests, display a warning
+            // If there are maintenance requests, include a warning parameter in the redirect URL
             if (hasMaintenanceRequests) {
-                model.addAttribute("warning", "Cannot delete property with associated maintenance requests.");
-                return "redirect:/properties";
+                return "redirect:/properties?warning=Cannot+delete+property+with+associated+maintenance+requests.";
             }
 
             // If no maintenance requests, proceed with property deletion
@@ -102,6 +101,7 @@ public class PropertyController {
             return "error";
         }
     }
+
 
     @PostMapping("/update")
     public String updateProperty(@ModelAttribute Property property, Model model) {

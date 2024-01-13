@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Property - Property-Versatile</title>
+    <title>Property-Versatile - Properties</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
 
@@ -24,28 +24,60 @@
     </nav>
 
     <main>
-        <h2>Delete Property</h2>
+        <h2>Properties</h2>
+        <p>This page displays information about different properties. You can list properties, their details, and any
+            other relevant information.</p>
 
-        <!-- Set hasMaintenanceRequests as a JavaScript variable -->
+        <!-- Button for adding properties -->
+        <div>
+            <a th:href="@{/properties/create}" class="add-property-button"><button type="button">Add
+                    Property</button></a>
+        </div>
+
+        <!-- Alert script to display warning -->
         <script th:inline="javascript">
-            var hasMaintenanceRequests = /*[[${hasMaintenanceRequests(propertyId)}]]*/ false;
+            /*<![CDATA[*/
+            var warning = /*[[${param.warning}]]*/ null;
+            if (warning) {
+                alert(warning);
+            }
+            /*]]>*/
         </script>
 
-        <!-- Include the external JavaScript file -->
-        <script th:src="@{/js/delete-property.js}" defer="defer"></script>
+        <table>
+            <tr>
+                <th>Property ID</th>
+                <th>Property Name</th>
+                <th>Address</th>
+                <th>Construction Date</th>
+                <th>Square Footage</th>
+                <th>Property Type</th>
+                <th>Action</th> <!-- New column for action buttons -->
+            </tr>
+            <tr th:each="property : ${properties}">
+                <td th:text="${property.propertyId}"></td>
+                <td th:text="${property.propertyName}"></td>
+                <td th:text="${property.address}"></td>
+                <td th:text="${property.constructionDate}"></td>
+                <td th:text="${property.squareFootage}"></td>
+                <td th:text="${property.propertyType}"></td>
+                <td>
+                    <!-- Edit button -->
+                    <a th:href="@{/properties/{propertyId}/edit(propertyId=${property.propertyId})}"><button
+                            type="button">Edit</button></a>
 
-        <!-- Form for deleting properties -->
-        <form th:action="@{/properties/{propertyId}/delete}" method="post" th:object="${property}" class="property-form"
-            onsubmit="return confirmDelete(propertyId);">
-            <!-- Pass propertyId to JavaScript function -->
-            <input type="hidden" id="propertyId" name="propertyId" th:field="*{propertyId}" />
-            <button type="submit">Delete Property</button>
-        </form>
+                    <!-- Delete button -->
+                    <a th:href="@{/properties/{propertyId}/delete(propertyId=${property.propertyId})}"><button
+                            type="button">Delete</button></a>
+                </td>
+            </tr>
+        </table>
 
+    </main>
 
-        <footer>
-            <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
-        </footer>
+    <footer>
+        <p>&copy; 2023 Property-Versatile. All rights reserved.</p>
+    </footer>
 
 </body>
 
