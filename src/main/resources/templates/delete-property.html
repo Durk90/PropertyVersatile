@@ -26,9 +26,9 @@
     <main>
         <h2>Delete Property</h2>
 
-        <!-- Inject the propertyId into a JavaScript variable -->
+        <!-- Set hasMaintenanceRequests as a JavaScript variable -->
         <script th:inline="javascript">
-            var propertyId = /*[[${property.propertyId}]]*/ 0;
+            var hasMaintenanceRequests = /*[[${hasMaintenanceRequests(propertyId)}]]*/ false;
         </script>
 
         <!-- Include the external JavaScript file -->
