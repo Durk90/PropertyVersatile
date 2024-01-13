@@ -1,13 +1,15 @@
 package com.project.PropertyVersatile.controller;
 
 import com.project.PropertyVersatile.entity.Property;
+import com.project.PropertyVersatile.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.project.PropertyVersatile.service.PropertyService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/properties")
@@ -80,7 +82,18 @@ public class PropertyController {
     @GetMapping("/{propertyId}/delete")
     public String deleteProperty(@PathVariable int propertyId, Model model) {
         try {
+            // Check if there are maintenance requests associated with the property
+            boolean hasMaintenanceRequests = propertyService.hasMaintenanceRequests(propertyId);
+
+            // If there are maintenance requests, display a warning
+            if (hasMaintenanceRequests) {
+                model.addAttribute("warning", "Cannot delete property with associated maintenance requests.");
+                return "properties";
+            }
+
+            // If no maintenance requests, proceed with property deletion
             propertyService.deleteProperty(propertyId);
+
             // Redirect to the "/properties" URL after successfully deleting the property
             return "redirect:/properties";
         } catch (Exception e) {
@@ -90,7 +103,6 @@ public class PropertyController {
         }
     }
 
-    
     @PostMapping("/update")
     public String updateProperty(@ModelAttribute Property property, Model model) {
         try {

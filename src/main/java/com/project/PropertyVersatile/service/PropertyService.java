@@ -1,10 +1,12 @@
 package com.project.PropertyVersatile.service;
 
+import com.project.PropertyVersatile.entity.Property;
+import com.project.PropertyVersatile.repository.PropertyRepository;
+import com.project.PropertyVersatile.entity.Maintenance;
+import com.project.PropertyVersatile.repository.MaintenanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.project.PropertyVersatile.entity.Property;
-import com.project.PropertyVersatile.repository.PropertyRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +19,13 @@ import java.util.logging.Logger;
 public class PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final MaintenanceRepository maintenanceRepository;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public PropertyService(PropertyRepository propertyRepository) {
+    public PropertyService(PropertyRepository propertyRepository, MaintenanceRepository maintenanceRepository) {
         this.propertyRepository = propertyRepository;
+        this.maintenanceRepository = maintenanceRepository;
     }
 
     public List<Property> getAllProperties() {
@@ -74,12 +78,28 @@ public class PropertyService {
 
     public boolean deleteProperty(int propertyId) {
         try {
+            // Check if there are maintenance requests associated with the property
+            if (hasMaintenanceRequests(propertyId)) {
+                logger.warning("Cannot delete property with associated maintenance requests.");
+                return false;
+            }
+
             propertyRepository.deleteById(propertyId);
             logger.info("Property deleted successfully. ID: " + propertyId);
             return true;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error deleting property with ID: " + propertyId, e);
             return false;
+        }
+    }
+
+    public boolean hasMaintenanceRequests(int propertyId) {
+        try {
+            List<Maintenance> maintenanceList = maintenanceRepository.findByPropertyId(propertyId);
+            return !maintenanceList.isEmpty();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error checking for maintenance requests", e);
+            return true; // Return true in case of an error (handle as needed)
         }
     }
 }

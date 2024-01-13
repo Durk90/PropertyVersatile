@@ -2,7 +2,6 @@ package com.project.PropertyVersatile.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import com.project.PropertyVersatile.entity.Maintenance;
 
 import java.time.LocalDate;
@@ -23,6 +22,16 @@ public interface MaintenanceRepository extends JpaRepository<Maintenance, Intege
     // Add more custom queries as needed
 
     // Handle error cases
+    default List<Maintenance> findByPropertyIdSafe(int propertyId) {
+        try {
+            return findByPropertyId(propertyId);
+        } catch (Exception e) {
+            // Log the exception or handle it as needed
+            e.printStackTrace();
+            throw new RuntimeException("Error querying maintenance by property ID", e);
+        }
+    }
+
     default List<Maintenance> findByMaintenanceDateAfterSafe(LocalDate maintenanceDate) {
         try {
             return findByMaintenanceDateAfter(maintenanceDate);
@@ -30,6 +39,16 @@ public interface MaintenanceRepository extends JpaRepository<Maintenance, Intege
             // Log the exception or handle it as needed
             e.printStackTrace();
             throw new RuntimeException("Error querying maintenance by maintenance date", e);
+        }
+    }
+
+    default List<Maintenance> findByCostGreaterThanSafe(double cost) {
+        try {
+            return findByCostGreaterThan(cost);
+        } catch (Exception e) {
+            // Log the exception or handle it as needed
+            e.printStackTrace();
+            throw new RuntimeException("Error querying maintenance by cost", e);
         }
     }
 
