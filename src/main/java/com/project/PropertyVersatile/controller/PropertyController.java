@@ -88,7 +88,7 @@ public class PropertyController {
             // If there are maintenance requests, display a warning
             if (hasMaintenanceRequests) {
                 model.addAttribute("warning", "Cannot delete property with associated maintenance requests.");
-                return "properties";
+                return "redirect:/properties";
             }
 
             // If no maintenance requests, proceed with property deletion
