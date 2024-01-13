@@ -27,7 +27,7 @@
         <h2>Create Maintenance Request</h2>
 
         <!-- Form for creating new maintenance requests -->
-        <form th:action="@{'/maintenance/create'}" method="post" th:object="${maintenance}">
+        <form th:action="@{'/maintenance/create'}" method="post" th:object="${maintenance}" class="create-maintenance-form">
 
             <!-- Dropdown for Property ID -->
             <label for="propertyId">Property ID:</label>
