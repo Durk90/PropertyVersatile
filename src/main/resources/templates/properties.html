@@ -30,8 +30,22 @@
 
         <!-- Button for adding properties -->
         <div>
-            <a th:href="@{/properties/create}" class="add-property-button"><button type="button">Add Property</button></a>
+            <a th:href="@{/properties/create}" class="add-property-button"><button type="button">Add
+                    Property</button></a>
         </div>
+
+        <!-- Alert script to display warning -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var warning = /*[[${param.warning}]]*/ null;
+            if (warning) {
+                alert(warning);
+            }
+            /*]]>*/
+        </script>
+
+        <!-- Include the external JavaScript file -->
+        <script th:src="@{/js/delete-property.js}" defer="defer"></script>
 
         <table>
             <tr>
@@ -52,15 +66,19 @@
                 <td th:text="${property.propertyType}"></td>
                 <td>
                     <!-- Edit button -->
-                    <a th:href="@{/properties/{propertyId}/edit(propertyId=${property.propertyId})}"><button type="button">Edit</button></a>
+                    <a th:href="@{/properties/{propertyId}/edit(propertyId=${property.propertyId})}"><button
+                            type="button">Edit</button></a>
 
                     <!-- Delete button -->
-                    <a th:href="@{/properties/{propertyId}/delete(propertyId=${property.propertyId})}"><button type="button">Delete</button></a>
+                    <a th:href="@{/properties/{propertyId}/delete(propertyId=${property.propertyId})}"
+                        th:onclick="'return confirmDelete(' + ${property.propertyId} + ');'">
+                        <button type="button">Delete</button>
+                    </a>
+
                 </td>
             </tr>
         </table>
 
-        <!-- Add more content as needed -->
     </main>
 
     <footer>
