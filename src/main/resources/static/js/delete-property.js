@@ -1,6 +1,7 @@
 function confirmDelete(propertyId) {
     // Check for associated maintenance requests
-    var hasMaintenanceRequests = /*[[${hasMaintenanceRequests(propertyId)}]]*/ false;
+    // Access the hasMaintenanceRequests variable set in the HTML
+    var hasMaintenanceRequests = window.hasMaintenanceRequests;
 
     // Display warning and confirm cancellation
     if (hasMaintenanceRequests) {
