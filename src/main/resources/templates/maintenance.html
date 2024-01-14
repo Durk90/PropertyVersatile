@@ -37,34 +37,37 @@
             </div>
 
             <!-- Table for displaying existing maintenance requests -->
-            <table class="maintenance-table">
-                <tr>
-                    <th>Maintenance ID</th>
-                    <th>Property ID</th>
-                    <th>Maintenance Date</th>
-                    <th>Description</th>
-                    <th>Cost</th>
-                    <th>Action</th>
-                </tr>
-                <tr th:each="maintenance : ${maintenanceRequests}">
-                    <td th:text="${maintenance.maintenanceId}"></td>
-                    <td th:text="${maintenance.propertyId}"></td>
-                    <td th:text="${maintenance.maintenanceDate}"></td>
-                    <td th:text="${maintenance.description}"></td>
-                    <td th:text="${maintenance.cost}"></td>
-                    <td>
-                        <!-- Buttons for editing and deleting with respective links -->
-                        <a th:href="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.maintenanceId})}">
-                            <button type="button">Edit</button>
-                        </a>
-                        <!-- Delete button -->
-                        <a th:href="@{/maintenance/{maintenanceId}/delete(maintenanceId=${maintenance.maintenanceId})}"
-                            onclick="return confirm('Are you sure you want to delete this maintenance request?');">
-                            <button type="button">Delete</button>
-                        </a>
-                    </td>
-                </tr>
-            </table>
+            <div style="overflow-x:auto;">
+                <table class="maintenance-table">
+                    <tr>
+                        <th>Maintenance ID</th>
+                        <th>Property ID</th>
+                        <th>Maintenance Date</th>
+                        <th>Description</th>
+                        <th>Cost</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr th:each="maintenance : ${maintenanceRequests}">
+                        <td th:text="${maintenance.maintenanceId}"></td>
+                        <td th:text="${maintenance.propertyId}"></td>
+                        <td th:text="${maintenance.maintenanceDate}"></td>
+                        <td th:text="${maintenance.description}"></td>
+                        <td th:text="${maintenance.cost}"></td>
+                        <td>
+                            <!-- Buttons for editing and deleting with respective links -->
+                            <a
+                                th:href="@{/maintenance/{maintenanceId}/edit(maintenanceId=${maintenance.maintenanceId})}">
+                                <button type="button">Edit</button>
+                            </a>
+                            <!-- Delete button -->
+                            <a th:href="@{/maintenance/{maintenanceId}/delete(maintenanceId=${maintenance.maintenanceId})}"
+                                onclick="return confirm('Are you sure you want to delete this maintenance request?');">
+                                <button type="button">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </section>
 
     </main>
