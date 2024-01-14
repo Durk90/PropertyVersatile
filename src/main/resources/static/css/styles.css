@@ -48,10 +48,10 @@ table {
     margin: 0 auto;
     border-collapse: collapse;
     margin-top: 1em;
-    overflow-x: auto;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -83,6 +83,10 @@ form {
     nav a {
         margin: 0.5em 0;
     }
+}
+
+.overflow-container {
+    overflow-x: auto;
 }
 
 /* Medium screens (tablets) */
@@ -207,9 +211,9 @@ form {
 
 .property-table {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8); 
+    background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; 
+    overflow-x: auto;
 }
 
 .property-table th,
@@ -233,9 +237,9 @@ form {
 
 .maintenance-table {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8); 
+    background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; 
+    overflow-x: auto;
 }
 
 .maintenance-table th,
